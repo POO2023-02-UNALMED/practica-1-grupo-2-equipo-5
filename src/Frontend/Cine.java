@@ -85,6 +85,7 @@ public class Cine {
                 break; //Parte de verificar que el usuario tenga una cuenta con el archivo txt
             case 2:
                 try{
+                    System.out.println("\tRegistrarse");
                     System.out.print("\nDijite su nombre: ");
                     String nom = scan.nextLine();
                     System.out.print("Dijite su edad: ");
