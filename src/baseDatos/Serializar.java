@@ -9,15 +9,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import Frontend.Cine;
-import Logic.Peliculas.Pelicula;
-import Logic.Peliculas.Sala;
-import Logic.Peliculas.Taquilla;
-import Logic.Tienda.Combo;
-import Logic.Tienda.Producto;
-import Logic.Tienda.Tienda;
-import Logic.Usuarios.Cliente;
-import Logic.Usuarios.Trabajador;
-import Logic.Usuarios.Usuario;
+import Logic.Peliculas.*;
+import Logic.Tienda.*;
+import Logic.Usuarios.*;
 
 
 public class Serializar {
