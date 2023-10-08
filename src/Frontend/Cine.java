@@ -71,6 +71,20 @@ public class Cine {
         ArrayList<Pelicula> peliculasCreadas = baseDatos.Deserializar.deserializarPelicula();
         ArrayList<Producto> productosCreados = baseDatos.Deserializar.deserializarProducto();
 
+        for (Pelicula pelicula : peliculasCreadas) {
+            if(!Taquilla.getPeliculasDisponibles().contains(pelicula)){
+                if(pelicula.getSala() != null){
+                    Taquilla.agregarPelicula(pelicula);
+                }
+                Pelicula.añadirPeliculaExistente(pelicula);
+            }
+        }
+
+        for (Producto producto : productosCreados) {
+            if(!Tienda.getProductosDisponibles().contains(producto)){
+                Tienda.añadirProductoTienda(producto);
+            }
+        }
 
         // -------------------- Interfaz --------------------
         
@@ -108,6 +122,7 @@ public class Cine {
                 break; //Parte de verificar que el usuario tenga una cuenta con el archivo txt
             case 2:
                 try{
+                    int encont4 = 0;
                     System.out.println("\tRegistrarse");
                     System.out.print("\nDijite su nombre: ");
                     String nom = scan.nextLine();
@@ -116,10 +131,20 @@ public class Cine {
                     System.out.print("Dijite su edad: ");
                     int edad = scan.nextInt();
                     
-                    cuenta = new Usuario(nom,pass, edad);
-                    //Aqui hay que revisar que no haya un usuario creado con estas caracteristicas! <-----------
-                    System.out.println("Cuenta creada con exito.");
-                } catch(Exception e) {
+                    for (Usuario usuario : usuariosCreados) {
+                        if(usuario.getNombre().equals(nom) && usuario.getPassword().equals(pass)){
+                            System.out.println("Ya se ha creado esta cuenta");
+                            estado = 0;
+                            encont4 = 1;
+                        }
+                    } 
+                    if(encont4 == 0){
+                        cuenta = new Usuario(nom,pass, edad);
+                        System.out.println("Cuenta creada con exito.");
+                    }    
+                }    //Aqui hay que revisar que no haya un usuario creado con estas caracteristicas! <-----------
+                    
+                 catch(Exception e) {
                     System.out.println("Error:" + e);
                 }
                 break;

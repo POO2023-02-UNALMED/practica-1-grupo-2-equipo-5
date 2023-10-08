@@ -55,6 +55,10 @@ public class Pelicula {
         return peliculasExistentes;
     }
 
+    public static void añadirPeliculaExistente(Pelicula pel){
+        peliculasExistentes.add(pel);
+    }
+
     public boolean ocuparAsiento(int num){
         if (this.sala != null) {
             this.sala.quitarAsientoDisponible(num);
