@@ -1,11 +1,13 @@
 package Logic.Peliculas;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Pelicula {
+public class Pelicula { 
     String nombre;
     private int precio; 
     private Sala sala;
+    private static ArrayList<Pelicula> peliculasExistentes = new ArrayList<Pelicula>();
 
     //Constructores
     public Pelicula(String nombre){
@@ -15,7 +17,7 @@ public class Pelicula {
     public Pelicula(String nombre, int precio){
         this.nombre = nombre;
         this.precio = precio;
-        
+        peliculasExistentes.add(this);
         Taquilla.agregarPelicula(this);
     }
 
@@ -47,6 +49,10 @@ public class Pelicula {
 
     public List<Integer> getAsientosDisponibles(){
         return sala.getAsientosDisponibles();
+    }
+
+    public static ArrayList<Pelicula> getPeliculasExistentes(){
+        return peliculasExistentes;
     }
 
     public boolean ocuparAsiento(int num){

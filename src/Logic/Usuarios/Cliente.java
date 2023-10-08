@@ -100,7 +100,6 @@ public class Cliente extends Usuario{
                             if(resp == true){
                                 List<Integer> listaAct = comprasPel.getOrDefault(pelT, new ArrayList<>());
                                 listaAct.add(numAsiento);
-                                System.out.println(listaAct);
                                 this.comprasPel.put(pelT, listaAct);
                                 return this.pagar(pelT.getPrecio());
                             } else {

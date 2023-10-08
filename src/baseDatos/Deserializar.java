@@ -130,7 +130,7 @@ public class Deserializar {
         }
     }
     
-    public static ArrayList<Producto> deserializarproducto(){
+    public static ArrayList<Producto> deserializarProducto(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
                     "\\src\\baseDatos\\temp\\Productos.txt"));

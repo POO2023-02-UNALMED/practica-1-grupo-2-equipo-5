@@ -66,6 +66,10 @@ public class Cine {
         
         System.out.println(s.getAsientosDisponibles());*/
 
+        // -------------------- Rellenar los datos --------------------
+        ArrayList<Usuario> usuariosCreados = baseDatos.Deserializar.deserializarUsuario();
+        ArrayList<Pelicula> peliculasCreadas = baseDatos.Deserializar.deserializarPelicula();
+        ArrayList<Producto> productosCreados = baseDatos.Deserializar.deserializarProducto();
 
 
         // -------------------- Interfaz --------------------
@@ -82,16 +86,30 @@ public class Cine {
 
         switch(resp){
             case 1:
+                    System.out.println("\tIniciar sesion");
+                    System.out.print("\nDijite su nombre: ");
+                    String nomIn = scan.nextLine();
+                    System.out.print("\nDijite su password: ");
+                    String passIn = scan.nextLine();
+                    
+                    /*if(en base de datos existe un usuario con este nombre y contraseña){
+                        cuenta = cuenta con estas carcteristicas;
+                    } else {
+                        System.out.println("No existe este usuario");
+                        estado = 0;
+                    }*/
                 break; //Parte de verificar que el usuario tenga una cuenta con el archivo txt
             case 2:
                 try{
                     System.out.println("\tRegistrarse");
                     System.out.print("\nDijite su nombre: ");
                     String nom = scan.nextLine();
+                    System.out.print("\nDijite su password: ");
+                    String pass = scan.nextLine();
                     System.out.print("Dijite su edad: ");
                     int edad = scan.nextInt();
                     
-                    cuenta = new Usuario(nom, edad);
+                    cuenta = new Usuario(nom,pass, edad);
                     System.out.println("Cuenta creada con exito.");
                 } catch(Exception e) {
                     System.out.println("Error:" + e);
@@ -104,6 +122,10 @@ public class Cine {
             }
 
         while(estado == 1){
+            //Variables a utilizar
+            ArrayList<Pelicula> peliculasDisponibles = Taquilla.getPeliculasDisponibles();
+            ArrayList<Producto> productosDisponibles = Tienda.getProductosDisponibles();
+            
             System.out.println("\n\n\tBienvenido "+ cuenta.getNombre() +"! Que deseas hacer?");
             switch(cuenta.getTipo()){
                 case "Usuario": // Caso inicial, con tipo de cuenta usuario
@@ -163,7 +185,7 @@ public class Cine {
                             String respPelElegida = scan.next();
                             boolean peliculaEncontrada = false; //variable para mostrar mensaje si la pelicula no se encuentra
                             scan.nextLine();
-                            for (Pelicula pel : Taquilla.getPeliculasDisponibles()) {
+                            for (Pelicula pel : peliculasDisponibles) {
                                 if(pel.getNombre().equals(respPelElegida)){ //Se verifica que el nombre de la pelicula y el ingresado sean iguales
                                     peliculaEncontrada = true; //Se cambia el valor para indicar que si se encontro
                                     System.out.println(pel.getSala());
@@ -189,7 +211,7 @@ public class Cine {
                             System.out.print("Escriba el nombre del producto a comprar: ");
                             String respNProd = scan.next();
                             boolean productoEncontrado = false;
-                            for(Producto producto : Tienda.getProductosDisponibles()){
+                            for(Producto producto : productosDisponibles){
                                 if(producto.getNombre().equals(respNProd)){
                                     productoEncontrado = true; //Se cambia el valor para indicar que si se encontro
                                     String respComProd = cuentaCliente.comprarProducto(respNProd);
@@ -215,7 +237,7 @@ public class Cine {
                                     System.out.println(cuentaCliente.mostrarComprasPelicula());
                                     System.out.print("Escriba el nombre de la pelicula a cancelar: ");
                                     String compPel = scan.next();
-                                    for (Pelicula pel : Taquilla.getPeliculasDisponibles()) {
+                                    for (Pelicula pel : peliculasDisponibles) {
                                         if(pel.getNombre().equals(compPel) && compras.containsKey(pel)){
                                             System.out.println("Elija el asiento a cancelar de la pelicula");
                                             System.out.println(cuentaCliente.mostrarAsientosCompras(pel));
@@ -274,7 +296,8 @@ public class Cine {
                     System.out.println("2) Ver detalles pelicula");
                     System.out.println("3) Añadir producto tienda");
                     System.out.println("4) Ver peliculas en taquilla");
-                    System.out.println("5) Ver perfil");
+                    System.out.println("5) Ver productos en tienda");
+                    System.out.println("6) Ver perfil");
                     
                     System.out.print("-> ");
                     int respInTrab = scan.nextInt();
@@ -291,7 +314,7 @@ public class Cine {
                             int respAnadirPelPrecio = scan.nextInt();
                             System.out.print("Sala a enlazar a la pelicula");
                             System.out.println(Sala.mostrarSalasCreadas());
-                            System.out.print("->");
+                            System.out.print("-> ");
                             String respSalEnlazar = scan.next();
                             for (Sala salaE : Sala.getsSalasCreadas()) {
                                 if(salaE.getNombre().equals(respSalEnlazar)){
@@ -299,13 +322,50 @@ public class Cine {
                                     System.out.println(respuestaAPel);
                                 }
                             }
+                        case 2:
+                            int encont2 = 0;
+                            System.out.println("\tDetalles");
+                            System.out.print("Pelicula a buscar. \n-> ");
+                            String pelBusDet = scan.next();
+                            for (Pelicula pelicula : Pelicula.getPeliculasExistentes()) {
+                                if(pelicula.getNombre().equals(pelBusDet)){
+                                    System.out.println();
+                                    encont2 = 1;
+                                    System.out.println(pelicula);
+                                }
+                            }
+                            if(encont2 == 0){
+                                System.out.println("\nPelicula no encontrada");
+                            }
+                            
+                            break;
                         case 3:
+                            int encont = 0;
+                            System.out.println("\tAñadir producto");
+                            System.out.print("Nombre del producto: ");
+                            String respAnadirProd = scan.next();
+                            System.out.print("Precio del producto: ");
+                            int respAnadirProdPrecio = scan.nextInt();
+                            for (Producto producto : productosDisponibles) {
+                                if(producto.getNombre().equals(respAnadirProd)){
+                                    encont = 1;
+                                    producto.setPrecio(respAnadirProdPrecio);
+                                    System.out.println("Se ha actualizado el precio del producto");
+                                } 
+                            }
+                            if(encont == 0){ //En caso de que no se encontrara el producto entre los existentes
+                                cuentaTrabajador.añadirProductoTienda(new Producto(respAnadirProd, respAnadirProdPrecio));
+                            }
+                            
                             break;
                         case 4:
                             System.out.println("\tTaquilla");
                             System.out.println(taquilla);
                             break;
                         case 5:
+                            System.out.println(tienda);
+                            break;
+                        case 6:
                             System.out.println("\tPerfil");
                             System.out.println(cuentaTrabajador);
                             break;

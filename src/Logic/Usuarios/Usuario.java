@@ -2,14 +2,16 @@ package Logic.Usuarios;
 
 public class Usuario {
     protected String nombre;
+    protected String password;
     protected int edad;
 
     public Usuario(){
-        this("NN", 19);
+        this("NN", "NN", 19);
     }
 
-    public Usuario(String nombre, int edad){
+    public Usuario(String nombre, String password, int edad){
         this.nombre = nombre;
+        this.password = password;
         this.edad = edad;
     }
 
@@ -19,6 +21,14 @@ public class Usuario {
 
     public void setNombre(String nombre){
         this.nombre = nombre;
+    }
+
+    public String getPassword(){
+        return this.password;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
     }
 
     public int getEdad(){
