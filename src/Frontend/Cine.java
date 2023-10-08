@@ -86,30 +86,38 @@ public class Cine {
 
         switch(resp){
             case 1:
+                    int encont3 = 0;
                     System.out.println("\tIniciar sesion");
                     System.out.print("\nDijite su nombre: ");
                     String nomIn = scan.nextLine();
-                    System.out.print("\nDijite su password: ");
+                    System.out.print("Dijite su password: ");
                     String passIn = scan.nextLine();
-                    
-                    /*if(en base de datos existe un usuario con este nombre y contraseña){
-                        cuenta = cuenta con estas carcteristicas;
-                    } else {
-                        System.out.println("No existe este usuario");
+                    for (Usuario usuarioB : usuariosCreados) {
+                        if(usuarioB.getNombre().equals(nomIn) && usuarioB.getPassword().equals(passIn)){
+                            System.out.println("Ingreso éxitoso!");
+                            cuenta = usuarioB;
+                            encont3 = 1;
+                            break;
+                        } 
+                    } 
+                    if(encont3 == 0){
+                        System.out.println("\nNombre o password incorrecto.");
                         estado = 0;
-                    }*/
+                    }
+                    
                 break; //Parte de verificar que el usuario tenga una cuenta con el archivo txt
             case 2:
                 try{
                     System.out.println("\tRegistrarse");
                     System.out.print("\nDijite su nombre: ");
                     String nom = scan.nextLine();
-                    System.out.print("\nDijite su password: ");
+                    System.out.print("Dijite su password: ");
                     String pass = scan.nextLine();
                     System.out.print("Dijite su edad: ");
                     int edad = scan.nextInt();
                     
                     cuenta = new Usuario(nom,pass, edad);
+                    //Aqui hay que revisar que no haya un usuario creado con estas caracteristicas! <-----------
                     System.out.println("Cuenta creada con exito.");
                 } catch(Exception e) {
                     System.out.println("Error:" + e);
