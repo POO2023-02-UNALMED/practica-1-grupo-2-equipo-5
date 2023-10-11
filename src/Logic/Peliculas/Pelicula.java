@@ -41,6 +41,7 @@ public class Pelicula {
 
     public void enlazarSala(Sala s){
         this.sala = s;
+        s.enlazarPeliculaALaSala(this);
     }
 
     public Sala getSala(){

@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import Logic.Peliculas.*;
+import Logic.Tarjetas.Diamante;
+import Logic.Tarjetas.Oro;
+import Logic.Tarjetas.Platino;
+import Logic.Tarjetas.Tarjeta;
 import Logic.Tienda.*;
 import Logic.Usuarios.*;
 
@@ -199,9 +203,10 @@ public class Cine {
                     System.out.println("0) Salir");
                     System.out.println("1) Comprar pelicula");
                     System.out.println("2) Comprar producto de la tienda");
-                    System.out.println("3) Cancelar compra");
-                    System.out.println("4) Depositar");
-                    System.out.println("5) Ver perfil");
+                    System.out.println("3) Comprar tarjeta");
+                    System.out.println("4) Cancelar compra");
+                    System.out.println("5) Depositar");
+                    System.out.println("6) Ver perfil");
 
                     System.out.print("-> ");
                     int respCli = scan.nextInt(); //Ingresa un int
@@ -225,7 +230,24 @@ public class Cine {
                                     System.out.print("Escoja un asiento: ");
                                     int respAsientoEleg = scan.nextInt();
                                     if(pel.getAsientosDisponibles().contains(respAsientoEleg)){
-                                        String respCompPe = cuentaCliente.comprarPelicula(respPelElegida,respAsientoEleg);
+                                        String respCompPe;
+                                        if(!cuentaCliente.getTarjetas().isEmpty()){
+                                            System.out.print("Desea usar puntos de alguna Tarjeta? (1:Si, 2:No)\n-> ");
+                                            int respUsarTarjCPel = scan.nextInt();
+                                            if(respUsarTarjCPel == 1){
+                                                System.out.print(cuentaCliente.verTarjetas() +"\n-> ");
+                                                int respIndexTarjUsar = scan.nextInt();
+                                                ArrayList<Tarjeta> tarjetasCuenta = cuentaCliente.getTarjetas();
+                                                System.out.println("Puntos antes de la compra: "+tarjetasCuenta.get(respIndexTarjUsar-1).getPuntos());
+                                                respCompPe = cuentaCliente.comprarPelicula(respPelElegida,respAsientoEleg, tarjetasCuenta.get(respIndexTarjUsar-1));
+                                            } else {
+                                                respCompPe = cuentaCliente.comprarPelicula(respPelElegida,respAsientoEleg, null);
+                                            }
+                                            
+                                        } else {
+                                            respCompPe = cuentaCliente.comprarPelicula(respPelElegida,respAsientoEleg,null);
+                                        }
+                                        
                                         System.out.println(respCompPe);
                                         break;
                                     } else {
@@ -247,7 +269,21 @@ public class Cine {
                             for(Producto producto : productosDisponibles){
                                 if(producto.getNombre().equals(respNProd)){
                                     productoEncontrado = true; //Se cambia el valor para indicar que si se encontro
-                                    String respComProd = cuentaCliente.comprarProducto(respNProd);
+                                    String respComProd;
+                                    if(!cuentaCliente.getTarjetas().isEmpty()){
+                                        System.out.print("Desea usar el descuento de alguna tarjeta? (1:Si, 2:No)\n-> ");
+                                        int respUsarTarjCPel = scan.nextInt();
+                                        if(respUsarTarjCPel == 1){
+                                            System.out.print(cuentaCliente.verTarjetas() + "\n->");
+                                            int respIndexTarjUsar = scan.nextInt();
+                                            ArrayList<Tarjeta> tarjetasCuenta = cuentaCliente.getTarjetas();
+                                            respComProd = cuentaCliente.comprarProducto(respNProd,tarjetasCuenta.get(respIndexTarjUsar-1));
+                                        } else {
+                                            respComProd = cuentaCliente.comprarProducto(respNProd, null);
+                                        }              
+                                    } else {
+                                        respComProd = cuentaCliente.comprarProducto(respNProd, null);
+                                    }     
                                     System.out.println(respComProd);
                                 }
                             } 
@@ -256,7 +292,46 @@ public class Cine {
                                 System.out.println("Este producto no esta disponible.");
                             }
                             break;
-                        case 3: // Caso de cancelar compra
+                        case 3:
+                            System.out.println("\tTarjetas");
+                            System.out.println("Oro (1) - $"+Oro.getPrecio()+" | Platino (2) - $"+Platino.getPrecio()
+                            +" | Diamante (3) - $"+Diamante.getPrecio());
+                            System.out.print("-> ");
+                            int respElTarj = scan.nextInt();
+                            switch(respElTarj){
+                                case 1:
+                                    String respComTarjOro = cuentaCliente.pagar(Oro.getPrecio());
+                                    if(respComTarjOro.equals("Pago exitoso")){
+                                       cuentaCliente.agregarTarjeta(new Oro()); 
+                                       System.out.println("Pago exitoso. Nueva tarjeta Oro!");
+                                    } else {
+                                        System.out.println(respComTarjOro);
+                                    }
+                                    break;
+                                case 2:
+                                    String respComTarjPlatino = cuentaCliente.pagar(Platino.getPrecio());
+                                    if(respComTarjPlatino.equals("Pago exitoso")){
+                                       cuentaCliente.agregarTarjeta(new Platino()); 
+                                       System.out.println("Pago exitoso. Nueva tarjeta Platino!");
+                                    } else {
+                                        System.out.println(respComTarjPlatino);
+                                    }
+                                    break;
+                                case 3:
+                                    String respComTarjDiamante = cuentaCliente.pagar(Diamante.getPrecio());
+                                    if(respComTarjDiamante.equals("Pago exitoso")){
+                                       cuentaCliente.agregarTarjeta(new Diamante()); 
+                                       System.out.println("Pago exitoso. Bienvenido a Diamante!");
+                                    } else {
+                                        System.out.println(respComTarjDiamante);
+                                    }
+                                    break;
+                                default:
+                                    System.out.println("Este número no esta en las opciones");
+                                    break;
+                            }
+                            break;
+                        case 4: // Caso de cancelar compra
                             System.out.println("\tCancelar compra.");
                             System.out.println("Pelicula (1) | Producto (2)");
                             System.out.print("-> ");
@@ -301,13 +376,13 @@ public class Cine {
                             } 
                             
                             break;
-                        case 4: // Caso depositar
+                        case 5: // Caso depositar
                             System.out.print("Digite la cantidad a depositar: ");
                             int deposit = scan.nextInt();
                             cuentaCliente.depositar(deposit);
                             System.out.println("Deposito ejecutado correctamente");
                             break;
-                        case 5: // Caso ver perfil
+                        case 6: // Caso ver perfil
                             System.out.print(cuentaCliente);
                             break;
                         default: // Caso por defecto
@@ -330,7 +405,8 @@ public class Cine {
                     System.out.println("3) Añadir producto tienda");
                     System.out.println("4) Ver peliculas en taquilla");
                     System.out.println("5) Ver productos en tienda");
-                    System.out.println("6) Ver perfil");
+                    System.out.println("6) Ver detalles tarjetas");
+                    System.out.println("7) Ver perfil");
                     
                     System.out.print("-> ");
                     int respInTrab = scan.nextInt();
@@ -399,6 +475,18 @@ public class Cine {
                             System.out.println(tienda);
                             break;
                         case 6:
+                            Oro oro = new Oro();
+                            Platino platino = new Platino();
+                            Diamante diamante = new Diamante();
+                            System.out.println("\tTarjetas:");
+                            System.out.println("--Oro--  \nPrecio:" + Oro.getPrecio() + "\nDescuento Producto: "+oro.getDescuentoProducto()*100+"%");
+                            System.out.println("--Platino--  \nPrecio:" + Platino.getPrecio() + "\nDescuento Producto: "+platino.getDescuentoProducto()*100+"%");
+                            System.out.println("--Diamante--  \nPrecio:" + Diamante.getPrecio() + "\nDescuento Producto: "+diamante.getDescuentoProducto()*100+"%");
+                            oro = null;
+                            platino = null;
+                            diamante = null;
+                            break;
+                        case 7:
                             System.out.println("\tPerfil");
                             System.out.println(cuentaTrabajador);
                             break;

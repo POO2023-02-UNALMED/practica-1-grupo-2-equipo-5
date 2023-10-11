@@ -7,6 +7,7 @@ import java.util.Map;
 
 import Logic.Peliculas.Pelicula;
 import Logic.Peliculas.Taquilla;
+import Logic.Tarjetas.Tarjeta;
 import Logic.Tienda.Producto;
 import Logic.Tienda.Tienda;
 
@@ -16,6 +17,7 @@ public class Cliente extends Usuario{
     private double descuento = 0;
     private HashMap<Pelicula, List<Integer>> comprasPel = new HashMap<Pelicula, List<Integer>>();
     private ArrayList<Producto> comprasProd = new ArrayList<Producto>();
+    private ArrayList<Tarjeta> tarjetas = new ArrayList<Tarjeta>();
 
     //Constructor
     public Cliente(String nombre, int edad){
@@ -49,6 +51,10 @@ public class Cliente extends Usuario{
         return this.comprasProd;
     }
 
+    public ArrayList<Tarjeta> getTarjetas(){
+        return this.tarjetas;
+    }
+
     @Override
     public String getTipo(){
         return "Cliente";
@@ -60,7 +66,7 @@ public class Cliente extends Usuario{
         this.saldo += cantidad;
     }
 
-    public String pagar(int cantidad){
+    public String pagar(double cantidad){
         if(this.saldo >= cantidad){
             this.saldo -= cantidad - (cantidad*this.descuento);
             return "Pago exitoso";
@@ -78,43 +84,70 @@ public class Cliente extends Usuario{
         }
     }
 
+    public void agregarTarjeta(Tarjeta tarjeta){
+        this.tarjetas.add(tarjeta);
+    }
+
+    public String removerTarjeta(Tarjeta tarjeta){
+        if(tarjetas.contains(tarjeta)){
+            this.tarjetas.add(tarjeta);
+            return "Removida";
+        } else {
+            return "No se encuentra esta tarjeta";
+        }
+    }
+
+    public String verTarjetas(){
+        String frase = "Tarjetas: ";
+        int cuenta = 1;
+        for (Tarjeta tarj : tarjetas) {
+            frase += cuenta + ") " +tarj.getNombre() +" | ";
+            cuenta += 1;
+        }
+        return frase;
+    }
+
     /*funcionalidad implementada para que el cliente compre una pelicula, tomando en cuenta las restricciones adecuadas, entre ellas,
       analizar si la pelicula está disponible en la taquilla, si el numero de asiento que desea el cliente esta disponible
       y si el cliente tiene el dinero suficiente para pagar la pelicula, en caso de cumplirlas, se hace efectiva la compra, retirando el asiento de la lista de asientos disponibles, 
       y pagando el costo de la pelicula.
     */ 
-    public String comprarPelicula(String peli, int numAsiento){
+    public String comprarPelicula(String peli, int numAsiento, Tarjeta tarjeta){
         String peliN = peli.substring(0,1).toUpperCase() + peli.substring(1).toLowerCase();
         for (Pelicula pelT : Taquilla.getPeliculasDisponibles()) {
             if (pelT.getNombre().equals(peliN)){
                 if(pelT.getSala() == null){
                     return "La pelicula no tiene asignada una sala";
                 }
-                if(this.saldo < pelT.getPrecio()){
+                if(pelT.getPrecio() > this.saldo && tarjeta == null){
                     return "Saldo insuficiente";
-                } else {
-                    List<Integer> asientos = pelT.getSala().getAsientosDisponibles();
-                    try {
-                        if(asientos.contains(numAsiento)){
-                            boolean resp = pelT.ocuparAsiento(numAsiento);
-                            if(resp == true){
-                                List<Integer> listaAct = comprasPel.getOrDefault(pelT, new ArrayList<>());
-                                listaAct.add(numAsiento);
-                                this.comprasPel.put(pelT, listaAct);
+                }
+                List<Integer> asientos = pelT.getSala().getAsientosDisponibles();
+                try {
+                    if(asientos.contains(numAsiento)){
+                        boolean resp = pelT.ocuparAsiento(numAsiento);
+                        if(resp == true){
+                            List<Integer> listaAct = comprasPel.getOrDefault(pelT, new ArrayList<>());
+                            listaAct.add(numAsiento);
+                            this.comprasPel.put(pelT, listaAct);
+                            if(tarjeta == null){
                                 return this.pagar(pelT.getPrecio());
                             } else {
-                                return "Esta pelicula no tiene enlazada una sala";
+                                String respComPelConTarj = this.pagar((pelT.getPrecio() - tarjeta.getPuntos())); 
+                                tarjeta.setPuntos(0);
+                                return respComPelConTarj;
                             }
-                            
                         } else {
-                            return "Asiento elejido no disponible";
-                        }  
-                    } catch (Exception e) {
-                        System.out.println("Error: " + e);
-                    }
+                            return "Esta pelicula no tiene enlazada una sala";
+                        }                    
+                    } else {
+                        return "Asiento elejido no disponible";
+                    }  
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
                 }
-            }  
-        }
+            }
+        }  
         return "La pelicula no esta disponible";
     }
 
@@ -122,15 +155,19 @@ public class Cliente extends Usuario{
       analizar si el producto está disponible en la tienda y si el cliente tiene el dinero disponible para la compra del mismo, si las cumple,
       se hace efectiva la compra y se paga el precio del producto 
     */
-    public String comprarProducto(String prod){
+    public String comprarProducto(String prod, Tarjeta tarjeta){
         String prodN = prod.substring(0,1).toUpperCase() + prod.substring(1).toLowerCase();
         for (Producto producto : Tienda.getProductosDisponibles()) {
             if(producto.getNombre().equals(prodN)){
-                if(producto.getPrecio() > this.saldo){
-                    return "Saldo insuficiente";
-                } else {
+                if(tarjeta == null && producto.getPrecio() <= this.saldo ){
                     this.comprasProd.add(producto);
                     return this.pagar(producto.getPrecio());
+                } else if(tarjeta != null && producto.getPrecio() <= this.saldo ) {
+                    this.comprasProd.add(producto);
+                    tarjeta.comprar();
+                    return this.pagar(tarjeta.getValorProducto(producto));
+                } else {
+                    return "Saldo insuficiente";
                 }
             }
         }
@@ -224,6 +261,6 @@ public class Cliente extends Usuario{
 
     //toString
     public String toString(){
-        return "Nombre: "+nombre + ", Edad: "+ edad + ", Saldo: " + saldo;
+        return "Nombre: "+nombre + "\nEdad: "+ edad + "\nSaldo: " + saldo + "\n"+this.verTarjetas();
     }
 }

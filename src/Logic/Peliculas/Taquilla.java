@@ -46,7 +46,7 @@ public class Taquilla {
         String nombres = "";
         for (Pelicula pel : peliculas) {
             if(pel != null && pel.getSala() != null){
-                nombres += pel.nombre + " - precio: " + pel.getPrecio() +" | ";
+                nombres += pel.nombre + " - precio: $" + pel.getPrecio() +" | ";
             }     
         }
         if (nombres.isEmpty()) {

@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Sala {
     private static ArrayList<Sala> salasCreadas = new ArrayList<Sala>();
+    private ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
     private String nombre;
     private int numeroAsientosD;
     private HashMap<Integer,String> asientos = new HashMap<Integer,String>();
@@ -74,6 +75,14 @@ public class Sala {
 
     public void añadirNumeroAsientoDisponible(){
         this.numeroAsientosD += 1;
+    }
+
+    public void enlazarPeliculaALaSala(Pelicula pelicula){
+        peliculasSala.add(pelicula);
+    }
+
+    public void removerPeliculaEnLaSala(Pelicula pelicula){
+        peliculasSala.remove(pelicula);
     }
 
     //Metodos de clase
