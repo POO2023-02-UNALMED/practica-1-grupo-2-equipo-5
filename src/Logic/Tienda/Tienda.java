@@ -34,7 +34,7 @@ public class Tienda {
             }     
         }
         if (productos == "") {
-            return "Ninguna pelicula disponible";
+            return "Ningun producto disponible";
         }
         return "\tTienda\nProductos Disponibles: " + productos;
     }
