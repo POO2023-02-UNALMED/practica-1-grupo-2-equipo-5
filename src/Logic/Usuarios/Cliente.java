@@ -107,6 +107,16 @@ public class Cliente extends Usuario{
         return frase;
     }
 
+    //método para retornar el total de puntos que un cliente tiene en todas sus tarjetas
+    // debe implentarse a la hora de cuadrar el log in
+    //public int totalPuntos(){
+        //int totalPuntos = 0;
+        //for (Tarjeta tarj : this.tarjetas){
+            //totalPuntos += tarj.getPuntos();
+        //}
+        //return totalPuntos;
+    //}
+
     /*funcionalidad implementada para que el cliente compre una pelicula, tomando en cuenta las restricciones adecuadas, entre ellas,
       analizar si la pelicula está disponible en la taquilla, si el numero de asiento que desea el cliente esta disponible
       y si el cliente tiene el dinero suficiente para pagar la pelicula, en caso de cumplirlas, se hace efectiva la compra, retirando el asiento de la lista de asientos disponibles, 
@@ -133,9 +143,23 @@ public class Cliente extends Usuario{
                             if(tarjeta == null){
                                 return this.pagar(pelT.getPrecio());
                             } else {
-                                String respComPelConTarj = this.pagar((pelT.getPrecio() - tarjeta.getPuntos())); 
-                                tarjeta.setPuntos(0);
-                                return respComPelConTarj;
+                                String respComPelConTarj; 
+                                double total = pelT.getPrecio() - tarjeta.getPuntos();
+                                if (total < 0){
+                                    respComPelConTarj = this.pagar(0);
+                                    tarjeta.setPuntos((pelT.getPrecio()-tarjeta.getPuntos())*-1);
+                                    return respComPelConTarj;
+                                }
+                                else if (total == 0){
+                                    tarjeta.setPuntos(0);
+                                    respComPelConTarj =this.pagar(0);
+                                    return respComPelConTarj;
+                                }
+                                else {
+                                    tarjeta.setPuntos(0);
+                                    respComPelConTarj = this.pagar(total);
+                                    return respComPelConTarj;
+                                }
                             }
                         } else {
                             return "Esta pelicula no tiene enlazada una sala";
