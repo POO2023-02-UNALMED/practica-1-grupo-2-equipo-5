@@ -7,21 +7,38 @@ public class Pelicula {
     String nombre;
     private int precio; 
     private Sala sala;
+    private String hora;
     private static ArrayList<Pelicula> peliculasExistentes = new ArrayList<Pelicula>();
 
     //Constructores
     public Pelicula(String nombre){
-        this(nombre,0);
+        this(nombre,0, null);
+        Taquilla.agregarPeliculas(this);
     }
     
     public Pelicula(String nombre, int precio){
+        this(nombre, precio, null);
+        peliculasExistentes.add(this);
+        Taquilla.agregarPeliculas(this);
+    }
+
+    public Pelicula(String nombre, int precio, String hora){
         this.nombre = nombre;
         this.precio = precio;
+        this.hora = hora;
         peliculasExistentes.add(this);
-        Taquilla.agregarPelicula(this);
+        Taquilla.agregarPeliculas(this);
     }
 
     //Métodos de instancia
+
+    public String getHora1(){
+        return this.hora;
+    }
+
+    public void setHora(String hora){
+        this.hora = hora;
+    }
 
     public String getNombre(){
         return this.nombre;
@@ -39,9 +56,12 @@ public class Pelicula {
         this.precio = precio;
     }
 
+    // método para enlazar una pelicula con una sala, teniendo en cuenta que amabas tengan la misma hora
     public void enlazarSala(Sala s){
         this.sala = s;
-        s.enlazarPeliculaALaSala(this);
+        if(this.getHora1() != null && this.getHora1().equals(s.getHora()) ){
+            s.enlazarPeliculaALaSala(this);
+        }
     }
 
     public Sala getSala(){
@@ -60,6 +80,7 @@ public class Pelicula {
         peliculasExistentes.add(pel);
     }
 
+    //ocupa un asiento de la sala, si la sala queda sin asientos, la pelicula se retira de la taquilla
     public boolean ocuparAsiento(int num){
         if (this.sala != null) {
             this.sala.quitarAsientoDisponible(num);
@@ -72,6 +93,7 @@ public class Pelicula {
         }
     }
 
+    //si la sala vuelve a tener asientos disponibles, esta vuelve a añadirse a las peliculas en taquilla
     public boolean agregarAsiento(int num){
         if (this.sala != null) {
             if(this.sala.getNumeroAsientosDisponibles() == 0){
@@ -90,5 +112,4 @@ public class Pelicula {
         return "Nombre: "+nombre+ "\nPrecio: " + precio+"\nSala: "+sala.getNombre() + "\nAsientos Disponibles: " 
         + sala.getNumeroAsientosDisponibles();
     }
-    
 }
