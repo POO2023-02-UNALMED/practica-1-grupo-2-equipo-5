@@ -10,17 +10,19 @@ public class Sala {
     private ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
     private String nombre;
     private int numeroAsientosD;
+    private String hora;
     private HashMap<Integer,String> asientos = new HashMap<Integer,String>();
 
     //Constructores
 
     public Sala(int numeroAsientosD){
-        this("Nn",numeroAsientosD);
+        this("Nn",numeroAsientosD, "");
     }
 
-    public Sala(String nombre,int numeroAsientosD){
+    public Sala(String nombre,int numeroAsientosD, String hora){
         this.nombre = nombre;
         this.numeroAsientosD = numeroAsientosD;
+        this.hora = hora;
 
         for(int i = 1; i <= this.numeroAsientosD ; i++){
             asientos.put(i, "");
@@ -29,6 +31,14 @@ public class Sala {
     }
 
     //Getters y setters
+
+    public String getHora(){
+        return this.hora;
+    }
+
+    public void setHora(String hora){
+        this.hora = hora;
+    }
 
     public String getNombre(){
         return this.nombre;
@@ -77,12 +87,15 @@ public class Sala {
         this.numeroAsientosD += 1;
     }
 
+    //este metodo solo se efectúa si desde la clase pelicula se intenta unir una pelicula con una sala que tengan la misma hora 
     public void enlazarPeliculaALaSala(Pelicula pelicula){
         peliculasSala.add(pelicula);
+        Taquilla.peliculasSala.add(pelicula);
     }
 
     public void removerPeliculaEnLaSala(Pelicula pelicula){
         peliculasSala.remove(pelicula);
+        Taquilla.peliculasSala.remove(pelicula);
     }
 
     //Metodos de clase
@@ -91,9 +104,9 @@ public class Sala {
     }
 
     public static String mostrarSalasCreadas(){
-        String texto = "";
+        String texto = "Salas creadas: ";
         for (Sala string : salasCreadas) {
-            texto += string.getNombre() + " | ";
+            texto += string.getNombre() +" "+ string.getHora() +" | ";
         }
         return texto;
     }

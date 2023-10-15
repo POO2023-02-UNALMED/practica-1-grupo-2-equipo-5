@@ -110,6 +110,6 @@ public class Pelicula {
     //toString
     public String toString(){
         return "Nombre: "+nombre+ "\nPrecio: " + precio+"\nSala: "+sala.getNombre() + "\nAsientos Disponibles: " 
-        + sala.getNumeroAsientosDisponibles();
+        + sala.getNumeroAsientosDisponibles() + "\nHora: " + this.getHora1();
     }
 }

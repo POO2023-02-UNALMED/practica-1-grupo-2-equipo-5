@@ -18,18 +18,27 @@ public class Cine {
     public static void main(String[] args) throws Exception {
 
         // -------------------- Pruebas --------------------
+        //recordar no asignar dos peliculas con la misma hora a la misma sala que tenga la misma hora
         Taquilla taquilla = new Taquilla("Taquilla 1");
         Tienda tienda = new Tienda("Tienda Central");
         Pelicula pelicula1 = new Pelicula("Terminator", 2000);
         Pelicula pelicula2 = new Pelicula("Barbie", 2000);
-        Sala s = new Sala("Sala1",20);
-        Sala s2 = new Sala("Sala2",20);
+        //Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm");
+        //Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm");
+        Sala s = new Sala("Sala1",20, "11:30 pm");
+        Sala s2 = new Sala("Sala2",20, "2:20 pm");
         pelicula1.enlazarSala(s);
         pelicula2.enlazarSala(s2);
+        //pelicula2.setHora("3:40 pm");
+        //pelicula2.enlazarSala(s2);
         Producto prod1 = new Producto("Palomitas",2000);
         Producto prod2 = new Producto("Soda",2000);
         Combo combo1 = new Combo("Combo1", 2000);
         combo1.añadirProductos(prod1,prod2);
+        //System.out.println(Taquilla.totalpeliculasTaquilla());
+        //System.out.println("peliculas con sala disponibles "+Taquilla.getPeliculasDisponibles());
+        //System.out.println(pelicula3.getSala());
+        System.out.println("probando");
 
 
         /* //Prueba ocupar asientos
@@ -67,7 +76,6 @@ public class Cine {
         System.out.println(pelicula1);
         System.out.println(cliente2.comprarProducto("soda"));
         System.out.println(cliente2);
-        
         System.out.println(s.getAsientosDisponibles());*/
 
         // -------------------- Rellenar los datos --------------------
@@ -219,6 +227,7 @@ public class Cine {
                         case 1: // Caso comprar pelicula
                             System.out.println("Taquilla: ");
                             System.out.println(taquilla); // Se muestran las peliculas disponibles
+                            if (taquilla.toString() == "Ninguna pelicula disponible"){break;}
                             System.out.print("Escriba el nombre de la pelicula que comprara: ");
                             String respPelElegida = scan.next();
                             boolean peliculaEncontrada = false; //variable para mostrar mensaje si la pelicula no se encuentra
@@ -407,7 +416,9 @@ public class Cine {
                     System.out.println("5) Ver productos en tienda");
                     System.out.println("6) Ver detalles tarjetas");
                     System.out.println("7) Ver perfil");
-                    
+                    System.out.println("8) Ver todas las peliculas");
+                    //System.out.println("9) eliminar pelicula Taquilla");
+
                     System.out.print("-> ");
                     int respInTrab = scan.nextInt();
                     switch(respInTrab){
@@ -421,9 +432,11 @@ public class Cine {
                             String respAnadirPel = scan.next();
                             System.out.print("Precio de la pelicula: ");
                             int respAnadirPelPrecio = scan.nextInt();
-                            System.out.print("Sala a enlazar a la pelicula");
+                            System.out.print("Sala a enlazar a la pelicula, recuerde que si desea añadir una sala a la pelicula que va a crear, estas deben tener la misma hora, de lo contrario no se efectuará el enlace\n");
                             System.out.println(Sala.mostrarSalasCreadas());
-                            System.out.print("-> ");
+                            System.out.print("Hora de la pelicula: ");
+                            String respAnadirPelHora = scan.next();
+                            System.out.print("-> elija una sala entre las disponibles:  ");
                             String respSalEnlazar = scan.next();
                             for (Sala salaE : Sala.getsSalasCreadas()) {
                                 if(salaE.getNombre().equals(respSalEnlazar)){
@@ -431,6 +444,7 @@ public class Cine {
                                     System.out.println(respuestaAPel);
                                 }
                             }
+                            break;
                         case 2:
                             int encont2 = 0;
                             System.out.println("\tDetalles");
