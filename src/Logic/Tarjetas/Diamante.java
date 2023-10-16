@@ -9,11 +9,13 @@ public class Diamante extends Tarjeta {
         precio = 3000;
     }
 
+    //constructor
     public Diamante(){
         this.puntos = 100;
         this.descuentoProducto = 0.2;
     }
 
+    //getters y setters
     public String getNombre(){
         return "Diamante";
     }
@@ -26,6 +28,15 @@ public class Diamante extends Tarjeta {
         Diamante.precio = precio;
     }
 
+        public double getPuntos(){
+        return this.puntos;
+    }
+
+    public void setPuntos(double puntos){
+        this.puntos = puntos;
+    }
+
+    //metodos
     public double getValorProducto(Producto producto){
         //Te devuelve el precio del producto con el descuento incluido
         return producto.getPrecio() - (producto.getPrecio()*this.descuentoProducto);
@@ -37,14 +48,6 @@ public class Diamante extends Tarjeta {
 
     public void setDescuentoProducto(double descuento){
         this.descuentoProducto = descuento;
-    }
-
-    public double getPuntos(){
-        return this.puntos;
-    }
-
-    public void setPuntos(double puntos){
-        this.puntos = puntos;
     }
 
     public void comprar(){

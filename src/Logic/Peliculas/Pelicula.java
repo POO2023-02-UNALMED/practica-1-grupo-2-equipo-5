@@ -14,6 +14,8 @@ public class Pelicula {
     public Pelicula(String nombre){
         this(nombre,0, null);
         Taquilla.agregarPeliculas(this);
+        Taquilla.agregarPreEstreno(this);
+        peliculasExistentes.add(this);
     }
     
     public Pelicula(String nombre, int precio){

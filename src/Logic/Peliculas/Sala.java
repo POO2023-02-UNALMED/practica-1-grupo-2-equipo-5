@@ -88,6 +88,7 @@ public class Sala {
     }
 
     //este metodo solo se efectúa si desde la clase pelicula se intenta unir una pelicula con una sala que tengan la misma hora 
+    //si en efecto tienen la misma hora, la pelicula se agrega a el listado de peliculas con sala en la clase Taquilla
     public void enlazarPeliculaALaSala(Pelicula pelicula){
         peliculasSala.add(pelicula);
         Taquilla.peliculasSala.add(pelicula);

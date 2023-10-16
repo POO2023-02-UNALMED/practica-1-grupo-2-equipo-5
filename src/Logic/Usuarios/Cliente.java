@@ -12,9 +12,11 @@ import Logic.Tienda.Producto;
 import Logic.Tienda.Tienda;
 
 
-public class Cliente extends Usuario{
+public class Cliente extends Usuario implements Vip{
     private double saldo = 0;
     private double descuento = 0;
+    public boolean accesoLounge = false;
+    public boolean accesoPreestrenos = false;
     private HashMap<Pelicula, List<Integer>> comprasPel = new HashMap<Pelicula, List<Integer>>();
     private ArrayList<Producto> comprasProd = new ArrayList<Producto>();
     private ArrayList<Tarjeta> tarjetas = new ArrayList<Tarjeta>();
@@ -286,5 +288,13 @@ public class Cliente extends Usuario{
     //toString
     public String toString(){
         return "Nombre: "+nombre + "\nEdad: "+ edad + "\nSaldo: " + saldo + "\n"+this.verTarjetas();
+    }
+
+    //implementacion de los metodos de la interfaz
+    public void accesoLounge(){
+        accesoLounge = true;
+    }
+    public void accesoPreEstreno(){
+        accesoPreestrenos = true;
     }
 }
