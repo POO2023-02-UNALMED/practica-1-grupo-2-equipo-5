@@ -3,8 +3,9 @@ package gestorAplicacion.Tienda;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
+import java.io.Serializable;
 
-public class Combo extends Producto{
+public class Combo extends Producto implements Serializable{
     private ArrayList<Producto> productosCombo = new ArrayList<Producto>();
 
     //Constructor
