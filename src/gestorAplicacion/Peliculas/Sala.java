@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.Serializable;
 
-public class Sala {
+public class Sala implements Serializable{
     private static ArrayList<Sala> salasCreadas = new ArrayList<Sala>();
     private ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
     private String nombre;
