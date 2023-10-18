@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import gestorAplicacion.Peliculas.*;
-import gestorAplicacion.Tarjetas.Diamante;
-import gestorAplicacion.Tarjetas.Oro;
-import gestorAplicacion.Tarjetas.Platino;
-import gestorAplicacion.Tarjetas.Tarjeta;
+import gestorAplicacion.Tarjetas.*;
 import gestorAplicacion.Tienda.*;
 import gestorAplicacion.Usuarios.*;
 
@@ -103,7 +100,7 @@ public class Cine {
 
         // -------------------- Interfaz --------------------
         
-        /*System.out.println("\tBienvenido\nElija alguna de las siguientes opciones (1 ò 2): ");
+        System.out.println("\tBienvenido\nElija alguna de las siguientes opciones (1 ò 2): ");
         System.out.println("1) Iniciar sesion. ");
         System.out.println("2) Registrarse. ");
         System.out.print("-> ");
@@ -480,6 +477,6 @@ public class Cine {
                 estado = 0;
             }    
         }
-        scan.close();*/
+        scan.close();
     } 
 }
