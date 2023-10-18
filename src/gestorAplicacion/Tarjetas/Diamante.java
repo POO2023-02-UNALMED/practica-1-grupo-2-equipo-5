@@ -5,7 +5,7 @@ import gestorAplicacion.Tienda.Producto;
 public class Diamante extends Tarjeta {
     private static double precio;
 
-    static {
+     static  {
         precio = 3000;
     }
 
