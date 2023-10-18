@@ -5,6 +5,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import baseDatos.Serializar;
+import baseDatos.Deserializar;
 import gestorAplicacion.Peliculas.*;
 import gestorAplicacion.Tarjetas.*;
 import gestorAplicacion.Tienda.*;
@@ -153,8 +155,15 @@ public class Cine {
                     if(encont4 == 0){
                         cuenta = new Administrador(nom,pass, edad);
                         System.out.println("Cuenta creada con exito.");
-                    }    
-                }    //Aqui hay que revisar que no haya un usuario creado con estas caracteristicas! <-----------
+                        
+                        usuariosCreados.add(cuenta);
+                        Serializar.serializarUsuario(usuariosCreados);
+                    }
+                    
+                }
+                    
+                      
+                    //Aqui hay que revisar que no haya un usuario creado con estas caracteristicas! <-----------
                     
                  catch(Exception e) {
                     System.out.println("Error:" + e);
