@@ -1,9 +1,16 @@
 package gestorAplicacion.Usuarios;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Usuario {
+
+import gestorAplicacion.Tarjetas.Tarjeta;
+
+public class Usuario implements Serializable {
     protected String nombre;
     protected String password;
     protected int edad;
+    protected Tarjeta tarjeta;
+
 
     public Usuario(){
         this("NN", "NN", 19);
@@ -13,6 +20,7 @@ public class Usuario {
         this.nombre = nombre;
         this.password = password;
         this.edad = edad;
+        this.tarjeta = null;
     }
 
     public String getNombre(){
@@ -26,6 +34,7 @@ public class Usuario {
     public String getPassword(){
         return this.password;
     }
+    
 
     public void setPassword(String password){
         this.password = password;
@@ -42,4 +51,26 @@ public class Usuario {
     public String getTipo(){
         return "Usuario";
     }
+    
+    public void setTarjeta(Tarjeta tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+    
+    public Tarjeta getTarjeta() {
+        return this.tarjeta;
+    }
+    
+
+    
+    @Override
+    public String toString() {
+        String tarjetaInfo = (tarjeta != null) ? tarjeta.toString() : "Ninguna tarjeta adquirida";
+        return "Nombre: " + nombre + "\n" +
+               "Edad: " + edad + "\n" +
+               "Tarjeta: " + tarjetaInfo;
+    }
+    
+
+
 }
+
