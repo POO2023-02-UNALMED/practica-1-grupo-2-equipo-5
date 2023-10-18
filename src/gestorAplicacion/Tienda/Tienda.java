@@ -1,8 +1,9 @@
 package gestorAplicacion.Tienda;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Tienda {
+public class Tienda implements Serializable {
     private String nombre;
     private static ArrayList<Producto> productosD = new ArrayList<Producto>();
 
