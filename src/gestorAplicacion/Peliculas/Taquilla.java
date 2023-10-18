@@ -2,8 +2,9 @@ package gestorAplicacion.Peliculas;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.io.Serializable;
 
-public class Taquilla {
+public class Taquilla implements Serializable {
     private String nombre;
     // peliculasSala solo contiene las peliculas que fueron definidas en su constructor con nombre, precio y hora, y ademas tienen sala asignada
     //totalpeliculas contiene todas las peliculas creadas
