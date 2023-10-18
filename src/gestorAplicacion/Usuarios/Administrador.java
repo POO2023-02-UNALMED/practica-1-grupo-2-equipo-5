@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.Serializable;
 
 import gestorAplicacion.Peliculas.Pelicula;
 import gestorAplicacion.Peliculas.Sala;
@@ -13,7 +14,7 @@ import gestorAplicacion.Tienda.Producto;
 import gestorAplicacion.Tienda.Tienda;
 
 
-public class Administrador extends Usuario implements Vip{
+public class Administrador extends Usuario implements Vip, Serializable{
     private double saldo = 0;
     private double descuento = 0;
     public boolean accesoLounge = false;
