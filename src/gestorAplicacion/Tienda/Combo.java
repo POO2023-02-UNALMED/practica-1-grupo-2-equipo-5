@@ -27,6 +27,10 @@ public class Combo extends Producto{
         }
     }
 
+    public ArrayList<Producto> getProductosCombo(){
+        return productosCombo;
+    }
+
     //toString
 
     public String toString(){

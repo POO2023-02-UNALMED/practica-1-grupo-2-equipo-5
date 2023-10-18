@@ -30,7 +30,18 @@ public class Tienda {
         String productos = "";
         for (Producto prod : productosD) {
             if(prod != null){
-                productos += prod.nombre + " | ";
+                String nom = prod.nombre;
+                if(prod instanceof Combo){
+                    nom += " (";
+                    for(Producto productC : ((Combo) prod).getProductosCombo()){
+                        nom += productC.nombre;
+                        if(productC != ((Combo) prod).getProductosCombo().get(((Combo) prod).getProductosCombo().size()-1)){
+                            nom += ", ";
+                        }
+                    }
+                    nom += ")";
+                }
+                productos += nom + " | ";
             }     
         }
         if (productos == "") {

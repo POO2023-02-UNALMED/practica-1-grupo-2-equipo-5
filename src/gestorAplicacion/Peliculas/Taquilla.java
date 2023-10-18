@@ -38,7 +38,7 @@ public class Taquilla {
     }
 
     public static void agregarPelicula(Pelicula pel){
-        totalpeliculas.add(pel);
+        Taquilla.totalpeliculas.add(pel);
     }
 
     public static void retirarPelicula(Pelicula pel){
