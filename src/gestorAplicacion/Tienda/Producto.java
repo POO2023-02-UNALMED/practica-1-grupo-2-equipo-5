@@ -1,6 +1,8 @@
 package gestorAplicacion.Tienda;
 
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implements Serializable {
     protected String nombre;
     protected int precio = 0;
 
