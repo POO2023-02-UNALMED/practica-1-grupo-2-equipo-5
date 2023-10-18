@@ -136,7 +136,7 @@ public class Deserializar {
                     "\\src\\baseDatos\\temp\\Productos.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
-            ArrayList<Producto> lista_productos = (ArrayList) o.readObject();
+            ArrayList<Producto> lista_productos = (ArrayList<Producto>) o.readObject();
 
             file.close();
             o.close();
