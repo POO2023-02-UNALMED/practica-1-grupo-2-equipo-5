@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import Frontend.Cine;
-import Logic.Peliculas.*;
-import Logic.Tienda.*;
-import Logic.Usuarios.*;
+import uiMain.Cine;
+import gestorAplicacion.Peliculas.*;
+import gestorAplicacion.Tienda.*;
+import gestorAplicacion.Usuarios.*;
 
 
 public class Serializar {
@@ -131,29 +131,9 @@ public class Serializar {
         }
     }
 
-    public static void serializarCliente(ArrayList<Cliente> lista) {
+    public static void serializarCliente(ArrayList<Administrador> lista) {
         try {
             String rutaArchivo = "src/baseDatos/temp/Cliente.txt";
-            FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-            System.out.println("La serialización se ha completado correctamente.");
-
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encuentra el archivo: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("Error al escribir en el archivo: " + e.getMessage());
-        }
-    }
-    
-    public static void serializarTrabajador(ArrayList<Trabajador> lista) {
-        try {
-            String rutaArchivo = "src/baseDatos/temp/Trabajador.txt";
             FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
             ObjectOutputStream o = new ObjectOutputStream(f);
 

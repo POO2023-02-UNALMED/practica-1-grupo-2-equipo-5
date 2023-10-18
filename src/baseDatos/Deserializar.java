@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
-import Frontend.Cine;
-import Logic.Peliculas.*;
-import Logic.Tienda.*;
-import Logic.Usuarios.*;
+import uiMain.Cine;
+import gestorAplicacion.Peliculas.*;
+import gestorAplicacion.Tienda.*;
+import gestorAplicacion.Usuarios.*;
 
 public class Deserializar {
     static File archivo = new File("");
@@ -154,30 +154,6 @@ public class Deserializar {
         
     }
     
-    public static ArrayList<Trabajador> deserializarTrabajador(){
-        try {
-            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "\\src\\baseDatos\\temp\\Trabajador.txt"));
-            ObjectInputStream o = new ObjectInputStream(file);
-
-            ArrayList<Trabajador> lista_trabajador = (ArrayList) o.readObject();
-
-            file.close();
-            o.close();
-            return lista_trabajador;
-
-        }catch(FileNotFoundException e){
-            return new ArrayList<Trabajador>();
-        }
-        catch(IOException e){
-            return new ArrayList<Trabajador>();
-        }
-        catch(ClassNotFoundException e) {
-            return new ArrayList<Trabajador>();
-        }
-        
-    }
-    
     public static ArrayList<Usuario> deserializarUsuario(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
@@ -202,26 +178,26 @@ public class Deserializar {
         
     }
     
-    public static ArrayList<Cliente> deserializarCliente(){
+    public static ArrayList<Administrador> deserializarCliente(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
                     "\\src\\baseDatos\\temp\\Cliente.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
-            ArrayList<Cliente> lista_cliente = (ArrayList) o.readObject();
+            ArrayList<Administrador> lista_cliente = (ArrayList) o.readObject();
 
             file.close();
             o.close();
             return lista_cliente;
 
         }catch(FileNotFoundException e){
-            return new ArrayList<Cliente>();
+            return new ArrayList<Administrador>();
         }
         catch(IOException e){
-            return new ArrayList<Cliente>();
+            return new ArrayList<Administrador>();
         }
         catch(ClassNotFoundException e) {
-            return new ArrayList<Cliente>();
+            return new ArrayList<Administrador>();
         }
         
     }
