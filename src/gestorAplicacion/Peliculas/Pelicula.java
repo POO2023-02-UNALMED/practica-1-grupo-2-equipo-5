@@ -2,8 +2,9 @@ package gestorAplicacion.Peliculas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Pelicula { 
+public class Pelicula implements Serializable{ 
     String nombre;
     private int precio; 
     private Sala sala;
