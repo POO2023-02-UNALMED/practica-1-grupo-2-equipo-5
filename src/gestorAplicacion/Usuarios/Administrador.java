@@ -134,7 +134,7 @@ public class Administrador extends Usuario implements Vip, Serializable{
     */ 
     public String comprarPelicula(String peli, int numAsiento, Tarjeta tarjeta){
         String peliN = peli.substring(0,1).toUpperCase() + peli.substring(1).toLowerCase();
-        for (Pelicula pelT : Taquilla.getPeliculasDisponibles()) {
+        for (Pelicula pelT : Taquilla.getPeliculasDisponibles()) { // .PeliculasDisponibles
             if (pelT.getNombre().equals(peliN)){
                 if(pelT.getSala() == null){
                     return "La pelicula no tiene asignada una sala";
@@ -142,7 +142,7 @@ public class Administrador extends Usuario implements Vip, Serializable{
                 if(pelT.getPrecio() > this.saldo && tarjeta == null){
                     return "Saldo insuficiente";
                 }
-                List<Integer> asientos = pelT.getSala().getAsientosDisponibles();
+                List<Integer> asientos = pelT.getSala().getAsientosDisponibles(); //Verificar que el numero de asientos sea mayor o igual al que se comprara
                 try {
                     if(asientos.contains(numAsiento)){
                         boolean resp = pelT.ocuparAsiento(numAsiento);
@@ -207,6 +207,7 @@ public class Administrador extends Usuario implements Vip, Serializable{
         }
         return "El producto no esta a la venta";
     }
+    //Funcionalidad - sugerencia
   
      /*funcionalidad implementada para que el cliente pueda cancelar la compra de una pelicula, tomando en cuenta las restricciones adecuadas, entre ellas,
       analizar si el cliente efectivamente compró la pelicula que desea cancelar, y si el asiento que decide cancelar si es el que compró, si las cumple,
@@ -259,7 +260,7 @@ public class Administrador extends Usuario implements Vip, Serializable{
 
     public String añadirPeliculaTaquilla(Pelicula pelicula, Sala sala){
         for (Pelicula pel : Taquilla.getPeliculasDisponibles()) {
-            if(pel.getNombre() == pelicula.getNombre()){
+            if(pel.getNombre().equals(pelicula.getNombre())){
                 return "La pelicula ya esta en taquilla";
             }     
         }

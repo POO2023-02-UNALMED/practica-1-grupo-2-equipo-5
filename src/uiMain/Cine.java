@@ -359,7 +359,7 @@ public class Cine {
                                     if(respTarjUt == 1){
                                         // Verifica si la compra se hizo con una tarjeta y devuelve los puntos si es así
                                         if (cuentaAdmin.getTarjeta() != null) {
-                                            cuentaAdmin.cancelarCompraPelicula(compPel, respAsCancelar);
+                                            cuentaAdmin.cancelarCompraPelicula(compPel, respAsCancelar); // <-Pendiente, devolver puntos
                                         }
                                     } 
                                     System.out.println(respCan);
