@@ -350,14 +350,18 @@ public class Cine {
                                     System.out.println("Elija el asiento a cancelar de la pelicula");
                                     System.out.println(cuentaAdmin.mostrarAsientosCompras(pel));
                                     int respAsCancelar = scan.nextInt();
-                
+                                    System.out.println("Utilizo tarjeta en esta compra? (1: Si, 2: No)");
+                                    int respTarjUt = scan.nextInt();
+
                                     String respCan = cuentaAdmin.cancelarCompraPelicula(compPel, respAsCancelar);
-                
-                                    // Verifica si la compra se hizo con una tarjeta y devuelve los puntos si es así
-                                    if (cuentaAdmin.getTarjeta() != null) {
-                                        cuentaAdmin.devolverPuntosPorCancelacion(compPel, pel.getPrecio());
-                                    }
-                
+                                    
+                                    
+                                    if(respTarjUt == 1){
+                                        // Verifica si la compra se hizo con una tarjeta y devuelve los puntos si es así
+                                        if (cuentaAdmin.getTarjeta() != null) {
+                                            cuentaAdmin.cancelarCompraPelicula(compPel, respAsCancelar);
+                                        }
+                                    } 
                                     System.out.println(respCan);
                                 }
                             }
@@ -376,12 +380,6 @@ public class Cine {
                             for (Producto producto : comprasPr) {
                                 if (producto.getNombre().equals(nombreCanProd)) {
                                     String respCanProd = cuentaAdmin.cancelarCompraProducto(nombreCanProd);
-                
-                                    // Verifica si la compra se hizo con una tarjeta y devuelve los puntos si es así
-                                    if (cuentaAdmin.getTarjeta() != null) {
-                                        cuentaAdmin.devolverPuntosPorCancelacion(nombreCanProd, producto.getPrecio());
-                                    }
-                
                                     System.out.println(respCanProd);
                                     break;
                                 }
