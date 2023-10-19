@@ -5,17 +5,23 @@ import java.io.Serializable;
 
 public class Tienda implements Serializable {
     private String nombre;
-    private static ArrayList<Producto> productosD = new ArrayList<Producto>();
+    private ArrayList<Producto> productosD = new ArrayList<Producto>();
 
     public Tienda(String nombre){
         this.nombre = nombre;
     }
 
-    public static ArrayList<Producto> getProductosDisponibles(){
-        return Tienda.productosD;
+    public ArrayList<Producto> ProductosDisponibles(){
+        ArrayList<Producto> productosDisponibles = new ArrayList<Producto>();
+        for (Producto prod : productosD) {
+            if(prod.getPrecio() != 0){
+                productosDisponibles.add(prod);
+            }
+        }
+        return productosDisponibles;
     }
 
-    public static void añadirProductoTienda(Producto prod){
+    public void añadirProductoTienda(Producto prod){
         productosD.add(prod);
     }
 

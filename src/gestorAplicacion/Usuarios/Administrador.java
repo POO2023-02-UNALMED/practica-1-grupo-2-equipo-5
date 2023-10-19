@@ -36,6 +36,18 @@ public class Administrador extends Usuario implements Vip, Serializable{
 
     //Getters y setters
 
+    public double getSaldo(){
+        return this.saldo;
+    }
+
+    public ArrayList<Producto> getComprasProductos(){
+        return comprasProd;
+    }
+
+    public void añadirCompraProductos(Producto producto){
+        comprasProd.add(producto);
+    }
+
     public double getDescuento(){
         return this.descuento;
     }
@@ -189,24 +201,7 @@ public class Administrador extends Usuario implements Vip, Serializable{
       analizar si el producto está disponible en la tienda y si el cliente tiene el dinero disponible para la compra del mismo, si las cumple,
       se hace efectiva la compra y se paga el precio del producto 
     */
-    public String comprarProducto(String prod, Tarjeta tarjeta){
-        String prodN = prod.substring(0,1).toUpperCase() + prod.substring(1).toLowerCase();
-        for (Producto producto : Tienda.getProductosDisponibles()) {
-            if(producto.getNombre().equals(prodN)){
-                if(tarjeta == null && producto.getPrecio() <= this.saldo ){
-                    this.comprasProd.add(producto);
-                    return this.pagar(producto.getPrecio());
-                } else if(tarjeta != null && producto.getPrecio() <= this.saldo ) {
-                    this.comprasProd.add(producto);
-                    tarjeta.comprar();
-                    return this.pagar(tarjeta.getValorProducto(producto));
-                } else {
-                    return "Saldo insuficiente";
-                }
-            }
-        }
-        return "El producto no esta a la venta";
-    }
+    
     //Funcionalidad - sugerencia
   
      /*funcionalidad implementada para que el cliente pueda cancelar la compra de una pelicula, tomando en cuenta las restricciones adecuadas, entre ellas,

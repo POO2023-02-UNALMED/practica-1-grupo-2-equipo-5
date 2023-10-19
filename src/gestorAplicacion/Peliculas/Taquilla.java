@@ -57,7 +57,7 @@ public class Taquilla implements Serializable {
     public static ArrayList<Pelicula> getPeliculasDisponibles(){
         ArrayList<Pelicula> peliculasDisponibles = new ArrayList<Pelicula>();
         for (Pelicula pelicula : peliculasSala) {
-            if(pelicula.getSala() != null && pelicula.getHora() != null){
+            if(pelicula.getSala() != null && pelicula.getHora() != null && !peliculasDisponibles.contains(pelicula)){
                 peliculasDisponibles.add(pelicula);
             }
         }

@@ -14,12 +14,78 @@ import gestorAplicacion.Usuarios.*;
 
 
 public class Cine {
+    static Taquilla taquilla = new Taquilla("Taquilla 1");
+    static Tienda tienda = new Tienda("Tienda Central");
+
+
+
+    public static void comprarProducto(Administrador cuenta){
+        Scanner scan = new Scanner(System.in);
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
+        boolean productoEncontrado = false;
+
+        System.out.println("Tienda: ");
+        System.out.println(tienda); //Se muestran los productos con el toString del objeto
+        System.out.print("Escriba el nombre del producto a comprar: ");
+        String respNProd = scan.next();
+        //Se coloca el producto con la primera en mayuscula y lo demas en minuscula
+        String prod = respNProd.substring(0,1).toUpperCase() + respNProd.substring(1).toLowerCase();
+        
+        for(Producto producto : productosDisponibles){
+            if(producto.getNombre().equals(respNProd)){
+                productoEncontrado = true; //Se cambia el valor para indicar que si se encontro
+                String respComProd;
+                if(!cuenta.getTarjetas().isEmpty()){
+                    System.out.print("Desea usar el descuento de alguna tarjeta? (1:Si, 2:No)\n-> ");
+                    int respUsarTarjCPel = scan.nextInt();
+                    if(respUsarTarjCPel == 1){
+                        System.out.print(cuenta.verTarjetas() + "\n->");
+                        int respIndexTarjUsar = scan.nextInt();
+                        ArrayList<Tarjeta> tarjetasCuenta = cuenta.getTarjetas();
+                        Tarjeta tarjeta = tarjetasCuenta.get(respIndexTarjUsar-1);
+                        double descuentoTarjeta = tarjeta.getDescuentoProducto();
+                        if(producto.getPrecio() <= cuenta.getSaldo()-(cuenta.getSaldo()*descuentoTarjeta)) {
+                            cuenta.añadirCompraProductos(producto);
+                            tarjeta.comprar();
+                            cuenta.pagar(tarjeta.getValorProducto(producto));
+                            return;
+                        } else {
+                                
+                        }
+                    } else {
+                        if(producto.getPrecio() <= cuenta.getSaldo()){
+                            cuenta.añadirCompraProductos(producto);
+                            cuenta.pagar(producto.getPrecio());
+                            return ;
+                        } else {
+                            System.out.println("Saldo insuficiente");
+                                return;
+                        }
+                    }              
+                } else {
+                    respComProd = cuenta.comprarProducto(respNProd, null);
+                }     
+                System.out.println(respComProd);
+        } 
+
+        if(!productoEncontrado) { //Si negacion de productoEncontrado es true, se ejecuta
+            System.out.println("Este producto no esta disponible.");
+        }
+
+        return;
+    
+            
+        }
+        
+        scan.close();
+    }
+
+
     public static void main(String[] args) throws Exception {
 
         // -------------------- Pruebas --------------------
         //recordar no asignar dos peliculas con la misma hora a la misma sala que tenga la misma hora
-        Taquilla taquilla = new Taquilla("Taquilla 1");
-        Tienda tienda = new Tienda("Tienda Central");
+        
         Pelicula pelicula1 = new Pelicula("Terminator", 2000);
         Pelicula pelicula2 = new Pelicula("Barbie", 2000);
         Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm");
@@ -103,12 +169,12 @@ public class Cine {
         // -------------------- Interfaz --------------------
 
         
-        
+        Scanner scan = new Scanner(System.in);
         System.out.println("\tBienvenido\nElija alguna de las siguientes opciones (1 ò 2): ");
         System.out.println("1) Iniciar sesion. ");
         System.out.println("2) Registrarse. ");
         System.out.print("-> ");
-        Scanner scan = new Scanner(System.in);
+        
         int resp = scan.nextInt();
         scan.nextLine();
         Usuario cuenta = new Usuario();
@@ -253,36 +319,7 @@ public class Cine {
                         }
                         break;
                         case 2:
-                        System.out.println("Tienda: ");
-                        System.out.println(tienda); //Se muestran los productos con el toString del objeto
-                        System.out.print("Escriba el nombre del producto a comprar: ");
-                        String respNProd = scan.next();
-                        boolean productoEncontrado = false;
-                        for(Producto producto : productosDisponibles){
-                            if(producto.getNombre().equals(respNProd)){
-                                productoEncontrado = true; //Se cambia el valor para indicar que si se encontro
-                                String respComProd;
-                                if(!cuentaAdmin.getTarjetas().isEmpty()){
-                                    System.out.print("Desea usar el descuento de alguna tarjeta? (1:Si, 2:No)\n-> ");
-                                    int respUsarTarjCPel = scan.nextInt();
-                                    if(respUsarTarjCPel == 1){
-                                        System.out.print(cuentaAdmin.verTarjetas() + "\n->");
-                                        int respIndexTarjUsar = scan.nextInt();
-                                        ArrayList<Tarjeta> tarjetasCuenta = cuentaAdmin.getTarjetas();
-                                        respComProd = cuentaAdmin.comprarProducto(respNProd,tarjetasCuenta.get(respIndexTarjUsar-1));
-                                    } else {
-                                        respComProd = cuentaAdmin.comprarProducto(respNProd, null);
-                                    }              
-                                } else {
-                                    respComProd = cuentaAdmin.comprarProducto(respNProd, null);
-                                }     
-                                System.out.println(respComProd);
-                            }
-                        } 
-
-                        if(!productoEncontrado) { //Si negacion de productoEncontrado es true, se ejecuta
-                            System.out.println("Este producto no esta disponible.");
-                        }
+                        
                         break;
                         case 3:
                         System.out.println("\tTarjetas");

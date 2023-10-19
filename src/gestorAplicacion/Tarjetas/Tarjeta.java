@@ -7,6 +7,7 @@ public abstract class Tarjeta {
     
     public abstract String getNombre();
     public abstract double getValorProducto(Producto Producto);
+    public abstract double getDescuentoProducto();
     public abstract void setDescuentoProducto(double descuento);
     public abstract double getPuntos();
     public abstract void setPuntos(double puntos);
