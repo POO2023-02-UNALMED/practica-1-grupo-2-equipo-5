@@ -62,6 +62,10 @@ public class Pelicula implements Serializable{
         this.precio = precio;
     }
 
+    public CategoriaPelicula getCategoria(){
+        return this.categoria;
+    }
+
     // método para enlazar una pelicula con una sala, teniendo en cuenta que amabas tengan la misma hora
     public void enlazarSala(Sala s){
         this.sala = s;
@@ -131,7 +135,7 @@ public class Pelicula implements Serializable{
 
     
     public String categoria(Pelicula pel){
-    CategoriaPelicula categoria = CategoriaPelicula.ACCION;
+    CategoriaPelicula categoria = pel.getCategoria();
     String frase = "";
     switch (categoria) {
         case ACCION:
