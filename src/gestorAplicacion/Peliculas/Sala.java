@@ -7,6 +7,7 @@ import java.util.Map;
 import java.io.Serializable;
 
 public class Sala implements Serializable{
+    private Taquilla taquilla;
     private static ArrayList<Sala> salasCreadas = new ArrayList<Sala>();
     private ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
     private String nombre;
@@ -16,14 +17,15 @@ public class Sala implements Serializable{
 
     //Constructores
 
-    public Sala(int numeroAsientosD){
-        this("Nn",numeroAsientosD, "");
+    public Sala(int numeroAsientosD, Taquilla taquilla){
+        this("Nn",numeroAsientosD, "", taquilla);
     }
 
-    public Sala(String nombre,int numeroAsientosD, String hora){
+    public Sala(String nombre,int numeroAsientosD, String hora, Taquilla taquilla){
         this.nombre = nombre;
         this.numeroAsientosD = numeroAsientosD;
         this.hora = hora;
+        this.taquilla = taquilla;
 
         for(int i = 1; i <= this.numeroAsientosD ; i++){
             asientos.put(i, "");
@@ -41,6 +43,14 @@ public class Sala implements Serializable{
         this.hora = hora;
     }
 
+    public Taquilla getTaquilla() {
+        return taquilla;
+    }
+
+    public void setTaquilla(Taquilla taquilla) {
+        this.taquilla = taquilla;
+    }
+
     public String getNombre(){
         return this.nombre;
     }
@@ -53,7 +63,7 @@ public class Sala implements Serializable{
         return this.numeroAsientosD;
     }
  
-    public List<Integer> getAsientosDisponibles(){
+    public List<Integer> AsientosDisponibles(){
         List<Integer> asientosVacios = new ArrayList<>();
         for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {
             if(entry.getValue() == ""){
@@ -92,12 +102,12 @@ public class Sala implements Serializable{
     //si en efecto tienen la misma hora, la pelicula se agrega a el listado de peliculas con sala en la clase Taquilla
     public void enlazarPeliculaALaSala(Pelicula pelicula){
         peliculasSala.add(pelicula);
-        Taquilla.peliculasSala.add(pelicula);
+        taquilla.peliculasSala.add(pelicula);
     }
 
     public void removerPeliculaEnLaSala(Pelicula pelicula){
         peliculasSala.remove(pelicula);
-        Taquilla.peliculasSala.remove(pelicula);
+        taquilla.peliculasSala.remove(pelicula);
     }
 
     //Metodos de clase

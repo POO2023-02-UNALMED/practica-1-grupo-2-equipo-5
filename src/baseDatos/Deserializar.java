@@ -178,26 +178,26 @@ public class Deserializar {
         
     }
     
-    public static ArrayList<Administrador> deserializarCliente(){
+    public static ArrayList<Cliente> deserializarCliente(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
                     "\\src\\baseDatos\\temp\\Cliente.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
-            ArrayList<Administrador> lista_cliente = (ArrayList) o.readObject();
+            ArrayList<Cliente> lista_cliente = (ArrayList) o.readObject();
 
             file.close();
             o.close();
             return lista_cliente;
 
         }catch(FileNotFoundException e){
-            return new ArrayList<Administrador>();
+            return new ArrayList<Cliente>();
         }
         catch(IOException e){
-            return new ArrayList<Administrador>();
+            return new ArrayList<Cliente>();
         }
         catch(ClassNotFoundException e) {
-            return new ArrayList<Administrador>();
+            return new ArrayList<Cliente>();
         }
         
     }

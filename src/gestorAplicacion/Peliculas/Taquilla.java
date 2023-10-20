@@ -8,7 +8,7 @@ public class Taquilla implements Serializable {
     private String nombre;
     // peliculasSala solo contiene las peliculas que fueron definidas en su constructor con nombre, precio y hora, y ademas tienen sala asignada
     //totalpeliculas contiene todas las peliculas creadas
-    public static ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
+    public ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
     public static ArrayList<Pelicula> totalpeliculas = new ArrayList<Pelicula>();
     public static ArrayList<Pelicula> preestrenos = new ArrayList<Pelicula>();
     
@@ -28,15 +28,25 @@ public class Taquilla implements Serializable {
         this.nombre = nombre;
     }
 
-    //Métodos de clase
-
-    public static void agregarPeliculasSala(Pelicula pel){
+    public void agregarPeliculasSala(Pelicula pel){
         peliculasSala.add(pel);
     }
 
-    public static void retirarPeliculasSala(Pelicula pel){
+    public void retirarPeliculasSala(Pelicula pel){
         peliculasSala.remove(pel);
     }
+
+    public ArrayList<Pelicula> obtenerPeliculaConNumeroDeAsientosDisponibles(int numero){
+        ArrayList<Pelicula> peliculasConAsientos = new ArrayList<Pelicula>();
+        for (Pelicula pelicula : peliculasSala) {
+            if(pelicula.getSala().getNumeroAsientosDisponibles() >= numero && !peliculasConAsientos.contains(pelicula)){
+                peliculasConAsientos.add(pelicula);
+            }
+        }
+        return peliculasConAsientos;
+    }
+
+    //Métodos de clase
 
     public static void agregarPelicula(Pelicula pel){
         Taquilla.totalpeliculas.add(pel);
@@ -54,7 +64,7 @@ public class Taquilla implements Serializable {
     }
 
     //getters
-    public static ArrayList<Pelicula> getPeliculasDisponibles(){
+    public ArrayList<Pelicula> PeliculasDisponibles(){
         ArrayList<Pelicula> peliculasDisponibles = new ArrayList<Pelicula>();
         for (Pelicula pelicula : peliculasSala) {
             if(pelicula.getSala() != null && pelicula.getHora() != null && !peliculasDisponibles.contains(pelicula)){
