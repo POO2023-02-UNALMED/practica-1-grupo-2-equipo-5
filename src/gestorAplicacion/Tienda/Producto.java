@@ -19,6 +19,7 @@ public class Producto implements Serializable {
         this.precio = precio;
         Tienda.añadirProductoTienda(this);
     }
+    
 
     public String getNombre(){
         return this.nombre;

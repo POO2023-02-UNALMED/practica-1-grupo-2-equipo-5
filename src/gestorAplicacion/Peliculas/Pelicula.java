@@ -2,6 +2,9 @@ package gestorAplicacion.Peliculas;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gestorAplicacion.Peliculas.Genero.genero;
+
 import java.io.Serializable;
 
 public class Pelicula implements Serializable{ 
@@ -9,25 +12,25 @@ public class Pelicula implements Serializable{
     private int precio; 
     private Sala sala;
     private String hora;
-    private CategoriaPelicula categoria;
+    private genero categoria;
     private static ArrayList<Pelicula> peliculasExistentes = new ArrayList<Pelicula>();
     
 
     //Constructores
-    public Pelicula(String nombre, CategoriaPelicula nombreCategoria){
+    public Pelicula(String nombre, genero nombreCategoria){
         this(nombre,0, null, nombreCategoria);
         Taquilla.agregarPelicula(this);
         Taquilla.agregarPreEstreno(this);
         peliculasExistentes.add(this);
     }
     
-    public Pelicula(String nombre, int precio, CategoriaPelicula nombreCategoria){
+    public Pelicula(String nombre, int precio, genero nombreCategoria){
         this(nombre, precio, null, nombreCategoria);
         peliculasExistentes.add(this);
         Taquilla.agregarPelicula(this);
     }
 
-    public Pelicula(String nombre, int precio, String hora, CategoriaPelicula nombreCategoria){
+    public Pelicula(String nombre, int precio, String hora, genero nombreCategoria){
         this.nombre = nombre;
         this.precio = precio;
         this.hora = hora;
@@ -62,7 +65,7 @@ public class Pelicula implements Serializable{
         this.precio = precio;
     }
 
-    public CategoriaPelicula getCategoria(){
+    public genero getCategoria(){
         return this.categoria;
     }
 
@@ -122,47 +125,36 @@ public class Pelicula implements Serializable{
         return "Nombre: "+nombre+ "\nPrecio: " + precio+"\nSala: "+sala.getNombre() + "\nAsientos Disponibles: " 
         + sala.getNumeroAsientosDisponibles() + "\nHora: " + this.getHora();
     }
-
-    public enum CategoriaPelicula {
-        ACCION,
-        AVENTURA,
-        COMEDIA,
-        DRAMA,
-        CIENCIA_FICCION,
-        SUSPENSO,
-        ANIMACION,
-    }
-
     
     public String categoria(Pelicula pel){
-    CategoriaPelicula categoria = pel.getCategoria();
-    String frase = "";
-    switch (categoria) {
-        case ACCION:
-            frase += "verás una película de acción.";
-            break;
-        case AVENTURA:
-            frase += "verás una película de aventura.";
+        genero categoria = pel.getCategoria();
+        String frase = "";
+        switch (categoria) {
+            case ACCION:
+                frase += "verás una película de acción.";
                 break;
-        case COMEDIA:
-            frase += "verás una película de comedia.";
-            break;
-        case DRAMA:
-            frase += "verás una película de drama.";
-            break;
-        case CIENCIA_FICCION:
-            frase += "verás una película de ciencia ficción.";
-            break;
-        case SUSPENSO:
-            frase += "verás una película de suspenso.";
-            break;
-        case ANIMACION:
-            frase += "verás una película de animación.";
-            break;
-        default:
-            frase += "verás una película de Categoría no reconocida.";
+            case AVENTURA:
+                frase += "verás una película de aventura.";
+                    break;
+            case COMEDIA:
+                frase += "verás una película de comedia.";
+                break;
+            case DRAMA:
+                frase += "verás una película de drama.";
+                break;
+            case CIENCIA_FICCION:
+                frase += "verás una película de ciencia ficción.";
+                break;
+            case SUSPENSO:
+                frase += "verás una película de suspenso.";
+                break;
+            case ANIMACION:
+                frase += "verás una película de animación.";
+                break;
+            default:
+                frase += "verás una película de Categoría no reconocida.";
+            }
+            return frase;
         }
-        return frase;
-    }
     
 }
