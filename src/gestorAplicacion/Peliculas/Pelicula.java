@@ -9,26 +9,29 @@ public class Pelicula implements Serializable{
     private int precio; 
     private Sala sala;
     private String hora;
+    private CategoriaPelicula categoria;
     private static ArrayList<Pelicula> peliculasExistentes = new ArrayList<Pelicula>();
+    
 
     //Constructores
-    public Pelicula(String nombre){
-        this(nombre,0, null);
+    public Pelicula(String nombre, CategoriaPelicula nombreCategoria){
+        this(nombre,0, null, nombreCategoria);
         Taquilla.agregarPelicula(this);
         Taquilla.agregarPreEstreno(this);
         peliculasExistentes.add(this);
     }
     
-    public Pelicula(String nombre, int precio){
-        this(nombre, precio, null);
+    public Pelicula(String nombre, int precio, CategoriaPelicula nombreCategoria){
+        this(nombre, precio, null, nombreCategoria);
         peliculasExistentes.add(this);
         Taquilla.agregarPelicula(this);
     }
 
-    public Pelicula(String nombre, int precio, String hora){
+    public Pelicula(String nombre, int precio, String hora, CategoriaPelicula nombreCategoria){
         this.nombre = nombre;
         this.precio = precio;
         this.hora = hora;
+        categoria = nombreCategoria;
         peliculasExistentes.add(this);
         Taquilla.agregarPelicula(this);
     }
@@ -57,6 +60,10 @@ public class Pelicula implements Serializable{
 
     public void setPrecio(int precio){
         this.precio = precio;
+    }
+
+    public CategoriaPelicula getCategoria(){
+        return this.categoria;
     }
 
     // método para enlazar una pelicula con una sala, teniendo en cuenta que amabas tengan la misma hora
@@ -115,4 +122,47 @@ public class Pelicula implements Serializable{
         return "Nombre: "+nombre+ "\nPrecio: " + precio+"\nSala: "+sala.getNombre() + "\nAsientos Disponibles: " 
         + sala.getNumeroAsientosDisponibles() + "\nHora: " + this.getHora();
     }
+
+    public enum CategoriaPelicula {
+        ACCION,
+        AVENTURA,
+        COMEDIA,
+        DRAMA,
+        CIENCIA_FICCION,
+        SUSPENSO,
+        ANIMACION,
+    }
+
+    
+    public String categoria(Pelicula pel){
+    CategoriaPelicula categoria = pel.getCategoria();
+    String frase = "";
+    switch (categoria) {
+        case ACCION:
+            frase += "verás una película de acción.";
+            break;
+        case AVENTURA:
+            frase += "verás una película de aventura.";
+                break;
+        case COMEDIA:
+            frase += "verás una película de comedia.";
+            break;
+        case DRAMA:
+            frase += "verás una película de drama.";
+            break;
+        case CIENCIA_FICCION:
+            frase += "verás una película de ciencia ficción.";
+            break;
+        case SUSPENSO:
+            frase += "verás una película de suspenso.";
+            break;
+        case ANIMACION:
+            frase += "verás una película de animación.";
+            break;
+        default:
+            frase += "verás una película de Categoría no reconocida.";
+        }
+        return frase;
+    }
+    
 }
