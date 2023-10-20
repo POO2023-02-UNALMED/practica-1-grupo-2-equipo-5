@@ -8,6 +8,7 @@ import java.util.Scanner;
 import baseDatos.Serializar;
 import baseDatos.Deserializar;
 import gestorAplicacion.Peliculas.*;
+import gestorAplicacion.Peliculas.Pelicula.CategoriaPelicula;
 import gestorAplicacion.Tarjetas.*;
 import gestorAplicacion.Tienda.*;
 import gestorAplicacion.Usuarios.*;
@@ -211,10 +212,10 @@ public class Cine {
         // -------------------- Pruebas --------------------
         //recordar no asignar dos peliculas con la misma hora a la misma sala que tenga la misma hora
         
-        Pelicula pelicula1 = new Pelicula("Terminator", 2000);
-        Pelicula pelicula2 = new Pelicula("Barbie", 2000);
-        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm");
-        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm");
+        Pelicula pelicula1 = new Pelicula("Terminator", 2000, CategoriaPelicula.ACCION);
+        Pelicula pelicula2 = new Pelicula("Barbie", 2000, CategoriaPelicula.COMEDIA);
+        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",CategoriaPelicula.TERROR);
+        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", CategoriaPelicula.CIENCIA_FICCION);
         Sala s = new Sala("Sala1",20, "11:30 pm", taquilla);
         Sala s2 = new Sala("Sala2",20, "3:40 pm", taquilla);
         pelicula1.enlazarSala(s);

@@ -128,9 +128,10 @@ public class Pelicula implements Serializable{
         AVENTURA,
         COMEDIA,
         DRAMA,
+        TERROR,
         CIENCIA_FICCION,
         SUSPENSO,
-        ANIMACION,
+        ANIMACION;
     }
 
     
