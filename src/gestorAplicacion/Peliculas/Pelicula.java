@@ -72,7 +72,7 @@ public class Pelicula implements Serializable{
     }
 
     public List<Integer> getAsientosDisponibles(){
-        return sala.getAsientosDisponibles();
+        return sala.AsientosDisponibles();
     }
 
     public static ArrayList<Pelicula> getPeliculasExistentes(){

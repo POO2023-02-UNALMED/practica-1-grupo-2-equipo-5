@@ -131,7 +131,7 @@ public class Serializar {
         }
     }
 
-    public static void serializarCliente(ArrayList<Administrador> lista) {
+    public static void serializarCliente(ArrayList<Cliente> lista) {
         try {
             String rutaArchivo = "src/baseDatos/temp/Cliente.txt";
             FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
