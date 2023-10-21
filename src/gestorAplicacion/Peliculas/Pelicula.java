@@ -151,6 +151,9 @@ public class Pelicula implements Serializable{
             case ANIMACION:
                 frase += "verás una película de animación.";
                 break;
+            case TERROR:
+                frase += "verás una película de terror.";
+                break;
             default:
                 frase += "verás una película de Categoría no reconocida.";
             }

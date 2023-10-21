@@ -9,5 +9,6 @@ public class Genero {
         CIENCIA_FICCION,
         SUSPENSO,
         ANIMACION,
+        TERROR
     }
 }
