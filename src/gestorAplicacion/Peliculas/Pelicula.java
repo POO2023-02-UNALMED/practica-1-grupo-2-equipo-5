@@ -3,7 +3,7 @@ package gestorAplicacion.Peliculas;
 import java.util.ArrayList;
 import java.util.List;
 
-import gestorAplicacion.Peliculas.Genero.genero;
+import gestorAplicacion.Peliculas.Genero;
 
 import java.io.Serializable;
 
@@ -12,29 +12,29 @@ public class Pelicula implements Serializable{
     private int precio; 
     private Sala sala;
     private String hora;
-    private genero categoria;
+    private Genero categoria;
     private static ArrayList<Pelicula> peliculasExistentes = new ArrayList<Pelicula>();
     
 
     //Constructores
-    public Pelicula(String nombre, genero nombreCategoria){
+    public Pelicula(String nombre, Genero nombreCategoria){
         this(nombre,0, null, nombreCategoria);
         Taquilla.agregarPelicula(this);
         Taquilla.agregarPreEstreno(this);
         peliculasExistentes.add(this);
     }
     
-    public Pelicula(String nombre, int precio, genero nombreCategoria){
+    public Pelicula(String nombre, int precio, Genero nombreCategoria){
         this(nombre, precio, null, nombreCategoria);
         peliculasExistentes.add(this);
         Taquilla.agregarPelicula(this);
     }
 
-    public Pelicula(String nombre, int precio, String hora, genero nombreCategoria){
+    public Pelicula(String nombre, int precio, String hora, Genero nombreCategoria){
         this.nombre = nombre;
         this.precio = precio;
         this.hora = hora;
-        categoria = nombreCategoria;
+        this.categoria = nombreCategoria;
         peliculasExistentes.add(this);
         Taquilla.agregarPelicula(this);
     }
@@ -65,8 +65,12 @@ public class Pelicula implements Serializable{
         this.precio = precio;
     }
 
-    public genero getCategoria(){
+    public Genero getCategoria(){
         return this.categoria;
+    }
+
+    public void setCategoria(Genero genero){
+        this.categoria = genero;
     }
 
     // método para enlazar una pelicula con una sala, teniendo en cuenta que amabas tengan la misma hora
@@ -127,7 +131,7 @@ public class Pelicula implements Serializable{
     }
     
     public String categoria(Pelicula pel){
-        genero categoria = pel.getCategoria();
+        Genero categoria = pel.getCategoria();
         String frase = "";
         switch (categoria) {
             case ACCION:
