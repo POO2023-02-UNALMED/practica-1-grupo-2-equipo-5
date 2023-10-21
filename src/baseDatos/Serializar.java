@@ -131,7 +131,7 @@ public class Serializar {
         }
     }
 
-    public static void serializarCliente(ArrayList<Cliente> lista) {
+    public static boolean serializarCliente(ArrayList<Cliente> lista) {
         try {
             String rutaArchivo = "src/baseDatos/temp/Cliente.txt";
             FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
@@ -142,16 +142,17 @@ public class Serializar {
             o.close();
             f.close();
 
-            System.out.println("La serialización se ha completado correctamente.");
-
+            return true;
         } catch (FileNotFoundException e) {
             System.out.println("No se encuentra el archivo: " + e.getMessage());
+            return false;
         } catch (IOException e) {
             System.out.println("Error al escribir en el archivo: " + e.getMessage());
+            return false;
         }
     }
     
-    public static void serializarUsuario(ArrayList<Usuario> lista) {
+    public static boolean serializarUsuario(ArrayList<Usuario> lista) {
         try {
             String rutaArchivo = "src/baseDatos/temp/Usuario.txt";
             FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
@@ -162,12 +163,13 @@ public class Serializar {
             o.close();
             f.close();
 
-            System.out.println("La serialización se ha completado correctamente.");
-
+            return true;
         } catch (FileNotFoundException e) {
             System.out.println("No se encuentra el archivo: " + e.getMessage());
+            return false;
         } catch (IOException e) {
             System.out.println("Error al escribir en el archivo: " + e.getMessage());
+            return false;
         }
     }
     

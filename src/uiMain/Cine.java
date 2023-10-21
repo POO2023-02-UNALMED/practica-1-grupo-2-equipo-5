@@ -348,16 +348,16 @@ public class Cine {
                     } 
                     if(encont4 == 0){
                         cuenta = new Cliente(nom,pass, edad);
-                        System.out.println("Cuenta creada con exito.");
-                        
-                        usuariosCreados.add(cuenta);
-                        Serializar.serializarUsuario(usuariosCreados);
+                        boolean respReg = Serializar.serializarUsuario(usuariosCreados);
+                        if(respReg){
+                            System.out.println("Cuenta creada con exito.");
+                            usuariosCreados.add(cuenta);
+                        } else {
+                            System.out.println("Problemas al crear el usuario");
+                            estado = 0;
+                        }
                     }
-                    
                 }
-                    
-                      
-                    //Aqui hay que revisar que no haya un usuario creado con estas caracteristicas! <-----------
                     
                  catch(Exception e) {
                     System.out.println("Error:" + e);
