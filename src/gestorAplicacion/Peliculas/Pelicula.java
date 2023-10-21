@@ -3,8 +3,6 @@ package gestorAplicacion.Peliculas;
 import java.util.ArrayList;
 import java.util.List;
 
-import gestorAplicacion.Peliculas.Genero;
-
 import java.io.Serializable;
 
 public class Pelicula implements Serializable{ 

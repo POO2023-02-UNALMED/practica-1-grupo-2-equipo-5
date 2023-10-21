@@ -11,7 +11,7 @@ public class Sala implements Serializable{
     private static ArrayList<Sala> salasCreadas = new ArrayList<Sala>();
     private ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
     private String nombre;
-    private int numeroAsientosD;
+    private int numeroAsientosD = 5;
     private String hora;
     private HashMap<Integer,String> asientos = new HashMap<Integer,String>();
 
@@ -23,12 +23,16 @@ public class Sala implements Serializable{
 
     public Sala(String nombre,int numeroAsientosD, String hora, Taquilla taquilla){
         this.nombre = nombre;
-        this.numeroAsientosD = numeroAsientosD;
+        this.numeroAsientosD += numeroAsientosD;
         this.hora = hora;
         this.taquilla = taquilla;
 
         for(int i = 1; i <= this.numeroAsientosD ; i++){
-            asientos.put(i, "");
+            if(i >= (this.numeroAsientosD - 5)){
+                asientos.put(i, "privado");
+            } else {
+                asientos.put(i, "");
+            }
         }
         salasCreadas.add(this);
     }
@@ -73,6 +77,16 @@ public class Sala implements Serializable{
         return asientosVacios;
     }
 
+    public List<Integer> AsientosPrivados(){
+        List<Integer> asientosPrivados = new ArrayList<>();
+        for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {
+            if(entry.getValue() == "privado"){
+                asientosPrivados.add(entry.getKey());
+            }
+        }
+        return asientosPrivados;
+    }
+
     //Clases de instancia  
 
     public boolean quitarAsientoDisponible(int num){
@@ -83,6 +97,20 @@ public class Sala implements Serializable{
             this.numeroAsientosD -= 1;
             return true;
         }
+    }
+
+    public boolean quitarAsientoPrivado(int num){
+        if (this.asientos.get(num) != "privado") {
+            return false;
+        } else {
+            this.asientos.put(num,"Ocupado");
+            this.numeroAsientosD -= 1;
+            return true;
+        }
+    }
+
+    public HashMap<Integer,String> getTotalAsientos(){
+        return this.asientos;
     }
 
     public boolean añadirAsientoDisponible(int num){

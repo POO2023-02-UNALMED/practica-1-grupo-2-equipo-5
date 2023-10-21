@@ -58,4 +58,5 @@ public class Diamante extends Tarjeta {
         return "-- Tarjeta Diamante -- : puntos: " + this.puntos + "\n"+
         "Descuento productos tienda: " + this.descuentoProducto;
     }
+
 }

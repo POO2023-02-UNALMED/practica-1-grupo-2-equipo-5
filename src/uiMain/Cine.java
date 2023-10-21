@@ -227,7 +227,7 @@ public class Cine {
         Combo combo1 = new Combo("Combo1", 2000, tienda);
         combo1.añadirProductos(prod1,prod2);
 
-        System.out.println(taquilla.PeliculasDisponibles());
+        System.out.println(s.AsientosPrivados());
 
         //System.out.println(Taquilla.totalpeliculasTaquilla());
         //System.out.println("peliculas con sala disponibles "+Taquilla.getPeliculasDisponibles());
@@ -395,7 +395,7 @@ public class Cine {
                     break;
                 case 1: // Caso comprar
                     System.out.println("\tComprar");
-                    System.out.println("Pelicula (1) | Producto (2) | Producto (3)");
+                    System.out.println("Pelicula (1) | Producto (2) | Tarjeta (3)");
                     System.out.print("-> ");
                     int respCompPPT = scan.nextInt();
                     switch(respCompPPT){
