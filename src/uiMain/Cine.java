@@ -196,7 +196,7 @@ public class Cine {
                         Tarjeta tarjeta = tarjetasCuenta.get(respIndexTarjUsar-1);
                         double descuentoTarjeta = tarjeta.getDescuentoProducto();
                         if(producto.getPrecio() <= cuenta.getSaldo()-(cuenta.getSaldo()*descuentoTarjeta)) {
-                            String pago = cuenta.pagar(tarjeta.getValorProducto(producto));
+                            String pago = cuenta.pagar(tarjeta.ValorProducto(producto));
                             System.out.println(pago);
                             if(pago.equals("Pago exitoso")){
                                 cuenta.añadirCompraProductos(producto);

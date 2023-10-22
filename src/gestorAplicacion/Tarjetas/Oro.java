@@ -30,9 +30,10 @@ public class Oro extends Tarjeta {
         this.precio = precio;
     }
 
-    public double getValorProducto(Producto producto){
+    public double ValorProducto(Producto producto){
         //Te devuelve el precio del producto con el descuento incluido
-        return producto.getPrecio() - (producto.getPrecio()*this.descuentoProducto);
+        double valorProducto = producto.getPrecio() - (producto.getPrecio()*this.descuentoProducto);
+        return valorProducto;
     }
 
     public double getDescuentoProducto(){
