@@ -1,13 +1,18 @@
 package gestorAplicacion.Tarjetas;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.text.html.parser.Entity;
+
+import gestorAplicacion.Peliculas.Pelicula;
 import gestorAplicacion.Tienda.Producto;
 
 public class Oro extends Tarjeta {
-    private static double precio;
-
-    static {
-        precio = 500;
-    }
+    private double precio = 500;
+    private HashMap<Pelicula, Double> compras = new HashMap<Pelicula, Double>();
+    //private 
 
     public Oro(){
         this.descuentoProducto = 0.1;
@@ -17,12 +22,12 @@ public class Oro extends Tarjeta {
         return "Oro";
     }
 
-    public static double getPrecio(){
-        return Oro.precio;
+    public double getPrecio(){
+        return precio;
     }
 
-    public static void setPrecio(double precio){
-        Oro.precio = precio;
+    public void setPrecio(double precio){
+        this.precio = precio;
     }
 
     public double getValorProducto(Producto producto){
@@ -44,6 +49,18 @@ public class Oro extends Tarjeta {
 
     public void setPuntos(double puntos){
         this.puntos = puntos;
+    }
+
+    public void comprar(Pelicula pelicula, double puntosUsados){
+        compras.put(pelicula, puntosUsados);
+    }
+
+    public HashMap<Pelicula, Double> getCompras(){
+        return compras;
+    }
+
+    public void quitarCompra(Pelicula pelicula){
+        compras.remove(pelicula);
     }
 
     public void comprar(){

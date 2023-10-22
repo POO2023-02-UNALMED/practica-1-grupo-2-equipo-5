@@ -1,4 +1,7 @@
 package gestorAplicacion.Tarjetas;
+import java.util.HashMap;
+
+import gestorAplicacion.Peliculas.Pelicula;
 import gestorAplicacion.Tienda.Producto;
 
 public abstract class Tarjeta {
@@ -12,4 +15,7 @@ public abstract class Tarjeta {
     public abstract double getPuntos();
     public abstract void setPuntos(double puntos);
     public abstract void comprar();
+    public abstract void comprar(Pelicula pelicula, double puntos);
+    public abstract void quitarCompra(Pelicula pelicula);
+    public abstract HashMap<Pelicula, Double> getCompras();
 }

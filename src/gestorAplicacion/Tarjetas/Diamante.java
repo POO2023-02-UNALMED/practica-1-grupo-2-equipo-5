@@ -1,13 +1,13 @@
 package gestorAplicacion.Tarjetas;
 
+import java.util.HashMap;
+
+import gestorAplicacion.Peliculas.Pelicula;
 import gestorAplicacion.Tienda.Producto;
 
 public class Diamante extends Tarjeta {
-    private static double precio;
-
-     static  {
-        precio = 3000;
-    }
+    private double precio = 3000;
+    private HashMap<Pelicula, Double> compras = new HashMap<Pelicula, Double>();
 
     //constructor
     public Diamante(){
@@ -20,12 +20,12 @@ public class Diamante extends Tarjeta {
         return "Diamante";
     }
 
-    public static double getPrecio(){
-        return Diamante.precio;
+    public double getPrecio(){
+        return this.precio;
     }
 
-    public static void setPrecio(double precio){
-        Diamante.precio = precio;
+    public void setPrecio(double precio){
+        this.precio = precio;
     }
 
         public double getPuntos(){
@@ -48,6 +48,18 @@ public class Diamante extends Tarjeta {
 
     public void setDescuentoProducto(double descuento){
         this.descuentoProducto = descuento;
+    }
+
+    public void comprar(Pelicula pelicula, double puntosUsados){
+        compras.put(pelicula, puntosUsados);
+    }
+
+    public HashMap<Pelicula, Double> getCompras(){
+        return compras;
+    }
+
+    public void quitarCompra(Pelicula pelicula){
+        compras.remove(pelicula);
     }
 
     public void comprar(){

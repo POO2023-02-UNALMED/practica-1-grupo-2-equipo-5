@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import baseDatos.Serializar;
@@ -71,17 +72,21 @@ public class Cine {
                                     double total = pel.getPrecio() - tarjeta.getPuntos();
                                     if(cuenta.getSaldo() >= pel.getPrecio()-tarjeta.getPuntos()){
                                         pel.ocuparAsiento(respAsientoEleg);
+                                        
                                         System.out.println("Puntos antes: " + tarjeta.getPuntos());
                                         if (total < 0){
+                                            tarjeta.comprar(pel, tarjeta.getPuntos()-pel.getPrecio());
                                             System.out.println(cuenta.pagar(0));
                                             tarjeta.setPuntos((pel.getPrecio()-tarjeta.getPuntos())*-1);
                                         } else if (total == 0){
+                                            tarjeta.comprar(pel, tarjeta.getPuntos());
                                             tarjeta.setPuntos(0);
                                             System.out.println(cuenta.pagar(0));
                                         } else {
                                             String respCompPel = cuenta.pagar(total);
                                             System.out.println(respCompPel);
                                             if(respCompPel.equals("Pago exitoso")){
+                                                tarjeta.comprar(pel, tarjeta.getPuntos());
                                                 tarjeta.setPuntos(0);
                                             }
                                         }
@@ -245,15 +250,50 @@ public class Cine {
                         if(!cuenta.getTarjetas().isEmpty()){
                             System.out.println("Utilizo tarjeta en esta compra? (1: Si, 2: No)");
                             respTarjUt = scan.nextInt();
+                            System.out.println("Para la devolucion, solo sera posible recuperar los puntos utilizados para la ultimo asiento comprado de la pelicula");
+                            System.out.print("Quiere continuar con la devolucion de puntos?(1:Si, 2:No)\n ->");
+                            int respContoNo = scan.nextInt();
+                            if(respContoNo == 2){
+                                respTarjUt = 0;
+                            }
                         }
                         
-
                         if(respTarjUt != 0){
                             System.out.println("Cual tarjeta usò?");
-                            System.out.println(cuenta.verTarjetas()+ "\n->");
+                            System.out.print(cuenta.verTarjetas()+ "\n->");
                             int respQTUso = scan.nextInt();
                             Tarjeta tarjeta = cuenta.getTarjetas().get(respQTUso-1);
-
+                            for (Pelicula pelicula : compras.keySet()) {
+                            if(pelicula.getNombre().equals(pel.getNombre())){
+                                double cantidad = pelicula.getPrecio()-(pelicula.getPrecio()*cuenta.getDescuento());
+                                List<Integer> asientosComprados = cuenta.getComprasPeliculas().get(pelicula);
+                                for (Integer integer : asientosComprados) {
+                                    if((int) integer == respAsCancelar){
+                                        cuenta.getComprasPeliculas().get(pelicula).remove( (Integer) respAsCancelar);
+                                        cuenta.comprobarElementosEnCompras();
+                                        boolean resp = pelicula.agregarAsiento(respAsCancelar);
+                                        if(resp == true){
+                                            cuenta.depositar(cantidad);
+                                            HashMap<Pelicula, Double> comprasConTarjeta = tarjeta.getCompras();
+                                            if(comprasConTarjeta.containsKey(pel)){
+                                                tarjeta.setPuntos(tarjeta.getPuntos() + comprasConTarjeta.get(pel));
+                                                System.out.println("Puntos devueltos");
+                                            } else {
+                                                System.out.println("No aparece esta compra");
+                                                return;
+                                            }
+                                            System.out.println("Compra de la pelicula "+ pelicula.getNombre() +" cancelada con éxito.");
+                                            return; 
+                                        } else {
+                                            System.out.println("La pelicula no tiene enlazada una sala.");
+                                            return; 
+                                        }                      
+                                    }
+                                }
+                                System.out.println("No se ha comprado este asiento");
+                                return; 
+                                }
+                            }
 
                         } else {
                             for (Pelicula pelicula : compras.keySet()) {
@@ -278,9 +318,8 @@ public class Cine {
                                 }
                                 System.out.println("No se ha comprado este asiento");
                                 return; 
+                                }
                             }
-                            
-                        }
                         System.out.print("No se ha comprado esta pelicula");
                         return;
                         }
@@ -514,14 +553,17 @@ public class Cine {
                             scan.nextLine();
                             break;
                         case 3:
+                        Oro oro = new Oro();
+                        Platino platino = new Platino();
+                        Diamante diamante = new Diamante();
                         System.out.println("\tTarjetas");
-                        System.out.println("Oro (1) - $"+Oro.getPrecio()+" | Platino (2) - $"+Platino.getPrecio()
-                        +" | Diamante (3) - $"+Diamante.getPrecio());
+                        System.out.println("Oro (1) - $"+oro.getPrecio()+" | Platino (2) - $"+platino.getPrecio()
+                        +" | Diamante (3) - $"+diamante.getPrecio());
                         System.out.print("-> ");
                         int respElTarj = scan.nextInt();
                         switch(respElTarj){
                             case 1:
-                                String respComTarjOro = cuentaCliente.pagar(Oro.getPrecio());
+                                String respComTarjOro = cuentaCliente.pagar(oro.getPrecio());
                                 if(respComTarjOro.equals("Pago exitoso")){
                                     cuentaCliente.agregarTarjeta(new Oro()); 
                                     System.out.println("Pago exitoso. Nueva tarjeta Oro!");
@@ -530,7 +572,7 @@ public class Cine {
                                 }
                                 break;
                             case 2:
-                                String respComTarjPlatino = cuentaCliente.pagar(Platino.getPrecio());
+                                String respComTarjPlatino = cuentaCliente.pagar(platino.getPrecio());
                                 if(respComTarjPlatino.equals("Pago exitoso")){
                                     cuentaCliente.agregarTarjeta(new Platino()); 
                                     System.out.println("Pago exitoso. Nueva tarjeta Platino!");
@@ -539,12 +581,24 @@ public class Cine {
                                 }
                                 break;
                             case 3:
-                                String respComTarjDiamante = cuentaCliente.pagar(Diamante.getPrecio());
+                                String respComTarjDiamante = cuentaCliente.pagar(diamante.getPrecio());
                                 if(respComTarjDiamante.equals("Pago exitoso")){
                                     cuentaCliente.agregarTarjeta(new Diamante()); 
                                     System.out.println("Pago exitoso. Bienvenido a Diamante!");
-                                    System.out.println("Desea comprar una membresia VIP?");
-                                    String respCompVip = scan.next();
+                                    System.out.println("Desea adquirir una membresia VIP? (1:Si, 2:No)");
+                                    int respCompVip = scan.nextInt();
+                                    if(respCompVip == 1){
+                                        String pago = cuentaCliente.pagar(Vip.precio);
+                                        if(pago.equals("Pago exitoso")){
+                                            System.out.println("Bienvenido a la membresia vip, ahora tienes acceso a asientos privados y a preestrenos");
+                                            cuentaCliente.accesoLounge();
+                                            cuentaCliente.accesoPreEstreno();
+                                        } else {
+                                            System.out.println(pago);
+                                        }
+                                    } else {
+                                        System.out.println("Gracias por su compra!");
+                                    }
                                 } else {
                                     System.out.println(respComTarjDiamante);
                                 }
@@ -553,6 +607,9 @@ public class Cine {
                                 System.out.println("Este número no esta en las opciones");
                                 break;
                         }
+                        oro = null;
+                        platino = null;
+                        diamante = null;
                         break;
                         default:
                         System.out.println("Opción no disponible.");
@@ -566,7 +623,7 @@ public class Cine {
                     int respCanPelOProd = scan.nextInt();
                 
                     if (respCanPelOProd == 1) {
-                        continue;
+                        cancelarCompraPelicula(cuentaCliente);
                     } /*else {
                         ArrayList<Producto> comprasPr = cuentaCliente.getComprasProducto();
                 
@@ -612,9 +669,9 @@ public class Cine {
                         Platino platino = new Platino();
                         Diamante diamante = new Diamante();
                         System.out.println("\tTarjetas:");
-                        System.out.println("--Oro--  \nPrecio:" + Oro.getPrecio() + "\nDescuento Producto: "+oro.getDescuentoProducto()*100+"%");
-                        System.out.println("--Platino--  \nPrecio:" + Platino.getPrecio() + "\nDescuento Producto: "+platino.getDescuentoProducto()*100+"%");
-                        System.out.println("--Diamante--  \nPrecio:" + Diamante.getPrecio() + "\nDescuento Producto: "+diamante.getDescuentoProducto()*100+"%");
+                        System.out.println("--Oro--  \nPrecio:" + oro.getPrecio() + "\nDescuento Producto: "+oro.getDescuentoProducto()*100+"%");
+                        System.out.println("--Platino--  \nPrecio:" + platino.getPrecio() + "\nDescuento Producto: "+platino.getDescuentoProducto()*100+"%");
+                        System.out.println("--Diamante--  \nPrecio:" + diamante.getPrecio() + "\nDescuento Producto: "+diamante.getDescuentoProducto()*100+"%");
                         oro = null;
                         platino = null;
                         diamante = null;
