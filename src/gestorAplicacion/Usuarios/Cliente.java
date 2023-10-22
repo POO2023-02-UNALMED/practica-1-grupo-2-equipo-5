@@ -146,34 +146,18 @@ public class Cliente extends Usuario implements Vip, Serializable{
 
     //método para retornar el total de puntos que un cliente tiene en todas sus tarjetas
     // debe implentarse a la hora de cuadrar el log in
-    //public int totalPuntos(){
-        //int totalPuntos = 0;
-        //for (Tarjeta tarj : this.tarjetas){
-            //totalPuntos += tarj.getPuntos();
-        //}
-        //return totalPuntos;
-    //}
+    public int totalPuntos(){
+        int totalPuntos = 0;
+        for (Tarjeta tarj : this.tarjetas){
+            totalPuntos += tarj.getPuntos();
+        }
+        return totalPuntos;
+    }
 
      
     
-    //Funcionalidad - sugerencia
-  
-    /*/
 
-    /*funcionalidad implementada para que el cliente pueda cancelar la compra de un producto, tomando en cuenta la restricción adecuada,
-      analizar si el cliente efectivamente compró el producto que desea cancelar, si lo cumple,
-      se hace efectiva la devolución del dinero.
-    */
-    public String cancelarCompraProducto(String nombre){
-        for (Producto producto : comprasProd) {
-            if(producto.getNombre().equals(nombre)){
-                comprasProd.remove(producto);
-                this.depositar(producto.getPrecio()-(producto.getPrecio()*descuento));
-                return "Se ha cancelado la compra del producto "+ producto.getNombre();
-            }
-        }
-        return "No se ha comprado este producto";
-    }
+    
 
     /*public String añadirPeliculaTaquilla(Pelicula pelicula, Sala sala){
         for (Pelicula pel : Taquilla.getPeliculasDisponibles()) {
