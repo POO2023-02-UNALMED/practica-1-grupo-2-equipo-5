@@ -148,8 +148,9 @@ public class Cine {
             
             System.out.println("La pelicula no esta disponible");
             return;
+            
         }  finally {
-            System.out.println("Finally");
+            //Arreglar problema
         }
     }
 

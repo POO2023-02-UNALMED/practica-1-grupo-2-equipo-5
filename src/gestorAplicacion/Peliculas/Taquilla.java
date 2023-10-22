@@ -2,6 +2,9 @@ package gestorAplicacion.Peliculas;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import gestorAplicacion.Tarjetas.Tarjeta;
+
 import java.io.Serializable;
 
 public class Taquilla implements Serializable {

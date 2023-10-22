@@ -71,10 +71,10 @@ public class Sala implements Serializable{
         return this.numeroAsientosD;
     }
  
-    public List<Integer> AsientosDisponibles(ArrayList<Tarjeta> tarjetas){
+    public List<Integer> AsientosDisponibles(ArrayList<Tarjeta> tarjetasDelUsuario){
         List<Integer> asientosVacios = new ArrayList<>();
         boolean entraPrivado = false;
-        for (Tarjeta tarjeta : tarjetas) {
+        for (Tarjeta tarjeta : tarjetasDelUsuario) {
             if(tarjeta instanceof Diamante){
                 entraPrivado = true;
                 break;
@@ -92,16 +92,6 @@ public class Sala implements Serializable{
             }
         }
         return asientosVacios;
-    }
-
-    public List<Integer> AsientosPrivados(){
-        List<Integer> asientosPrivados = new ArrayList<>();
-        for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {
-            if(entry.getValue() == "privado"){
-                asientosPrivados.add(entry.getKey());
-            }
-        }
-        return asientosPrivados;
     }
 
     //Clases de instancia  
