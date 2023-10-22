@@ -76,6 +76,14 @@ public class Cliente extends Usuario implements Vip, Serializable{
         return this.tarjetas;
     }
 
+    public Tarjeta obtenerTarjetaEspecifica(int index){
+        if(this.tarjetas.isEmpty()){
+            return null;
+        } else {
+            return this.tarjetas.get(index);
+        }
+    }
+
     public boolean isAccesoLounge() {
         return accesoLounge;
     }

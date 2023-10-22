@@ -38,122 +38,124 @@ public class Cine {
         */ 
         
         Scanner scan1 = new Scanner(System.in); 
-            boolean peliculaEncontrada = false; //variable para mostrar mensaje si la pelicula no se encuentra
+        boolean peliculaEncontrada = false; //variable para mostrar mensaje si la pelicula no se encuentra
             
-            System.out.print("\nCuantas boletas desea comprar? \n->");
-            int respCantBoletas = scan1.nextInt();
+        System.out.print("\nCuantas boletas desea comprar? \n->");
+        int respCantBoletas = scan1.nextInt();
 
-            System.out.println("Taquilla: ");
-            ArrayList<Pelicula> peliculasDisponibles = taquilla.obtenerPeliculaNAsientosDisponibles(respCantBoletas);
-            String peliculasNAsientosD = taquilla.PeliculasConNumeroDeAsientosDisponibles(respCantBoletas);
-            System.out.println(peliculasNAsientosD); // Se muestran las peliculas disponibles
-            if(peliculasNAsientosD.equals("No hay peliculas disponibles")){
-                return;
-            }
+        System.out.println("Taquilla: ");
+        ArrayList<Pelicula> peliculasDisponibles = taquilla.obtenerPeliculaNAsientosDisponibles(respCantBoletas);
+        String peliculasNAsientosD = taquilla.PeliculasConNumeroDeAsientosDisponibles(respCantBoletas);
+        System.out.println(peliculasNAsientosD); // Se muestran las peliculas disponibles
+        if(peliculasNAsientosD.equals("No hay peliculas disponibles")){
+            return;
+        }
 
-            if (taquilla.toString() == "Ninguna pelicula disponible"){return;}
-            System.out.print("Escriba el nombre de la pelicula que comprara: ");
-            String respPelElegida = scan1.next();
-            String peliN = respPelElegida.substring(0,1).toUpperCase() + respPelElegida.substring(1).toLowerCase();
-            scan1.nextLine();
+        if (taquilla.toString() == "Ninguna pelicula disponible"){return;}
+        System.out.print("Escriba el nombre de la pelicula que comprara: ");
+        String respPelElegida = scan1.next();
+        String peliN = respPelElegida.substring(0,1).toUpperCase() + respPelElegida.substring(1).toLowerCase();
+        scan1.nextLine();
 
-            for (Pelicula pel : peliculasDisponibles) {
+        for (Pelicula pel : peliculasDisponibles) {
                 
-                if(pel.getNombre().equals(peliN)){ //Se verifica que el nombre de la pelicula y el ingresado sean iguales
-                    if(pel.getSala() == null){
-                        System.out.println("La pelicula no tiene asignada una sala");
-                        return; 
-                    }
-                    peliculaEncontrada = true; //Se cambia el valor para indicar que si se encontro
-                    int respUsarTarjCPel = 2;
-                    if(cuenta.totalPuntos() != 0){
-                        System.out.print("Desea usar puntos de alguna Tarjeta? (1:Si, 2:No)\n-> ");
-                        respUsarTarjCPel = scan1.nextInt();
-                    }
-                    ArrayList<Tarjeta> tarjetasCuenta = cuenta.getTarjetas();
+            if(pel.getNombre().equals(peliN)){ //Se verifica que el nombre de la pelicula y el ingresado sean iguales
+                if(pel.getSala() == null){
+                    System.out.println("La pelicula no tiene asignada una sala");
+                    return; 
+                }
+                peliculaEncontrada = true; //Se cambia el valor para indicar que si se encontro
+                int respUsarTarjCPel = 2;
+                int totalPuntosEnTarjetas = cuenta.totalPuntos();
+                if(totalPuntosEnTarjetas != 0){
+                    System.out.print("Desea usar puntos de alguna Tarjeta? (1:Si, 2:No)\n-> ");
+                    respUsarTarjCPel = scan1.nextInt();
+                }
+
+                ArrayList<Integer> asientosAComprar = new ArrayList<Integer>();
+                int cantidadAPagar = 0;
+                for (int i = 0; i < respCantBoletas; i++) {
                     System.out.print(pel.getSala());
                     if(cuenta.isAccesoLounge()){
                         System.out.print(pel.getSala().verAsientosPrivados());
                     }
                     System.out.println();
-                    List<Integer> asientos = pel.getSala().AsientosDisponibles(tarjetasCuenta); //Verificar que el numero de asientos sea mayor o igual al que se comprara
+                    List<Integer> asientos = pel.getSala().AsientosDisponibles(cuenta.getTarjetas()); //Verificar que el numero de asientos sea mayor o igual al que se comprara
                     System.out.print("Escoja un asiento: ");
                     int respAsientoEleg = scan1.nextInt();
+                    if(!asientos.contains(respAsientoEleg)){
+                        System.out.println("El asiento no esta disponible");
+                        return;
+                    }
                     scan1.nextLine();
-                    if(asientos.contains(respAsientoEleg)){
-                        if(!cuenta.getTarjetas().isEmpty()){
-                            if(respUsarTarjCPel == 1){
-                                System.out.print(cuenta.verTarjetas() +"\n-> ");
-                                int respIndexTarjUsar = scan1.nextInt(); 
-                                Tarjeta tarjeta = tarjetasCuenta.get(respIndexTarjUsar-1);
-                                double total = pel.getPrecio() - tarjeta.getPuntos();
-                                if(cuenta.getSaldo() >= pel.getPrecio()-tarjeta.getPuntos()){
-                                    pel.ocuparAsiento(respAsientoEleg);
+                    pel.ocuparAsiento(respCantBoletas-1);
+                    asientosAComprar.add(respAsientoEleg);
+                    cantidadAPagar += pel.getPrecio();
+                }
+                
+                for (Integer asiento : asientosAComprar) {
+                    if(!cuenta.getTarjetas().isEmpty()){
+                        if(respUsarTarjCPel == 1){
+                            System.out.print(cuenta.verTarjetas() +"\n-> ");
+                            int respIndexTarjUsar = scan1.nextInt(); 
+                            Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1);
+                            double total = cantidadAPagar - tarjeta.getPuntos();
+                            if(cuenta.getSaldo() >= cantidadAPagar-tarjeta.getPuntos()){
+                                pel.ocuparAsiento(asiento);
                                             
-                                    System.out.println("Puntos antes: " + tarjeta.getPuntos());
-                                    if (total < 0){
-                                        tarjeta.comprar(pel, tarjeta.getPuntos()-pel.getPrecio());
-                                        System.out.println(cuenta.pagar(0));
-                                        tarjeta.setPuntos((pel.getPrecio()-tarjeta.getPuntos())*-1);
-                                    } else if (total == 0){
+                                System.out.println("Puntos antes: " + tarjeta.getPuntos());
+                                if (total < 0){
+                                    tarjeta.comprar(pel, tarjeta.getPuntos()-cantidadAPagar);
+                                    System.out.println(cuenta.pagar(0));
+                                    tarjeta.setPuntos((cantidadAPagar-tarjeta.getPuntos())*-1);
+                                } else if (total == 0){
+                                    tarjeta.comprar(pel, tarjeta.getPuntos());
+                                    tarjeta.setPuntos(0);
+                                    System.out.println(cuenta.pagar(0));
+                                } else {
+                                    String respCompPel = cuenta.pagar(total);
+                                    System.out.println(respCompPel);
+                                    if(respCompPel.equals("Pago exitoso")){
                                         tarjeta.comprar(pel, tarjeta.getPuntos());
                                         tarjeta.setPuntos(0);
-                                        System.out.println(cuenta.pagar(0));
-                                    } else {
-                                        String respCompPel = cuenta.pagar(total);
-                                        System.out.println(respCompPel);
-                                        if(respCompPel.equals("Pago exitoso")){
-                                            tarjeta.comprar(pel, tarjeta.getPuntos());
-                                            tarjeta.setPuntos(0);
-                                        }
                                     }
-                                    System.out.println("Puntos actuales: " + tarjeta.getPuntos());
-                                    return;
-                                } else {
-                                    System.out.println("Saldo insuficiente");
-                                    return;
                                 }
+                                System.out.println("Puntos actuales: " + tarjeta.getPuntos());
                             } else {
-                                if(pel.getPrecio() <= cuenta.getSaldo()){
-                                    if(pel.ocuparAsiento(respAsientoEleg)){
-                                        String respCompPel = cuenta.pagar(pel.getPrecio());
-                                        System.out.println(respCompPel);
-                                        if(respCompPel.equals("Pago exitoso")){
-                                            cuenta.añadirCompraPeliculas(pel, respAsientoEleg);
-                                        }
-                                        return;
-                                    } else{
-                                        System.out.println("Asiento no disponible");
-                                        return;
-                                    }
-                                            
-                                } else {
-                                    System.out.println("Saldo insuficiente");
-                                    return;
-                                }
-                            }                  
-                            } else {
-                                if(pel.getPrecio() <= cuenta.getSaldo()){
-                                    if(pel.ocuparAsiento(respAsientoEleg)){
-                                        String respCompPel = cuenta.pagar(pel.getPrecio());
-                                        System.out.println(respCompPel);
-                                        if(respCompPel.equals("Pago exitoso")){
-                                            cuenta.añadirCompraPeliculas(pel, respAsientoEleg);
-                                        }
-                                        return;
-                                    } else {
-                                        System.out.println("Asiento no disponible");
-                                        return;
-                                    }
-                                } else {
-                                    System.out.println("Saldo insuficiente");
-                                    return;
-                                }
-                            }           
+                                System.out.println("Saldo insuficiente");
+                                return;
+                            }
                         } else {
-                            System.out.println("No se ha encontrado este asiento como disponible.");
-                            return;
-                        }
+                            if(cantidadAPagar <= cuenta.getSaldo()){
+                                String respCompPel = cuenta.pagar(cantidadAPagar);
+                                System.out.println(respCompPel);
+                                if(respCompPel.equals("Pago exitoso")){
+                                    cuenta.añadirCompraPeliculas(pel, asiento);
+                                }
+                                    //return;
+                                            
+                            } else {
+                                System.out.println("Saldo insuficiente");
+                                return;
+                            }
+                        }                  
+                        } else {
+                            if(cantidadAPagar <= cuenta.getSaldo()){
+                                    String respCompPel = cuenta.pagar(cantidadAPagar);
+                                    System.out.println(respCompPel);
+                                    if(respCompPel.equals("Pago exitoso")){
+                                        cuenta.añadirCompraPeliculas(pel, asiento);
+                                    }
+                                    //return;
+                                
+                            } else {
+                                System.out.println("Saldo insuficiente");
+                                return;
+                            }
+                        }           
+
+                }
+                
                 }
             }
 
@@ -163,7 +165,6 @@ public class Cine {
             }      
             
             
-        scan1.close();
         return;
     }
 
@@ -192,8 +193,7 @@ public class Cine {
                     if(respUsarTarjCPel == 1){
                         System.out.print(cuenta.verTarjetas() + "\n->");
                         int respIndexTarjUsar = scan.nextInt();
-                        ArrayList<Tarjeta> tarjetasCuenta = cuenta.getTarjetas();
-                        Tarjeta tarjeta = tarjetasCuenta.get(respIndexTarjUsar-1);
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1);
                         double descuentoTarjeta = tarjeta.getDescuentoProducto();
                         if(producto.getPrecio() <= cuenta.getSaldo()-(cuenta.getSaldo()*descuentoTarjeta)) {
                             String pago = cuenta.pagar(tarjeta.ValorProducto(producto));
@@ -348,7 +348,7 @@ public class Cine {
                         System.out.println("Cual tarjeta usò?");
                         System.out.print(cuenta.verTarjetas()+ "\n->");
                         int respQTUso = scan.nextInt();
-                        Tarjeta tarjeta = cuenta.getTarjetas().get(respQTUso-1);
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respQTUso-1);
                         for (Pelicula pelicula : compras.keySet()) {
                             if(pelicula.getNombre().equals(pel.getNombre())){
                                 double cantidad = pelicula.getPrecio()-(pelicula.getPrecio()*cuenta.getDescuento());
