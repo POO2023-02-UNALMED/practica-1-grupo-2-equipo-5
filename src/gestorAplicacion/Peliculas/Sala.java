@@ -97,13 +97,18 @@ public class Sala implements Serializable{
     //Clases de instancia  
 
     public boolean quitarAsientoDisponible(int num){
-        if (this.asientos.get(num) != "") {
-            return false;
-        } else {
-            this.asientos.put(num,"Ocupado");
-            this.numeroAsientosD -= 1;
-            return true;
+        for (Map.Entry<Integer,String> asiento : asientos.entrySet()) {
+            if(asiento.getKey() == num){
+                if(asiento.getValue() == "privado" || asiento.getValue() == ""){
+                    this.asientos.put(num,"Ocupado");
+                    this.numeroAsientosD -= 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
+        return false;
     }
 
     public boolean quitarAsientoPrivado(int num){
@@ -146,7 +151,7 @@ public class Sala implements Serializable{
     }
 
     //Metodos de clase
-    public static ArrayList<Sala> getsSalasCreadas(){
+    public static ArrayList<Sala> getSalasCreadas(){
         return Sala.salasCreadas;
     }
 
@@ -159,7 +164,17 @@ public class Sala implements Serializable{
     }
 
     //toString
+    public String verAsientosPrivados(){
+        String as = "";
+        for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {
+            if(entry.getValue() == "privado"){
+                as += entry.getKey() + ", ";
+            }
+        }
 
+        return as;
+    }
+    
     public String toString(){
         String asientos = "";
         for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {

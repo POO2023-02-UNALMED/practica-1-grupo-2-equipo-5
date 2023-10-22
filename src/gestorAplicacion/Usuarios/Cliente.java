@@ -76,6 +76,13 @@ public class Cliente extends Usuario implements Vip, Serializable{
         return this.tarjetas;
     }
 
+    public boolean isAccesoLounge() {
+        return accesoLounge;
+    }
+    public boolean isAccesoPreestrenos() {
+        return accesoPreestrenos;
+    }
+
     @Override
     public String getTipo(){
         return "Administrador";
