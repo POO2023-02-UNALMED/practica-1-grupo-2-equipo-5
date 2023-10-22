@@ -9,8 +9,8 @@ public class Taquilla implements Serializable {
     // peliculasSala solo contiene las peliculas que fueron definidas en su constructor con nombre, precio y hora, y ademas tienen sala asignada
     //totalpeliculas contiene todas las peliculas creadas
     public ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
-    public static ArrayList<Pelicula> totalpeliculas = new ArrayList<Pelicula>();
-    public static ArrayList<Pelicula> preestrenos = new ArrayList<Pelicula>();
+    public ArrayList<Pelicula> totalpeliculas = new ArrayList<Pelicula>();
+    public ArrayList<Pelicula> preestrenos = new ArrayList<Pelicula>();
     
     //Constructor
 
@@ -69,18 +69,18 @@ public class Taquilla implements Serializable {
 
     //Métodos de clase
 
-    public static void agregarPelicula(Pelicula pel){
-        Taquilla.totalpeliculas.add(pel);
+    public void agregarPelicula(Pelicula pel){
+        totalpeliculas.add(pel);
     }
 
-    public static void retirarPelicula(Pelicula pel){
+    public void retirarPelicula(Pelicula pel){
         totalpeliculas.remove(pel);
     }
 
-    public static void agregarPreEstreno(Pelicula pel){
+    public void agregarPreEstreno(Pelicula pel){
         preestrenos.add(pel);
     }
-    public static void retirarPreEstreno(Pelicula pel){
+    public void retirarPreEstreno(Pelicula pel){
         preestrenos.remove(pel);
     }
 
@@ -95,12 +95,16 @@ public class Taquilla implements Serializable {
         return peliculasDisponibles;
     }
 
-    public static ArrayList<Pelicula> getPreestrenos(){
-        return Taquilla.preestrenos;
+    public ArrayList<Pelicula> getPreestrenos(){
+        return this.preestrenos;
+    }
+
+    public ArrayList<Pelicula> getTotalPeliculas(){
+        return this.totalpeliculas;
     }
 
     // este metodo devuelve todas las peliculas que han sido creadas
-    public static String totalpeliculasTaquilla() {
+    public String totalpeliculasTaquilla() {
         ArrayList<Pelicula> totalpeliculasSinDuplicados = new ArrayList<>(new HashSet<>(totalpeliculas));
         StringBuilder result = new StringBuilder("Total películas; las peliculas que no tengan hora asignada y su precio  sea cero son preestrenos\n");
     
@@ -137,9 +141,9 @@ public class Taquilla implements Serializable {
     }
 
     //retorna los preestrenos 
-    public static String preEstrenos(){ 
+    public String preEstrenos(){ 
         String nombrespre = "";
-        for (Pelicula preEstreno : preestrenos) {
+        for (Pelicula preEstreno : this.preestrenos) {
             nombrespre += preEstreno.nombre + " - precio: $" + preEstreno.getPrecio() + " | ";   
         }
         if (nombrespre.isEmpty()) {

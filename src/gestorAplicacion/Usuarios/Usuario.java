@@ -9,7 +9,6 @@ public class Usuario implements Serializable {
     protected String nombre;
     protected String password;
     protected int edad;
-    protected Tarjeta tarjeta;
 
 
     public Usuario(){
@@ -20,7 +19,6 @@ public class Usuario implements Serializable {
         this.nombre = nombre;
         this.password = password;
         this.edad = edad;
-        this.tarjeta = null;
     }
 
     public String getNombre(){
@@ -52,22 +50,11 @@ public class Usuario implements Serializable {
         return "Usuario";
     }
     
-    public void setTarjeta(Tarjeta tarjeta) {
-        this.tarjeta = tarjeta;
-    }
-    
-    public Tarjeta getTarjeta() {
-        return this.tarjeta;
-    }
-    
-
     
     @Override
     public String toString() {
-        String tarjetaInfo = (tarjeta != null) ? tarjeta.toString() : "Ninguna tarjeta adquirida";
         return "Nombre: " + nombre + "\n" +
-               "Edad: " + edad + "\n" +
-               "Tarjeta: " + tarjetaInfo;
+               "Edad: " + edad;
     }
     
 

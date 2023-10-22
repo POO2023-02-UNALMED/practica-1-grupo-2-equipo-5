@@ -151,39 +151,7 @@ public class Cliente extends Usuario implements Vip, Serializable{
     
     //Funcionalidad - sugerencia
   
-     /*funcionalidad implementada para que el cliente pueda cancelar la compra de una pelicula, tomando en cuenta las restricciones adecuadas, entre ellas,
-      analizar si el cliente efectivamente compró la pelicula que desea cancelar, y si el asiento que decide cancelar si es el que compró, si las cumple,
-      se hace efectiva la devolución del dinero y el asiento antes ocupado vuelve a ser disponible.
-    */
-    /*public String cancelarCompraPelicula(String pel, int numAsiento){
-        for (Pelicula pelicula : comprasPel.keySet()) {
-            try{
-                if(pelicula.getNombre().equals(pel)){
-                double cantidad = pelicula.getPrecio()-(pelicula.getPrecio()*descuento);
-                List<Integer> asientosComprados = comprasPel.get(pelicula);
-                for (Integer integer : asientosComprados) {
-                    if((int) integer == numAsiento){
-                        comprasPel.get(pelicula).remove( (Integer) numAsiento);
-                        comprobarElementosEnCompras();
-                        this.depositar(cantidad);
-                        boolean resp = pelicula.agregarAsiento(numAsiento);
-                        if(resp == true){
-                            return "Compra de la pelicula "+ pelicula.getNombre() +" cancelada con éxito.";
-                        } else {
-                            return "La pelicula no tiene enlazada una sala.";
-                        }
-                        
-                    }
-                }
-                return "No se ha comprado este asiento";
-            }
-            } catch (Exception e){
-                return "Error: " + e;
-            }
-            
-        }
-        return "No se ha comprado una pelicula con este nombre";
-    }*/
+    /*/
 
     /*funcionalidad implementada para que el cliente pueda cancelar la compra de un producto, tomando en cuenta la restricción adecuada,
       analizar si el cliente efectivamente compró el producto que desea cancelar, si lo cumple,

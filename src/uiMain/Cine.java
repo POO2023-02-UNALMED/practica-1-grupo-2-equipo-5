@@ -25,12 +25,9 @@ public class Cine {
         y si el cliente tiene el dinero suficiente para pagar la pelicula, en caso de cumplirlas, se hace efectiva la compra, retirando el asiento de la lista de asientos disponibles, 
         y pagando el costo de la pelicula.
         */ 
-        Scanner scan1 = new Scanner(System.in);
-        try { 
+        
+        try(Scanner scan1 = new Scanner(System.in);) { 
             boolean peliculaEncontrada = false; //variable para mostrar mensaje si la pelicula no se encuentra
-
-            //String peli, int numAsiento, Tarjeta tarjeta
-
             
             System.out.print("\nCuantas boletas desea comprar? \n->");
             int respCantBoletas = scan1.nextInt();
@@ -147,7 +144,7 @@ public class Cine {
             System.out.println("La pelicula no esta disponible");
             return;
         }  finally {
-            scan1.close();
+            System.out.println("Finally");
         }
     }
 
@@ -221,17 +218,111 @@ public class Cine {
         return;
     }
 
+    public static void cancelarCompraPelicula(Cliente cuenta){
+        
+     /*funcionalidad implementada para que el cliente pueda cancelar la compra de una pelicula, tomando en cuenta las restricciones adecuadas, entre ellas,
+      analizar si el cliente efectivamente compró la pelicula que desea cancelar, y si el asiento que decide cancelar si es el que compró, si las cumple,
+      se hace efectiva la devolución del dinero y el asiento antes ocupado vuelve a ser disponible.
+    */
+        try(Scanner scan =  new Scanner(System.in)){
+            HashMap<Pelicula, List<Integer>> compras = cuenta.getComprasPeliculas();
+            ArrayList<Pelicula> peliculas = taquilla.getTotalPeliculas();
+
+            if (compras.isEmpty()) {
+                System.out.println("No ha hecho ninguna compra aún.");
+                return;
+            } else {
+                System.out.print("Peliculas compradas: ");
+                System.out.println(cuenta.mostrarComprasPelicula());
+                System.out.print("Escriba el nombre de la pelicula a cancelar: ");
+                String compPel = scan.next();
+                for (Pelicula pel : peliculas) {
+                    if (pel.getNombre().equals(compPel) && compras.containsKey(pel)) {
+                        System.out.println("Elija el asiento a cancelar de la pelicula");
+                        System.out.println(cuenta.mostrarAsientosCompras(pel));
+                        int respAsCancelar = scan.nextInt();
+                        int respTarjUt = 0;
+                        if(!cuenta.getTarjetas().isEmpty()){
+                            System.out.println("Utilizo tarjeta en esta compra? (1: Si, 2: No)");
+                            respTarjUt = scan.nextInt();
+                        }
+                        
+
+                        if(respTarjUt != 0){
+                            System.out.println("Cual tarjeta usò?");
+                            System.out.println(cuenta.verTarjetas()+ "\n->");
+                            int respQTUso = scan.nextInt();
+                            Tarjeta tarjeta = cuenta.getTarjetas().get(respQTUso-1);
+
+
+                        } else {
+                            for (Pelicula pelicula : compras.keySet()) {
+                            if(pelicula.getNombre().equals(pel.getNombre())){
+                                double cantidad = pelicula.getPrecio()-(pelicula.getPrecio()*cuenta.getDescuento());
+                                List<Integer> asientosComprados = cuenta.getComprasPeliculas().get(pelicula);
+                                for (Integer integer : asientosComprados) {
+                                    if((int) integer == respAsCancelar){
+                                        cuenta.getComprasPeliculas().get(pelicula).remove( (Integer) respAsCancelar);
+                                        cuenta.comprobarElementosEnCompras();
+                                        cuenta.depositar(cantidad);
+                                        boolean resp = pelicula.agregarAsiento(respAsCancelar);
+                                        if(resp == true){
+                                            System.out.println("Compra de la pelicula "+ pelicula.getNombre() +" cancelada con éxito.");
+                                            return; 
+                                        } else {
+                                            System.out.println("La pelicula no tiene enlazada una sala.");
+                                            return; 
+                                        }
+                                        
+                                    }
+                                }
+                                System.out.println("No se ha comprado este asiento");
+                                return; 
+                            }
+                            
+                        }
+                        System.out.print("No se ha comprado esta pelicula");
+                        return;
+                        }
+                         
+
+
+
+                        //String respCan = cuentaCliente.cancelarCompraPelicula(compPel, respAsCancelar);
+                                        
+                                        
+                        /*if(respTarjUt == 1){
+                            // Verifica si la compra se hizo con una tarjeta y devuelve los puntos si es así
+                            if (cuenta.getTarjeta() != null) {
+                                //cuentaCliente.cancelarCompraPelicula(compPel, respAsCancelar); // <-Pendiente, devolver puntos
+                            }
+                        } */
+                        //System.out.println(respCan);
+                    }
+                }
+            }
+
+            
+            } catch (Exception e){
+                System.out.println("Error: " + e);
+                return;
+            } finally {
+                System.out.println("");
+            }
+        
+    }
+
 
     public static void main(String[] args) throws Exception {
 
         // -------------------- Pruebas --------------------
         //recordar no asignar dos peliculas con la misma hora a la misma sala que tenga la misma hora
         
-        Pelicula pelicula1 = new Pelicula("Terminator", 2000, Genero.ACCION);
-        Pelicula pelicula2 = new Pelicula("Barbie", 2000, Genero.COMEDIA);
-        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",Genero.TERROR);
-        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", Genero.CIENCIA_FICCION);
-        Sala s = new Sala("Sala1",20, "11:30 pm", taquilla);
+        Pelicula pelicula1 = new Pelicula("Terminator", 2000, "6:00 pm",Genero.ACCION, taquilla);
+        Pelicula pelicula2 = new Pelicula("Barbie", 2000, Genero.COMEDIA, taquilla);
+        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",Genero.TERROR, taquilla);
+        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", Genero.CIENCIA_FICCION, taquilla);
+        Sala s = new Sala("Sala1",20, "6:00 pm", taquilla);
         Sala s2 = new Sala("Sala2",20, "3:40 pm", taquilla);
         pelicula1.enlazarSala(s);
         pelicula2.enlazarSala(s2);
@@ -294,7 +385,7 @@ public class Cine {
         for (Pelicula pelicula : peliculasCreadas) {
             if(!taquilla.PeliculasDisponibles().contains(pelicula)){
                 if(pelicula.getSala() != null){
-                    Taquilla.agregarPelicula(pelicula);
+                    taquilla.agregarPelicula(pelicula);
                 }
                 Pelicula.añadirPeliculaExistente(pelicula);
             }
@@ -475,37 +566,7 @@ public class Cine {
                     int respCanPelOProd = scan.nextInt();
                 
                     if (respCanPelOProd == 1) {
-                        HashMap<Pelicula, List<Integer>> compras = cuentaCliente.getComprasPeliculas();
-                
-                        if (compras.isEmpty()) {
-                            System.out.println("No ha hecho ninguna compra aún.");
-                        } else {
-                            System.out.print("Peliculas compradas: ");
-                            System.out.println(cuentaCliente.mostrarComprasPelicula());
-                            System.out.print("Escriba el nombre de la pelicula a cancelar: ");
-                            String compPel = scan.next();
-                
-                            for (Pelicula pel : peliculasDisponibles) {
-                                if (pel.getNombre().equals(compPel) && compras.containsKey(pel)) {
-                                    System.out.println("Elija el asiento a cancelar de la pelicula");
-                                    System.out.println(cuentaCliente.mostrarAsientosCompras(pel));
-                                    int respAsCancelar = scan.nextInt();
-                                    System.out.println("Utilizo tarjeta en esta compra? (1: Si, 2: No)");
-                                    int respTarjUt = scan.nextInt();
-
-                                    //String respCan = cuentaCliente.cancelarCompraPelicula(compPel, respAsCancelar);
-                                    
-                                    
-                                    if(respTarjUt == 1){
-                                        // Verifica si la compra se hizo con una tarjeta y devuelve los puntos si es así
-                                        if (cuentaCliente.getTarjeta() != null) {
-                                            //cuentaCliente.cancelarCompraPelicula(compPel, respAsCancelar); // <-Pendiente, devolver puntos
-                                        }
-                                    } 
-                                    //System.out.println(respCan);
-                                }
-                            }
-                        }
+                        continue;
                     } /*else {
                         ArrayList<Producto> comprasPr = cuentaCliente.getComprasProducto();
                 

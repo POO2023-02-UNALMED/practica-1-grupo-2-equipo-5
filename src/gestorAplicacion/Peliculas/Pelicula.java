@@ -11,30 +11,28 @@ public class Pelicula implements Serializable{
     private Sala sala;
     private String hora;
     private Genero categoria;
+    private Taquilla taquilla;
     private static ArrayList<Pelicula> peliculasExistentes = new ArrayList<Pelicula>();
     
 
     //Constructores
-    public Pelicula(String nombre, Genero nombreCategoria){
-        this(nombre,0, null, nombreCategoria);
-        Taquilla.agregarPelicula(this);
-        Taquilla.agregarPreEstreno(this);
-        peliculasExistentes.add(this);
+    public Pelicula(String nombre, Genero nombreCategoria, Taquilla taquilla){
+        this(nombre,0, null, nombreCategoria, taquilla);
+        taquilla.agregarPreEstreno(this);
     }
     
-    public Pelicula(String nombre, int precio, Genero nombreCategoria){
-        this(nombre, precio, null, nombreCategoria);
-        peliculasExistentes.add(this);
-        Taquilla.agregarPelicula(this);
+    public Pelicula(String nombre, int precio, Genero nombreCategoria, Taquilla taquilla){
+        this(nombre, precio, null, nombreCategoria, taquilla);
     }
 
-    public Pelicula(String nombre, int precio, String hora, Genero nombreCategoria){
+    public Pelicula(String nombre, int precio, String hora, Genero nombreCategoria, Taquilla taquilla){
         this.nombre = nombre;
         this.precio = precio;
         this.hora = hora;
         this.categoria = nombreCategoria;
+        this.taquilla = taquilla;
         peliculasExistentes.add(this);
-        Taquilla.agregarPelicula(this);
+        taquilla.agregarPelicula(this);
     }
 
     //Métodos de instancia
@@ -96,7 +94,7 @@ public class Pelicula implements Serializable{
         if (this.sala != null) {
             this.sala.quitarAsientoDisponible(num);
             if(this.sala.getNumeroAsientosDisponibles() == 0){
-                Taquilla.retirarPelicula(this);
+                taquilla.retirarPelicula(this);
             }
             return true;
         } else {
@@ -108,7 +106,7 @@ public class Pelicula implements Serializable{
     public boolean agregarAsiento(int num){
         if (this.sala != null) {
             if(this.sala.getNumeroAsientosDisponibles() == 0){
-                Taquilla.agregarPelicula(this);
+                taquilla.agregarPelicula(this);
             }
             this.sala.añadirAsientoDisponible(num);
             this.sala.añadirNumeroAsientoDisponible();
