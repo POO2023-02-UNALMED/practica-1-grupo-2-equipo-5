@@ -83,10 +83,6 @@ public class Pelicula implements Serializable{
         return this.sala;
     }
 
-    public List<Integer> getAsientosDisponibles(){
-        return sala.AsientosDisponibles();
-    }
-
     public static ArrayList<Pelicula> getPeliculasExistentes(){
         return peliculasExistentes;
     }

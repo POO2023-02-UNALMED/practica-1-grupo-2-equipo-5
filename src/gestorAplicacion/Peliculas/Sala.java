@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import gestorAplicacion.Tarjetas.Diamante;
+import gestorAplicacion.Tarjetas.Tarjeta;
+
 import java.io.Serializable;
 
 public class Sala implements Serializable{
@@ -67,9 +71,22 @@ public class Sala implements Serializable{
         return this.numeroAsientosD;
     }
  
-    public List<Integer> AsientosDisponibles(){
+    public List<Integer> AsientosDisponibles(ArrayList<Tarjeta> tarjetas){
         List<Integer> asientosVacios = new ArrayList<>();
+        boolean entraPrivado = false;
+        for (Tarjeta tarjeta : tarjetas) {
+            if(tarjeta instanceof Diamante){
+                entraPrivado = true;
+                break;
+            }
+        }
+
         for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {
+            if(entraPrivado){
+                if(entry.getValue() == "privado"){
+                asientosVacios.add(entry.getKey());
+                }
+            }
             if(entry.getValue() == ""){
                 asientosVacios.add(entry.getKey());
             }

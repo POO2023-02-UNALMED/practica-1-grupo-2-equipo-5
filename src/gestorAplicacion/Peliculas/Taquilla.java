@@ -36,7 +36,7 @@ public class Taquilla implements Serializable {
         peliculasSala.remove(pel);
     }
 
-    public ArrayList<Pelicula> obtenerPeliculaConNumeroDeAsientosDisponibles(int numero){
+    public ArrayList<Pelicula> obtenerPeliculaNAsientosDisponibles(int numero){
         ArrayList<Pelicula> peliculasConAsientos = new ArrayList<Pelicula>();
         for (Pelicula pelicula : peliculasSala) {
             if(pelicula.getSala().getNumeroAsientosDisponibles() >= numero && !peliculasConAsientos.contains(pelicula)){
@@ -44,6 +44,27 @@ public class Taquilla implements Serializable {
             }
         }
         return peliculasConAsientos;
+    }
+
+    public String PeliculasConNumeroDeAsientosDisponibles(int numero){
+        ArrayList<Pelicula> peliculasConAsientos = new ArrayList<Pelicula>();
+        String taquilla = "";
+        for (Pelicula pelicula : peliculasSala) {
+            if(pelicula.getSala().getNumeroAsientosDisponibles() >= numero && !peliculasConAsientos.contains(pelicula)){
+                peliculasConAsientos.add(pelicula);
+            }
+        }
+
+        for (Pelicula pelicula : peliculasConAsientos) {
+            if(pelicula != null && pelicula.getSala() != null && pelicula.getHora() != null){
+                taquilla += pelicula.getNombre() + " - precio: $" + pelicula.getPrecio() + " - Hora: " + pelicula.getHora() + " | ";
+            } 
+        }
+
+        if(taquilla.isEmpty()){
+            return "No hay peliculas disponibles";
+        } 
+        return taquilla;
     }
 
     //Métodos de clase
@@ -105,7 +126,7 @@ public class Taquilla implements Serializable {
         String nombres = "";
         for (Pelicula pel : peliculasSala) {
             if(pel != null && pel.getSala() != null && pel.getHora() != null){
-                nombres += pel.nombre + " - precio: $" + pel.getPrecio() + " - Hora: " + pel.getHora() + " | ";
+                nombres += pel.getNombre() + " - precio: $" + pel.getPrecio() + " - Hora: " + pel.getHora() + " | ";
             }     
         }
         if (nombres.isEmpty()) {
