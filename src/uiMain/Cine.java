@@ -17,6 +17,16 @@ import gestorAplicacion.Usuarios.*;
 public class Cine {
     static Taquilla taquilla = new Taquilla("Taquilla 1");
     static Tienda tienda = new Tienda("Tienda Central");
+    ArrayList<Usuario> lista_usuario = new ArrayList<Usuario>();
+    ArrayList<Pelicula> lista_peliculas = new ArrayList<Pelicula>();
+    ArrayList<Sala> lista_salas = new ArrayList<Sala>();
+    ArrayList<Taquilla> lista_taquilla = new ArrayList<Taquilla>();
+    ArrayList<Tienda> lista_tienda = new ArrayList<Tienda>();
+    ArrayList<Producto> lista_productos = new ArrayList<Producto>();
+    ArrayList<Combo> lista_combo = new ArrayList<Combo>();
+    ArrayList<Cliente> lista_cliente = new ArrayList<Cliente>();
+
+
 
 
     
@@ -566,11 +576,11 @@ public class Cine {
         System.out.println(s.getAsientosDisponibles());*/
 
         // -------------------- Rellenar los datos --------------------
-        ArrayList<Usuario> usuariosCreados = baseDatos.Deserializar.deserializarUsuario();
-        ArrayList<Pelicula> peliculasCreadas = baseDatos.Deserializar.deserializarPelicula();
-        ArrayList<Producto> productosCreados = baseDatos.Deserializar.deserializarProducto();
+        ArrayList<Usuario> lista_usuario = baseDatos.Deserializar.deserializarUsuario();
+        ArrayList<Pelicula> lista_peliculas = baseDatos.Deserializar.deserializarPelicula();
+        ArrayList<Producto> lista_productos = baseDatos.Deserializar.deserializarProducto();
 
-        for (Pelicula pelicula : peliculasCreadas) {
+        for (Pelicula pelicula : lista_peliculas) {
             if(!taquilla.PeliculasDisponibles().contains(pelicula)){
                 if(pelicula.getSala() != null){
                     taquilla.agregarPelicula(pelicula);
@@ -579,7 +589,7 @@ public class Cine {
             }
         }
 
-        for (Producto producto : productosCreados) {
+        for (Producto producto : lista_productos) {
             if(!tienda.ProductosDisponibles().contains(producto)){
                 tienda.añadirProductoTienda(producto);
             }
@@ -605,7 +615,7 @@ public class Cine {
                     String nomIn = scan.nextLine();
                     System.out.print("Dijite su password: ");
                     String passIn = scan.nextLine();
-                    for (Usuario usuarioB : usuariosCreados) {
+                    for (Usuario usuarioB : lista_usuario) {
                         if(usuarioB.getNombre().equals(nomIn) && usuarioB.getPassword().equals(passIn)){
                             System.out.println("Ingreso éxitoso!");
                             cuenta = usuarioB;
@@ -630,7 +640,7 @@ public class Cine {
                     System.out.print("Dijite su edad: ");
                     int edad = scan.nextInt();
                     
-                    for (Usuario usuario : usuariosCreados) {
+                    for (Usuario usuario : lista_usuario) {
                         if(usuario.getNombre().equals(nom) && usuario.getPassword().equals(pass)){
                             System.out.println("Ya se ha creado esta cuenta");
                             estado = 0;
@@ -639,10 +649,10 @@ public class Cine {
                     } 
                     if(encont4 == 0){
                         cuenta = new Cliente(nom,pass, edad);
-                        boolean respReg = Serializar.serializarUsuario(usuariosCreados);
+                        boolean respReg = Serializar.serializarUsuario(lista_usuario);
                         if(respReg){
                             System.out.println("Cuenta creada con exito.");
-                            usuariosCreados.add(cuenta);
+                            lista_usuario.add(cuenta);
                         } else {
                             System.out.println("Problemas al crear el usuario");
                             estado = 0;
