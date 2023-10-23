@@ -101,6 +101,7 @@ public class Sala implements Serializable{
             if(asiento.getKey() == num){
                 if(asiento.getValue() == "privado" || asiento.getValue() == ""){
                     this.asientos.put(num,"Ocupado");
+                    System.out.println(numeroAsientosD);
                     this.numeroAsientosD -= 1;
                     return true;
                 } else {
