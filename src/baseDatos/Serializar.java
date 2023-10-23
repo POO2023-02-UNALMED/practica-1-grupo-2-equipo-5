@@ -20,7 +20,7 @@ public class Serializar {
     public static void serializarPelicula(ArrayList<Pelicula> lista) {
         try {
             FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Peliculas.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Peliculas.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(lista);
@@ -40,7 +40,7 @@ public class Serializar {
     public static void serializarSala(ArrayList<Sala> lista) {
         try {
             FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Salas.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Salas.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(lista);
@@ -79,7 +79,7 @@ public class Serializar {
     public static void serializarTienda(ArrayList<Tienda> lista){
         try {
             FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Tienda.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Tienda.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(lista);
@@ -97,7 +97,7 @@ public class Serializar {
     public static void serializarProductos(ArrayList<Producto> lista){
         try {
             FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Producto.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Producto.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(lista);
@@ -115,7 +115,7 @@ public class Serializar {
     public static void serializarCombos(ArrayList<Combo> lista){
         try {
             FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Combo.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Combo.txt"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(lista);
@@ -133,7 +133,7 @@ public class Serializar {
 
     public static boolean serializarCliente(ArrayList<Cliente> lista) {
         try {
-            String rutaArchivo = "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cliente.txt";
+            String rutaArchivo = "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cliente.txt";
             FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
@@ -154,7 +154,7 @@ public class Serializar {
     
     public static boolean serializarUsuario(ArrayList<Usuario> lista) {
         try {
-            String rutaArchivo = "src/baseDatos/temp/Usuario.txt";
+            String rutaArchivo =   "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Usuario.txt";
             FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
@@ -175,7 +175,7 @@ public class Serializar {
     
     public static void serializarCine(ArrayList<Cine> lista) {
         try {
-            String rutaArchivo = "src/baseDatos/temp/Cine.txt";
+            String rutaArchivo = "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cine.txt";
             FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
             ObjectOutputStream o = new ObjectOutputStream(f);
 

@@ -162,24 +162,8 @@ public class Cliente extends Usuario implements Vip, Serializable{
         }
         return totalPuntos;
     }
-
-     
-    
-
-    
-
-    /*public String añadirPeliculaTaquilla(Pelicula pelicula, Sala sala){
-        for (Pelicula pel : Taquilla.getPeliculasDisponibles()) {
-            if(pel.getNombre().equals(pelicula.getNombre())){
-                return "La pelicula ya esta en taquilla";
-            }     
-        }
-        pelicula.enlazarSala(sala);
-        return "Agregada";
-    }
-
-    public String añadirProductoTienda(Producto producto){
-        for (Producto prod: Tienda.getProductosDisponibles()) {
+    /*public String añadirProductoTienda(Producto producto){
+        for (Producto prod: Tienda.ProductosDisponibles()) {
             if (prod.getNombre() == producto.getNombre()){
                 if (prod.getPrecio() == producto.getPrecio()){
                     return "El producto ya esta en la Tienda";

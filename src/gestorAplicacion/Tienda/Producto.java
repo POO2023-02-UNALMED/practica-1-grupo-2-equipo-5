@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Producto implements Serializable {
     protected String nombre;
-    protected int precio = 0;
+    protected double precio;
     protected Tienda tienda;
 
     public Producto(){
@@ -15,7 +15,7 @@ public class Producto implements Serializable {
         this(nombre,0, null);
     }
 
-    public Producto(String nombre, int precio, Tienda tienda){
+    public Producto(String nombre, double precio, Tienda tienda){
         this.nombre = nombre;
         this.precio = precio;
         this.tienda = tienda;
@@ -33,11 +33,11 @@ public class Producto implements Serializable {
         this.nombre = nombre;
     }
 
-    public int getPrecio(){
+    public double getPrecio(){
         return this.precio;
     }
 
-    public void setPrecio(int nPrecio){
+    public void setPrecio(double nPrecio){
         this.precio = nPrecio;
     }
 

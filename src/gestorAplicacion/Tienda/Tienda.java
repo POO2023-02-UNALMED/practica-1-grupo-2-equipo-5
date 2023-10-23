@@ -21,6 +21,16 @@ public class Tienda implements Serializable {
         return productosDisponibles;
     }
 
+    public ArrayList<Producto> ProductosUnicos(){
+        ArrayList<Producto> productosUnicos = new ArrayList<Producto>();
+        for (Producto producto : productosUnicos) {
+            if(producto.getPrecio() != 0 && !(producto instanceof Combo)){
+                productosUnicos.add(producto);
+            }
+        }
+        return productosUnicos;
+    }
+
     public void añadirProductoTienda(Producto prod){
         productosD.add(prod);
     }

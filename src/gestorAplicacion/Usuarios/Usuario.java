@@ -2,13 +2,14 @@ package gestorAplicacion.Usuarios;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+import gestorAplicacion.Peliculas.Sala;
 import gestorAplicacion.Tarjetas.Tarjeta;
 
 public class Usuario implements Serializable {
     protected String nombre;
     protected String password;
     protected int edad;
+   
 
 
     public Usuario(){

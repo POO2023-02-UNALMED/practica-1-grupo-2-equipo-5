@@ -17,7 +17,7 @@ public class Deserializar {
     public static ArrayList<Cine> deserializarCine(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cine.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cine.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Cine> cine = (ArrayList) o.readObject();
@@ -40,7 +40,7 @@ public class Deserializar {
     public static ArrayList<Pelicula> deserializarPelicula(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Peliculas.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Peliculas.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Pelicula> lista_peliculas = (ArrayList<Pelicula>) o.readObject();
@@ -63,7 +63,7 @@ public class Deserializar {
     public static ArrayList<Sala> deserializarSala() {
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Salas.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Salas.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Sala> lista_salas = (ArrayList<Sala>) o.readObject();
@@ -86,7 +86,7 @@ public class Deserializar {
     public static ArrayList<Taquilla> deserializarTaquilla() {
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Taquilla.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Taquilla.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Taquilla> lista_taquilla = (ArrayList<Taquilla>) o.readObject();
@@ -110,7 +110,7 @@ public class Deserializar {
     public static ArrayList<Tienda> deserializarTienda(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Tienda.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Tienda.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Tienda> lista_tienda = (ArrayList) o.readObject();
@@ -133,7 +133,7 @@ public class Deserializar {
     public static ArrayList<Producto> deserializarProducto(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Productos.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Productos.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Producto> lista_productos = (ArrayList<Producto>) o.readObject();
@@ -157,7 +157,7 @@ public class Deserializar {
     public static ArrayList<Usuario> deserializarUsuario(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Usuario.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Usuario.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Usuario> lista_usuario = (ArrayList) o.readObject();
@@ -181,7 +181,7 @@ public class Deserializar {
     public static ArrayList<Cliente> deserializarCliente(){
         try {
             FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cliente.txt"));
+                    "C:\\Users\\Yiduar Rangel\\Desktop\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cliente.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Cliente> lista_cliente = (ArrayList) o.readObject();
