@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class Pelicula implements Serializable{ 
     String nombre;
-    private int precio; 
+    private double precio; 
     private Sala sala;
     private String hora;
     private Genero categoria;
@@ -21,11 +21,11 @@ public class Pelicula implements Serializable{
         taquilla.agregarPreEstreno(this);
     }
     
-    public Pelicula(String nombre, int precio, Genero nombreCategoria, Taquilla taquilla){
+    public Pelicula(String nombre, double precio, Genero nombreCategoria, Taquilla taquilla){
         this(nombre, precio, null, nombreCategoria, taquilla);
     }
 
-    public Pelicula(String nombre, int precio, String hora, Genero nombreCategoria, Taquilla taquilla){
+    public Pelicula(String nombre, double precio, String hora, Genero nombreCategoria, Taquilla taquilla){
         this.nombre = nombre;
         this.precio = precio;
         this.hora = hora;
@@ -53,11 +53,11 @@ public class Pelicula implements Serializable{
         this.nombre = nombre;
     }
 
-    public int getPrecio(){
+    public double getPrecio(){
         return this.precio;
     }
 
-    public void setPrecio(int precio){
+    public void setPrecio(double precio){
         this.precio = precio;
     }
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class Sala implements Serializable{
     private Taquilla taquilla;
-    private static ArrayList<Sala> salasCreadas = new ArrayList<Sala>();
+    private ArrayList<Sala> salasCreadas = new ArrayList<Sala>();
     private ArrayList<Pelicula> peliculasSala = new ArrayList<Pelicula>();
     private String nombre;
     private int numeroAsientosD = 5;
@@ -154,16 +154,26 @@ public class Sala implements Serializable{
     }
 
     //Metodos de clase
-    public static ArrayList<Sala> getSalasCreadas(){
-        return Sala.salasCreadas;
+    public ArrayList<Sala> getSalasCreadas(){
+        return salasCreadas;
     }
 
-    public static String mostrarSalasCreadas(){
+    public String mostrarSalasCreadas(){
         String texto = "Salas creadas: ";
         for (Sala string : salasCreadas) {
             texto += string.getNombre() +" "+ string.getHora() +" | ";
         }
         return texto;
+    }
+
+    public ArrayList<Sala> salasConHEspecifica(String hora){
+        ArrayList<Sala> salasEspecificas = new ArrayList<Sala>();
+        for (Sala sala : salasCreadas) {
+            if(sala.getHora().equals(hora)){
+                salasEspecificas.add(sala);
+            }
+        }
+        return salasEspecificas;
     }
 
     //toString

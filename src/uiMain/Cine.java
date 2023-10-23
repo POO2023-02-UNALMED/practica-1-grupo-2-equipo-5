@@ -17,6 +17,7 @@ import gestorAplicacion.Usuarios.*;
 public class Cine {
     static Taquilla taquilla = new Taquilla("Taquilla 1");
     static Tienda tienda = new Tienda("Tienda Central");
+    static Sala sala1 = new Sala("Sala 1",20, "6:00 pm", taquilla);
     ArrayList<Usuario> lista_usuario = new ArrayList<Usuario>();
     ArrayList<Pelicula> lista_peliculas = new ArrayList<Pelicula>();
     ArrayList<Sala> lista_salas = new ArrayList<Sala>();
@@ -170,7 +171,7 @@ public class Cine {
         se hace efectiva la compra y se paga el precio del producto 
         */
         Scanner scan = new Scanner(System.in);
-        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles(); //1 interaccion
         boolean productoEncontrado = false;
 
         System.out.println("Tienda: ");
@@ -189,7 +190,7 @@ public class Cine {
                     if(respUsarTarjCPel == 1){
                         System.out.print(cuenta.verTarjetas() + "\n->");
                         int respIndexTarjUsar = scan.nextInt();
-                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1);
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1); //2 interaccion
                         double descuentoTarjeta = tarjeta.getDescuentoProducto();
                         if(producto.getPrecio() <= cuenta.getSaldo()-(cuenta.getSaldo()*descuentoTarjeta)) {
                             String pago = cuenta.pagar(tarjeta.ValorProducto(producto));
@@ -313,7 +314,7 @@ public class Cine {
     */
         Scanner scan =  new Scanner(System.in);
         HashMap<Pelicula, List<Integer>> compras = cuenta.getComprasPeliculas();
-        ArrayList<Pelicula> peliculas = taquilla.getTotalPeliculas();
+        ArrayList<Pelicula> peliculas = taquilla.PeliculasDisponibles(); //1 interaccion
 
         if (compras.isEmpty()) {
             System.out.println("No ha hecho ninguna compra aún.");
@@ -344,7 +345,7 @@ public class Cine {
                         System.out.println("Cual tarjeta usò?");
                         System.out.print(cuenta.verTarjetas()+ "\n->");
                         int respQTUso = scan.nextInt();
-                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respQTUso-1);
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respQTUso-1); //2 interaccion
                         for (Pelicula pelicula : compras.keySet()) {
                             if(pelicula.getNombre().equals(pel.getNombre())){
                                 double cantidad = pelicula.getPrecio()-(pelicula.getPrecio()*cuenta.getDescuento());
@@ -506,6 +507,109 @@ public class Cine {
             
     }
 
+    public static void sugerirProducto(Cliente cuenta){
+        System.out.println("Sugerir producto");
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
+        ArrayList<Producto> productosComprados = cuenta.getComprasProductos();
+        HashMap<Producto, Integer> frecuenciaProductos = new HashMap<Producto, Integer>();
+        ArrayList<Producto> productosRelacionadosConMax= new ArrayList<Producto>();
+
+        Producto productoMasC = null;
+        int maxFrecuencia = 0;
+
+        for (Producto producto : productosComprados) {
+            if(!frecuenciaProductos.containsKey(producto)){
+                frecuenciaProductos.put(producto, 0);
+            }
+            int frecuenciaAc = frecuenciaProductos.get(producto);
+            frecuenciaProductos.put(producto, frecuenciaAc+1);
+
+            if(frecuenciaProductos.get(producto) > maxFrecuencia){
+                productoMasC = producto;
+                maxFrecuencia = frecuenciaProductos.get(producto);
+            }
+        }
+
+        for (Producto producto : productosDisponibles) {
+            if(producto instanceof Combo){
+                for (Producto prodIn : ((Combo) producto).getProductosCombo()) {
+                    if(prodIn == productoMasC){
+                        productosRelacionadosConMax.add(producto);
+                        break;
+                    }
+                }
+            } else if(producto == productoMasC){
+                productosRelacionadosConMax.add(producto);
+            }
+        }
+
+        String productosR = "";
+        for (Producto producto : productosRelacionadosConMax) {
+            productosR += producto.getNombre() + " |";
+        }
+
+        if(productoMasC == null){
+            System.out.println("Ningun producto comprado aun");
+            return;
+        } else {
+            System.out.println(productosR);
+        }
+        return;
+    }
+
+    public static void añadirPeliculaTaquilla(){
+        //Pelicula pelicula, Sala sala
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Nombre de la pelicula a añadir: ");
+        String nomPel = scan.next();
+        System.out.print("Precio de la pelicula a añadir: ");
+        double precioPel = scan.nextDouble();
+        System.out.print("Hora de la pelicula a añadir: ");
+        String HorPel = scan.next();
+        System.out.println("Posibles generos: ");
+        System.out.print("Genero de la pelicula a añadir: ");
+        String generoPel = scan.next().toUpperCase();
+
+        Genero genero = Genero.fromString(generoPel);
+        if(genero == null){
+            System.out.println("El genero no esta entre los posibles");
+            return;
+        } 
+
+        Pelicula newPelicula = new Pelicula(nomPel, precioPel, HorPel , genero, taquilla);
+        for (Pelicula pel : taquilla.PeliculasDisponibles()) {
+            if(pel.getNombre().equals(nomPel)){
+                System.out.println("La pelicula ya esta en taquilla");
+                System.out.print("Desea actualizar los datos? (1:Si, 2:No)\n-> ");
+                int respModDP = scan.nextInt();
+                if(respModDP == 1){
+                    pel.setPrecio(precioPel);
+                    pel.setCategoria(genero);
+                }
+                return;
+            }     
+        }
+
+        String salas = "";
+        for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
+            salas += sala.getNombre() + " |";
+        }
+
+        System.out.println("Salas disponibles con "+HorPel+":\n" + salas);
+        System.out.print("Cual sala elijira (Escriba el nombre)?\n->");
+        String nomSala = scan.next();
+        
+        for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
+            if(sala.getNombre().equals(nomSala)){
+                newPelicula.enlazarSala(sala);
+                System.out.println("Pelicula añadida");
+                return;
+            }
+        }
+        System.out.println("Nombre ingresado incorrectamente");
+        return;
+    }
+
 
     public static void main(String[] args) throws Exception {
 
@@ -516,9 +620,9 @@ public class Cine {
         Pelicula pelicula2 = new Pelicula("Barbie", 2000, Genero.COMEDIA, taquilla);
         Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",Genero.TERROR, taquilla);
         Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", Genero.CIENCIA_FICCION, taquilla);
-        Sala s = new Sala("Sala1",20, "6:00 pm", taquilla);
+        
         Sala s2 = new Sala("Sala2",20, "3:40 pm", taquilla);
-        pelicula1.enlazarSala(s);
+        pelicula1.enlazarSala(sala1);
         pelicula2.enlazarSala(s2);
         pelicula2.setHora("3:40 pm");
         pelicula2.enlazarSala(s2);
@@ -527,7 +631,7 @@ public class Cine {
         Combo combo1 = new Combo("Combo1", 2000, tienda);
         combo1.añadirProductos(prod1,prod2);
 
-
+        
         //System.out.println(Taquilla.totalpeliculasTaquilla());
         //System.out.println("peliculas con sala disponibles "+Taquilla.getPeliculasDisponibles());
         //System.out.println(pelicula3.getSala());
@@ -672,7 +776,6 @@ public class Cine {
             try {
             
             //Variables a utilizar
-            ArrayList<Pelicula> peliculasDisponibles = taquilla.PeliculasDisponibles();
             ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
             
             System.out.println("\n\n\tBienvenido "+ cuenta.getNombre() +"! Que deseas hacer?");
@@ -778,30 +881,14 @@ public class Cine {
                     }
                     break;
                 
-                case 4: 
+                case 4: //Caso añadir
                     System.out.println("\tAñadir");
                     System.out.println("Pelicula (1) | Producto (2)");
                     System.out.print("-> ");
                     int respAddPelProd = scan.nextInt();
                     switch(respAddPelProd){
                         case 1:
-                        System.out.println("\tAñadir pelicula");
-                        System.out.print("Nombre de la pelicula: ");
-                        String respAnadirPel = scan.next();
-                        System.out.print("Precio de la pelicula: ");
-                        int respAnadirPelPrecio = scan.nextInt();
-                        System.out.print("Sala a enlazar a la pelicula, recuerde que si desea añadir una sala a la pelicula que va a crear, estas deben tener la misma hora, de lo contrario no se efectuará el enlace\n");
-                        System.out.println(Sala.mostrarSalasCreadas());
-                        System.out.print("Hora de la pelicula: ");
-                        String respAnadirPelHora = scan.next();
-                        System.out.print("-> elija una sala entre las disponibles:  ");
-                        String respSalEnlazar = scan.next();
-                        /*for (Sala salaE : Sala.getsSalasCreadas()) {
-                            if(salaE.getNombre().equals(respSalEnlazar)){
-                                String respuestaAPel = cuentaCliente.añadirPeliculaTaquilla(new Pelicula(respAnadirPel, respAnadirPelPrecio),salaE);
-                                System.out.println(respuestaAPel);
-                            }
-                        }*/
+                        añadirPeliculaTaquilla();
                         break;    
                         case 2:
                         int encont = 0;
@@ -844,9 +931,8 @@ public class Cine {
                 estado = 0;
             }    
 
-        
-            }
-            scan.close();
+        }
+        scan.close();
         } catch (Exception e) {
             System.out.println("Error: "+ e);
         }

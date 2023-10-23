@@ -113,7 +113,7 @@ public class Taquilla implements Serializable {
     
         for (Pelicula pel : totalpeliculasSinDuplicados) {
             String nombre = pel.getNombre();
-            int precio = pel.getPrecio();
+            double precio = pel.getPrecio();
             String salaNombre = (pel.getSala() != null && pel.getSala().getHora().equals(pel.getHora())) ? pel.getSala().getNombre() : "esta película no tiene asignada una sala";
             String hora = (pel.getHora() != null) ? pel.getHora() : "esta película no tiene hora asignada";
     
