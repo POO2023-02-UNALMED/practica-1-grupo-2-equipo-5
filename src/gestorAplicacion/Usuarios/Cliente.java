@@ -9,6 +9,7 @@ import java.io.Serializable;
 import gestorAplicacion.Peliculas.Pelicula;
 import gestorAplicacion.Peliculas.Sala;
 import gestorAplicacion.Peliculas.Taquilla;
+import gestorAplicacion.Tarjetas.Oro;
 import gestorAplicacion.Tarjetas.Tarjeta;
 import gestorAplicacion.Tienda.Producto;
 import gestorAplicacion.Tienda.Tienda;
@@ -248,6 +249,8 @@ public class Cliente extends Usuario implements Vip, Serializable{
         }
         return null;
     }
+
+    
 
     //toString
     public String toString(){

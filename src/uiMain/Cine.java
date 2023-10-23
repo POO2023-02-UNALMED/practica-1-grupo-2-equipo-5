@@ -206,7 +206,7 @@ public class Cine {
                                         System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
                                         System.out.println("\n" + cuenta.mostrarComprasPelicula());
                                         String respPelProd = scan.next();
-                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interraccio
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interaccion
                                         System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
                                     } else{
                                     System.out.print("Gracias por su compra!");
@@ -232,7 +232,7 @@ public class Cine {
                                         System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
                                         System.out.println("\n" + cuenta.mostrarComprasPelicula());
                                         String respPelProd = scan.next();
-                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interraccio
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interaccion
                                         System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
                                     } else{
                                     System.out.print("Gracias por su compra!");
@@ -298,28 +298,53 @@ public class Cine {
         int respElTarj = scan.nextInt();
         switch(respElTarj){
             case 1:
-                String respComTarjOro = cuenta.pagar(oro.getPrecio());
-                if(respComTarjOro.equals("Pago exitoso")){
-                    cuenta.agregarTarjeta(new Oro()); 
+                System.out.println("¿Desea que la nueva tarjeta oro que va a adquirir la lleven hasta su residencia? (1:Si, 2:No)");
+                int respTarjOroADomi = scan.nextInt();
+                if (respTarjOroADomi == 1 && cuenta.getSaldo() >= oro.getPrecio() + oro.getEnvioCasaOro()){
+                    Oro nuevaOroADomi = oro.envioACasa(cuenta); //1 interaccion
+                    System.out.println(nuevaOroADomi + "\ny llegará a su domicilio pronto");
+                }
+
+                //String respComTarjOro = cuenta.pagar(oro.getPrecio());
+                else if(respTarjOroADomi == 2 && cuenta.getSaldo() >= oro.getPrecio() + oro.getEnvioCasaOro()){
+                    cuenta.pagar(oro.getPrecio());
+                    cuenta.agregarTarjeta(new Oro());
                     System.out.println("Pago exitoso. Nueva tarjeta Oro!");
-                } else {
-                    System.out.println(respComTarjOro);
+                    
+                } 
+                else { 
+                    System.out.println("Saldo insuficiente");
                 }
                 break;
+
             case 2:
-                String respComTarjPlatino = cuenta.pagar(platino.getPrecio());
-                if(respComTarjPlatino.equals("Pago exitoso")){
-                    cuenta.agregarTarjeta(new Platino()); 
+                System.out.println("¿Desea que la nueva tarjeta platino que va a adquirir la lleven hasta su residencia? (1:Si, 2:No)");
+                int respTarjPlatiADomi = scan.nextInt();
+                if (respTarjPlatiADomi == 1 && cuenta.getSaldo() >= platino.getPrecio() + platino.getEnvioCasaPlati()){
+                    Platino nuevaPlatiADomi = platino.envioACasa(cuenta); //1 interaccion
+                    System.out.println(nuevaPlatiADomi + "\ny llegará a su domicilio pronto");
+                }
+
+                //String respComTarjOro = cuenta.pagar(oro.getPrecio());
+                else if(respTarjPlatiADomi == 2 && cuenta.getSaldo() >= platino.getPrecio() + platino.getEnvioCasaPlati()){
+                    cuenta.pagar(platino.getPrecio());
+                    cuenta.agregarTarjeta(new Platino());
                     System.out.println("Pago exitoso. Nueva tarjeta Platino!");
-                } else {
-                    System.out.println(respComTarjPlatino);
+                    
+                } 
+                else { 
+                    System.out.println("Saldo insuficiente");
                 }
                 break;
             case 3:
-                String respComTarjDiamante = cuenta.pagar(diamante.getPrecio());
-                if(respComTarjDiamante.equals("Pago exitoso")){
-                    cuenta.agregarTarjeta(new Diamante()); 
-                    System.out.println("Pago exitoso. Bienvenido a Diamante!");
+                System.out.println("¿Desea que la nueva tarjeta diamante que va a adquirir la lleven hasta su residencia? (1:Si, 2:No)");
+                int respTarjDiamADomi = scan.nextInt();
+                if (cuenta.getSaldo() <= diamante.getPrecio() + diamante.getEnvioCasaDiam()){
+                    System.out.println("saldo insuficiente");
+                }
+                else if (respTarjDiamADomi == 1 && (cuenta.getSaldo() >= diamante.getPrecio() + diamante.getEnvioCasaDiam())){
+                    Diamante nuevaDiamanteADomi = diamante.envioACasa(cuenta); //3 interaccion
+                    System.out.println(nuevaDiamanteADomi + "\ny llegará a su domicilio pronto");
                     System.out.println("Desea adquirir una membresia VIP? (1:Si, 2:No)");
                     int respCompVip = scan.nextInt();
                     if(respCompVip == 1){
@@ -334,8 +359,28 @@ public class Cine {
                     } else {
                         System.out.println("Gracias por su compra!");
                     }
-                } else {
-                    System.out.println(respComTarjDiamante);
+                }
+            
+                //String respComTarjDiamante = cuenta.pagar(diamante.getPrecio());
+                if(respTarjDiamADomi == 2 && (cuenta.getSaldo() >= diamante.getPrecio())){
+                    cuenta.agregarTarjeta(new Diamante()); 
+                    cuenta.pagar(diamante.getPrecio());
+                    System.out.println("Pago exitoso. Bienvenido a Diamante!");
+                    System.out.println("Desea adquirir una membresia VIP? (1:Si, 2:No)");
+                    int respCompVip = scan.nextInt();
+                    if(respCompVip == 1){
+                        //cuenta.pagar(Vip.precio);
+                        String pago = cuenta.pagar(Vip.precio);
+                        if(pago.equals("Pago exitoso")){
+                            System.out.println("Bienvenido a la membresia vip, ahora tienes acceso a asientos privados y a preestrenos");
+                            cuenta.accesoLounge();
+                            cuenta.accesoPreEstreno();
+                        } else {
+                            System.out.println(pago);
+                        }
+                    } else {
+                        System.out.println("Gracias por su compra!");
+                    }
                 }
                 break;
             default:
@@ -617,13 +662,13 @@ public class Cine {
         System.out.print("Genero de la pelicula a añadir: ");
         String generoPel = scan.next().toUpperCase();
 
-        Genero genero = Genero.fromString(generoPel);
+        Genero genero = Genero.fromString(generoPel); // 1 interaccion
         if(genero == null){
-            System.out.println("El genero no esta entre los posibles");
+            System.out.println("El genero no está entre los posibles");
             return;
         } 
 
-        Pelicula newPelicula = new Pelicula(nomPel, precioPel, HorPel , genero, taquilla);
+        Pelicula newPelicula = new Pelicula(nomPel, precioPel, HorPel , genero, taquilla); // 2 interaccion
         for (Pelicula pel : taquilla.PeliculasDisponibles()) {
             if(pel.getNombre().equals(nomPel)){
                 System.out.println("La pelicula ya esta en taquilla");

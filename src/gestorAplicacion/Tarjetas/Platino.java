@@ -4,10 +4,12 @@ import java.util.HashMap;
 
 import gestorAplicacion.Peliculas.Pelicula;
 import gestorAplicacion.Tienda.Producto;
+import gestorAplicacion.Usuarios.Cliente;
 
 public class Platino extends Tarjeta {
     private double precio = 1000;
     private HashMap<Pelicula, Double> compras = new HashMap<Pelicula, Double>();
+    private int costoEnvioCasaPlati = 3500;
 
     public Platino(){
         this.descuentoProducto = 0.15;
@@ -66,6 +68,26 @@ public class Platino extends Tarjeta {
 
     public void comprar(){
         puntos += 75;
+    }
+
+    public int getEnvioCasaPlati (){
+        return this.costoEnvioCasaPlati;
+    }
+
+    public void setEnviocasaPlati (int nuevoCosto){
+        this.costoEnvioCasaPlati = nuevoCosto;
+    }
+
+    public Platino envioACasa (Cliente cli) {
+        if (cli.getSaldo() >= this.getEnvioCasaPlati() + this.getPrecio()){
+            Platino platinoEnvioAcasa = new Platino();
+            double cantidadApagar = this.getEnvioCasaPlati() + this.getPrecio();
+            //System.out.println(cantidadApagar);
+            cli.pagar(cantidadApagar);
+            cli.agregarTarjeta(platinoEnvioAcasa);
+            return platinoEnvioAcasa;
+        }
+        return null;
     }
 
     public String toString(){
