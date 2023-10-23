@@ -1048,22 +1048,7 @@ public class Cine {
                         añadirPeliculaTaquilla();
                         break;    
                         case 2:
-                        int encont = 0;
-                        System.out.println("\tAñadir producto");
-                        System.out.print("Nombre del producto: ");
-                        String respAnadirProd = scan.next();
-                        System.out.print("Precio del producto: ");
-                        int respAnadirProdPrecio = scan.nextInt();
-                        for (Producto producto : productosDisponibles) {
-                            if(producto.getNombre().equals(respAnadirProd)){
-                                encont = 1;
-                                producto.setPrecio(respAnadirProdPrecio);
-                                System.out.println("Se ha actualizado el precio del producto");
-                            } 
-                        }
-                        /*if(encont == 0){ //En caso de que no se encontrara el producto entre los existentes
-                            cuentaCliente.añadirProductoTienda(new Producto(respAnadirProd, respAnadirProdPrecio, tienda));
-                        }*/
+                        añadirProductoTienda();
                                 
                         break;
                         default:
