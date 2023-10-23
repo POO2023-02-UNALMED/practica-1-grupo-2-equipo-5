@@ -154,9 +154,9 @@ public class Pelicula implements Serializable{
                 frase += "verás una película de terror.";
                 break;
             default:
-                frase += "verás una película de Categoría no reconocida.";
-            }
-            return frase;
+            frase += "verás una película de Categoría no reconocida.";
         }
+        return frase;
+    }
     
 }

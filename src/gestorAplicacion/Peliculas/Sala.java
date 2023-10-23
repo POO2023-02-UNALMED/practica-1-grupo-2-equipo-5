@@ -7,6 +7,7 @@ import java.util.Map;
 
 import gestorAplicacion.Tarjetas.Diamante;
 import gestorAplicacion.Tarjetas.Tarjeta;
+import gestorAplicacion.Usuarios.Cliente;
 
 import java.io.Serializable;
 
@@ -188,6 +189,7 @@ public class Sala implements Serializable{
         return as;
     }
     
+    //toString Asientos disponibles, no se muestran los privados
     public String toString(){
         String asientos = "";
         for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {
@@ -196,5 +198,10 @@ public class Sala implements Serializable{
             }
         }
         return "Asientos disponibles: " + asientos;
+    }
+
+    //toString nombre de la sala
+    public String toStringSala(){
+        return "" + this.getNombre();
     }
 }

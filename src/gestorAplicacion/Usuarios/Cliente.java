@@ -228,6 +228,15 @@ public class Cliente extends Usuario implements Vip, Serializable{
         return compras;
     }
 
+    public Sala salaDeLaPeliculaComprada(Pelicula peliACancelar){
+        for (Map.Entry<Pelicula,List<Integer>> peliculaYasiento : this.getComprasPeliculas().entrySet()){
+            if (peliculaYasiento.getKey() == peliACancelar){
+                return peliculaYasiento.getKey().getSala();
+            }
+        }
+        return null;
+    }
+
     //toString
     public String toString(){
         return "Nombre: "+nombre + "\nEdad: "+ edad + "\nSaldo: " + saldo + "\n"+this.verTarjetas();

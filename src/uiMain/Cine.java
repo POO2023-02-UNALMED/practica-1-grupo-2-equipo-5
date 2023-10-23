@@ -18,6 +18,7 @@ public class Cine {
     static Taquilla taquilla = new Taquilla("Taquilla 1");
     static Tienda tienda = new Tienda("Tienda Central");
     static Sala sala1 = new Sala("Sala 1",20, "6:00 pm", taquilla);
+    //static Sala sala2 = new Sala("sala 2", 25,"4:00 pm", taquilla);
     ArrayList<Usuario> lista_usuario = new ArrayList<Usuario>();
     ArrayList<Pelicula> lista_peliculas = new ArrayList<Pelicula>();
     ArrayList<Sala> lista_salas = new ArrayList<Sala>();
@@ -323,17 +324,21 @@ public class Cine {
             System.out.print("Peliculas compradas: ");
             System.out.println(cuenta.mostrarComprasPelicula());
             System.out.print("Escriba el nombre de la pelicula a cancelar: ");
-            String compPel = scan.next();
+            String pelAcancelar = scan.next();
+            String compPel = pelAcancelar.substring(0,1).toUpperCase() + pelAcancelar.substring(1).toLowerCase();
             for (Pelicula pel : peliculas) {
                 if (pel.getNombre().equals(compPel) && compras.containsKey(pel)) {
-                    System.out.println("Elija el asiento a cancelar de la pelicula");
+                    System.out.print("La sala de la pelicula que cancelará es: ");
+                    Sala salaAcancelar = cuenta.salaDeLaPeliculaComprada(pel); //2 interaccion
+                    System.out.println(salaAcancelar.toStringSala());
+                    System.out.println("\nElija el asiento a cancelar de la pelicula");
                     System.out.println(cuenta.mostrarAsientosCompras(pel));
                     int respAsCancelar = scan.nextInt();
                     int respTarjUt = 0;
                     if(!cuenta.getTarjetas().isEmpty()){
                         System.out.println("Utilizo tarjeta en esta compra? (1: Si, 2: No)");
                         respTarjUt = scan.nextInt();
-                        System.out.println("Para la devolucion, solo sera posible recuperar los puntos utilizados para la ultimo asiento comprado de la pelicula");
+                        System.out.println("Para la devolucion, solo sera posible recuperar los puntos utilizados para el ultimo asiento comprado de la pelicula");
                         System.out.print("Quiere continuar con la devolucion de puntos?(1:Si, 2:No)\n ->");
                         int respContoNo = scan.nextInt();
                         if(respContoNo == 2){
@@ -342,10 +347,10 @@ public class Cine {
                     }
                         
                     if(respTarjUt != 0){
-                        System.out.println("Cual tarjeta usò?");
+                        System.out.println("Cual tarjeta usó?");
                         System.out.print(cuenta.verTarjetas()+ "\n->");
                         int respQTUso = scan.nextInt();
-                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respQTUso-1); //2 interaccion
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respQTUso-1); //3 interaccion
                         for (Pelicula pelicula : compras.keySet()) {
                             if(pelicula.getNombre().equals(pel.getNombre())){
                                 double cantidad = pelicula.getPrecio()-(pelicula.getPrecio()*cuenta.getDescuento());
@@ -596,7 +601,7 @@ public class Cine {
         }
 
         System.out.println("Salas disponibles con "+HorPel+":\n" + salas);
-        System.out.print("Cual sala elijira (Escriba el nombre)?\n->");
+        System.out.print("Cual sala elejirá (Escriba el nombre)?\n->");
         String nomSala = scan.next();
         
         for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
@@ -615,17 +620,19 @@ public class Cine {
 
         // -------------------- Pruebas --------------------
         //recordar no asignar dos peliculas con la misma hora a la misma sala que tenga la misma hora
+        //si a una misma pelicula se le enlazan dos salas, ésta queda con la última sala asignada
         
         Pelicula pelicula1 = new Pelicula("Terminator", 2000, "6:00 pm",Genero.ACCION, taquilla);
         Pelicula pelicula2 = new Pelicula("Barbie", 2000, Genero.COMEDIA, taquilla);
-        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",Genero.TERROR, taquilla);
-        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", Genero.CIENCIA_FICCION, taquilla);
+        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",Genero.CIENCIA_FICCION, taquilla);
+        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", Genero.COMEDIA, taquilla);
         
         Sala s2 = new Sala("Sala2",20, "3:40 pm", taquilla);
         pelicula1.enlazarSala(sala1);
         pelicula2.enlazarSala(s2);
         pelicula2.setHora("3:40 pm");
         pelicula2.enlazarSala(s2);
+        //pelicula2.enlazarSala(sala2);
         Producto prod1 = new Producto("Palomitas",2000, tienda);
         Producto prod2 = new Producto("Soda",2000, tienda);
         Combo combo1 = new Combo("Combo1", 2000, tienda);

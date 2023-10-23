@@ -87,7 +87,6 @@ public class Taquilla implements Serializable {
         preestrenos.remove(pel);
     }
 
-    //getters
     public ArrayList<Pelicula> PeliculasDisponibles(){
         ArrayList<Pelicula> peliculasDisponibles = new ArrayList<Pelicula>();
         for (Pelicula pelicula : peliculasSala) {
