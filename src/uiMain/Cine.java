@@ -196,9 +196,23 @@ public class Cine {
                         if(producto.getPrecio() <= cuenta.getSaldo()-(cuenta.getSaldo()*descuentoTarjeta)) {
                             String pago = cuenta.pagar(tarjeta.ValorProducto(producto));
                             System.out.println(pago);
-                            if(pago.equals("Pago exitoso")){
+                            if (pago.equals("Pago exitoso")){
                                 cuenta.añadirCompraProductos(producto);
                                 tarjeta.comprar();
+                                if (!cuenta.getComprasPeliculas().isEmpty()){
+                                    System.out.print("¿Desea que lleven su producto a la sala de cine? (1:Si, 2:No)\n");
+                                    int respllevarAsala = scan.nextInt();
+                                    if (respllevarAsala == 1){
+                                        System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
+                                        System.out.println("\n" + cuenta.mostrarComprasPelicula());
+                                        String respPelProd = scan.next();
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interraccio
+                                        System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
+                                    } else{
+                                    System.out.print("Gracias por su compra!");
+                                    return;
+                                    }
+                                }
                             }
                             return;
                         } else {
@@ -211,6 +225,20 @@ public class Cine {
                             System.out.println(pago);
                             if(pago.equals("Pago exitoso")){
                                 cuenta.añadirCompraProductos(producto);
+                                if (!cuenta.getComprasPeliculas().isEmpty()){
+                                    System.out.print("¿Desea que lleven su producto a la sala de cine? (1:Si, 2:No)\n");
+                                    int respllevarAsala = scan.nextInt();
+                                    if (respllevarAsala == 1){
+                                        System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
+                                        System.out.println("\n" + cuenta.mostrarComprasPelicula());
+                                        String respPelProd = scan.next();
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interraccio
+                                        System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
+                                    } else{
+                                    System.out.print("Gracias por su compra!");
+                                    return;
+                                    }
+                                }
                             }
                             return ;
                         } else {
@@ -224,6 +252,20 @@ public class Cine {
                             System.out.println(pago);
                             if(pago.equals("Pago exitoso")){
                                 cuenta.añadirCompraProductos(producto);
+                                if (!cuenta.getComprasPeliculas().isEmpty()){
+                                    System.out.print("¿Desea que lleven su producto a la sala de cine? (1:Si, 2:No)\n");
+                                    int respllevarAsala = scan.nextInt();
+                                    if (respllevarAsala == 1){
+                                        System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
+                                        System.out.println("\n" + cuenta.mostrarComprasPelicula());
+                                        String respPelProd = scan.next();
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interaccion
+                                        System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
+                                    } else{
+                                    System.out.print("Gracias por su compra!");
+                                    return;
+                                    }
+                                }
                             }
                             
                             return;

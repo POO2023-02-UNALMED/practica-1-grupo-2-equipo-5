@@ -237,6 +237,18 @@ public class Cliente extends Usuario implements Vip, Serializable{
         return null;
     }
 
+    public Sala llevarProductoAsala(HashMap<Pelicula, List<Integer>> peliculasCompradas, String pel){
+        if (!this.comprasProd.isEmpty() ){
+            for (Map.Entry<Pelicula,List<Integer>> peliculaYasiento : this.getComprasPeliculas().entrySet()){
+                Pelicula pelicula =peliculaYasiento.getKey();
+                if (pelicula.getNombre().equals(pel)){
+                    return pelicula.getSala();
+                }
+            }
+        }
+        return null;
+    }
+
     //toString
     public String toString(){
         return "Nombre: "+nombre + "\nEdad: "+ edad + "\nSaldo: " + saldo + "\n"+this.verTarjetas();
