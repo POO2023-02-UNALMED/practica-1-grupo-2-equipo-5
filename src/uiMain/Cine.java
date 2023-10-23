@@ -17,6 +17,8 @@ import gestorAplicacion.Usuarios.*;
 public class Cine {
     static Taquilla taquilla = new Taquilla("Taquilla 1");
     static Tienda tienda = new Tienda("Tienda Central");
+    static Sala sala1 = new Sala("Sala1",20, "6:00pm", taquilla);
+    //static Sala sala2 = new Sala("sala 2", 25,"4:00 pm", taquilla);
     ArrayList<Usuario> lista_usuario = new ArrayList<Usuario>();
     ArrayList<Pelicula> lista_peliculas = new ArrayList<Pelicula>();
     ArrayList<Sala> lista_salas = new ArrayList<Sala>();
@@ -170,7 +172,7 @@ public class Cine {
         se hace efectiva la compra y se paga el precio del producto 
         */
         Scanner scan = new Scanner(System.in);
-        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles(); //1 interaccion
         boolean productoEncontrado = false;
 
         System.out.println("Tienda: ");
@@ -189,14 +191,28 @@ public class Cine {
                     if(respUsarTarjCPel == 1){
                         System.out.print(cuenta.verTarjetas() + "\n->");
                         int respIndexTarjUsar = scan.nextInt();
-                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1);
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1); //2 interaccion
                         double descuentoTarjeta = tarjeta.getDescuentoProducto();
                         if(producto.getPrecio() <= cuenta.getSaldo()-(cuenta.getSaldo()*descuentoTarjeta)) {
                             String pago = cuenta.pagar(tarjeta.ValorProducto(producto));
                             System.out.println(pago);
-                            if(pago.equals("Pago exitoso")){
+                            if (pago.equals("Pago exitoso")){
                                 cuenta.añadirCompraProductos(producto);
                                 tarjeta.comprar();
+                                if (!cuenta.getComprasPeliculas().isEmpty()){
+                                    System.out.print("¿Desea que lleven su producto a la sala de cine? (1:Si, 2:No)\n");
+                                    int respllevarAsala = scan.nextInt();
+                                    if (respllevarAsala == 1){
+                                        System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
+                                        System.out.println("\n" + cuenta.mostrarComprasPelicula());
+                                        String respPelProd = scan.next();
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interraccio
+                                        System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
+                                    } else{
+                                    System.out.print("Gracias por su compra!");
+                                    return;
+                                    }
+                                }
                             }
                             return;
                         } else {
@@ -209,6 +225,20 @@ public class Cine {
                             System.out.println(pago);
                             if(pago.equals("Pago exitoso")){
                                 cuenta.añadirCompraProductos(producto);
+                                if (!cuenta.getComprasPeliculas().isEmpty()){
+                                    System.out.print("¿Desea que lleven su producto a la sala de cine? (1:Si, 2:No)\n");
+                                    int respllevarAsala = scan.nextInt();
+                                    if (respllevarAsala == 1){
+                                        System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
+                                        System.out.println("\n" + cuenta.mostrarComprasPelicula());
+                                        String respPelProd = scan.next();
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interraccio
+                                        System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
+                                    } else{
+                                    System.out.print("Gracias por su compra!");
+                                    return;
+                                    }
+                                }
                             }
                             return ;
                         } else {
@@ -222,6 +252,20 @@ public class Cine {
                             System.out.println(pago);
                             if(pago.equals("Pago exitoso")){
                                 cuenta.añadirCompraProductos(producto);
+                                if (!cuenta.getComprasPeliculas().isEmpty()){
+                                    System.out.print("¿Desea que lleven su producto a la sala de cine? (1:Si, 2:No)\n");
+                                    int respllevarAsala = scan.nextInt();
+                                    if (respllevarAsala == 1){
+                                        System.out.print("Escriba la pelicula a la que desea que le lleven su producto");
+                                        System.out.println("\n" + cuenta.mostrarComprasPelicula());
+                                        String respPelProd = scan.next();
+                                        Sala salaAllevarProducto1 = cuenta.llevarProductoAsala(cuenta.getComprasPeliculas(), respPelProd ); // 3 interaccion
+                                        System.out.print("Su producto llegará con exito a la sala " + salaAllevarProducto1.toStringSala());  
+                                    } else{
+                                    System.out.print("Gracias por su compra!");
+                                    return;
+                                    }
+                                }
                             }
                             
                             return;
@@ -313,7 +357,7 @@ public class Cine {
     */
         Scanner scan =  new Scanner(System.in);
         HashMap<Pelicula, List<Integer>> compras = cuenta.getComprasPeliculas();
-        ArrayList<Pelicula> peliculas = taquilla.getTotalPeliculas();
+        ArrayList<Pelicula> peliculas = taquilla.PeliculasDisponibles(); //1 interaccion
 
         if (compras.isEmpty()) {
             System.out.println("No ha hecho ninguna compra aún.");
@@ -322,17 +366,21 @@ public class Cine {
             System.out.print("Peliculas compradas: ");
             System.out.println(cuenta.mostrarComprasPelicula());
             System.out.print("Escriba el nombre de la pelicula a cancelar: ");
-            String compPel = scan.next();
+            String pelAcancelar = scan.next();
+            String compPel = pelAcancelar.substring(0,1).toUpperCase() + pelAcancelar.substring(1).toLowerCase();
             for (Pelicula pel : peliculas) {
                 if (pel.getNombre().equals(compPel) && compras.containsKey(pel)) {
-                    System.out.println("Elija el asiento a cancelar de la pelicula");
+                    System.out.print("La sala de la pelicula que cancelará es: ");
+                    Sala salaAcancelar = cuenta.salaDeLaPeliculaComprada(pel); //2 interaccion
+                    System.out.println(salaAcancelar.toStringSala());
+                    System.out.println("\nElija el asiento a cancelar de la pelicula");
                     System.out.println(cuenta.mostrarAsientosCompras(pel));
                     int respAsCancelar = scan.nextInt();
                     int respTarjUt = 0;
                     if(!cuenta.getTarjetas().isEmpty()){
                         System.out.println("Utilizo tarjeta en esta compra? (1: Si, 2: No)");
                         respTarjUt = scan.nextInt();
-                        System.out.println("Para la devolucion, solo sera posible recuperar los puntos utilizados para la ultimo asiento comprado de la pelicula");
+                        System.out.println("Para la devolucion, solo sera posible recuperar los puntos utilizados para el ultimo asiento comprado de la pelicula");
                         System.out.print("Quiere continuar con la devolucion de puntos?(1:Si, 2:No)\n ->");
                         int respContoNo = scan.nextInt();
                         if(respContoNo == 2){
@@ -341,10 +389,10 @@ public class Cine {
                     }
                         
                     if(respTarjUt != 0){
-                        System.out.println("Cual tarjeta usò?");
+                        System.out.println("Cual tarjeta usó?");
                         System.out.print(cuenta.verTarjetas()+ "\n->");
                         int respQTUso = scan.nextInt();
-                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respQTUso-1);
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respQTUso-1); //3 interaccion
                         for (Pelicula pelicula : compras.keySet()) {
                             if(pelicula.getNombre().equals(pel.getNombre())){
                                 double cantidad = pelicula.getPrecio()-(pelicula.getPrecio()*cuenta.getDescuento());
@@ -506,28 +554,169 @@ public class Cine {
             
     }
 
+    public static void sugerirProducto(Cliente cuenta){
+        System.out.println("Sugerir producto");
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
+        ArrayList<Producto> productosComprados = cuenta.getComprasProductos();
+        HashMap<Producto, Integer> frecuenciaProductos = new HashMap<Producto, Integer>();
+        ArrayList<Producto> productosRelacionadosConMax= new ArrayList<Producto>();
+
+        Producto productoMasC = null;
+        int maxFrecuencia = 0;
+
+        for (Producto producto : productosComprados) {
+            if(!frecuenciaProductos.containsKey(producto)){
+                frecuenciaProductos.put(producto, 0);
+            }
+            int frecuenciaAc = frecuenciaProductos.get(producto);
+            frecuenciaProductos.put(producto, frecuenciaAc+1);
+
+            if(frecuenciaProductos.get(producto) > maxFrecuencia){
+                productoMasC = producto;
+                maxFrecuencia = frecuenciaProductos.get(producto);
+            }
+        }
+
+        for (Producto producto : productosDisponibles) {
+            if(producto instanceof Combo){
+                for (Producto prodIn : ((Combo) producto).getProductosCombo()) {
+                    if(prodIn == productoMasC){
+                        productosRelacionadosConMax.add(producto);
+                        break;
+                    }
+                }
+            } else if(producto == productoMasC){
+                productosRelacionadosConMax.add(producto);
+            }
+        }
+
+        String productosR = "";
+        for (Producto producto : productosRelacionadosConMax) {
+            productosR += producto.getNombre() + " |";
+        }
+
+        if(productoMasC == null){
+            System.out.println("Ningun producto comprado aun");
+            return;
+        } else {
+            System.out.println(productosR);
+        }
+        return;
+    }
+
+    public static void añadirPeliculaTaquilla(){
+        String posiblesGeneros = "";
+        Genero[] generos = Genero.values();
+        for (Genero genero : generos) {
+            posiblesGeneros += genero.getGenero() + " | ";
+        }
+
+        String salas = "";
+
+        //Pelicula pelicula, Sala sala
+        Scanner scan = new Scanner(System.in);
+        System.out.println("//Nota: No colocar espacios al momento de ingresar los datos.//");
+        System.out.print("Nombre de la pelicula a añadir: ");
+        String nomPel = scan.next();
+        System.out.print("Precio de la pelicula a añadir: ");
+        double precioPel = scan.nextDouble();
+        System.out.print("Hora de la pelicula a añadir: ");
+        String HorPel = scan.next();
+        for (Sala sala : sala1.salasConHEspecifica(HorPel)) { // salasConHEspecifica 1 interaccion
+            salas += sala.getNombre() + " |";
+        }
+        if(salas.equals("")){
+            System.out.println("No hay salas con esta hora asignada.");
+            System.out.println("Desea crear una sala? (1:Si, 2:No)");
+            int respCrearSal = scan.nextInt();
+            if(respCrearSal == 1){
+                System.out.print("Nombre sala: ");
+                String nomSala = scan.next();
+                System.out.print("Numero de asientos: ");
+                int numASala = scan.nextInt();
+                Sala enlazarSala = new Sala(nomSala, numASala, HorPel, taquilla);
+                for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
+                    salas += sala.getNombre() + " |";
+                }
+            } else {
+                System.out.println("Se canceló añadir pelicula.");
+                return;
+            }
+        }
+
+
+        System.out.println("Posibles generos: ");
+        System.out.println(posiblesGeneros);
+        System.out.print("Genero de la pelicula a añadir: ");
+        String generoPel = scan.next().toUpperCase();
+
+        Genero genero = Genero.fromString(generoPel);
+        if(genero == null){
+            System.out.println("El genero no esta entre los posibles");
+            return;
+        } 
+
+        Pelicula newPelicula = new Pelicula(nomPel, precioPel, HorPel , genero, taquilla);
+        for (Pelicula pel : taquilla.PeliculasDisponibles()) { //2 interaccion
+            if(pel.getNombre().equals(nomPel)){
+                System.out.println("La pelicula ya esta en taquilla");
+                System.out.print("Desea actualizar los datos? (1:Si, 2:No)\n-> ");
+                int respModDP = scan.nextInt();
+                if(respModDP == 1){
+                    pel.setPrecio(precioPel);
+                    pel.setCategoria(genero);
+                }
+                return;
+            }     
+        }
+
+        
+
+        scan.nextLine();
+        if(salas.equals("")){
+            System.out.println("No hay salas disponibles con esta hora");
+            return;
+        }
+
+        System.out.println("Salas disponibles con "+HorPel+":\n" + salas);
+        System.out.print("Cual sala elejirá (Escriba el nombre)?\n->");
+        String nomSala = scan.next();
+        
+        for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
+            if(sala.getNombre().equals(nomSala)){
+                newPelicula.enlazarSala(sala);
+                System.out.println("Pelicula añadida");
+                return;
+            }
+        }
+        System.out.println("Nombre ingresado incorrectamente");
+        return;
+    }
+
 
     public static void main(String[] args) throws Exception {
 
         // -------------------- Pruebas --------------------
         //recordar no asignar dos peliculas con la misma hora a la misma sala que tenga la misma hora
+        //si a una misma pelicula se le enlazan dos salas, ésta queda con la última sala asignada
         
-        Pelicula pelicula1 = new Pelicula("Terminator", 2000, "6:00 pm",Genero.ACCION, taquilla);
+        Pelicula pelicula1 = new Pelicula("Terminator", 2000, "6:00pm",Genero.ACCION, taquilla);
         Pelicula pelicula2 = new Pelicula("Barbie", 2000, Genero.COMEDIA, taquilla);
-        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",Genero.TERROR, taquilla);
-        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", Genero.CIENCIA_FICCION, taquilla);
-        Sala s = new Sala("Sala1",20, "6:00 pm", taquilla);
-        Sala s2 = new Sala("Sala2",20, "3:40 pm", taquilla);
-        pelicula1.enlazarSala(s);
+        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20pm",Genero.CIENCIA_FICCION, taquilla);
+        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20pm", Genero.COMEDIA, taquilla);
+        
+        Sala s2 = new Sala("Sala2",20, "3:40pm", taquilla);
+        pelicula1.enlazarSala(sala1);
         pelicula2.enlazarSala(s2);
-        pelicula2.setHora("3:40 pm");
+        pelicula2.setHora("3:40pm");
         pelicula2.enlazarSala(s2);
+        //pelicula2.enlazarSala(sala2);
         Producto prod1 = new Producto("Palomitas",2000, tienda);
         Producto prod2 = new Producto("Soda",2000, tienda);
         Combo combo1 = new Combo("Combo1", 2000, tienda);
         combo1.añadirProductos(prod1,prod2);
 
-
+        
         //System.out.println(Taquilla.totalpeliculasTaquilla());
         //System.out.println("peliculas con sala disponibles "+Taquilla.getPeliculasDisponibles());
         //System.out.println(pelicula3.getSala());
@@ -672,7 +861,6 @@ public class Cine {
             try {
             
             //Variables a utilizar
-            ArrayList<Pelicula> peliculasDisponibles = taquilla.PeliculasDisponibles();
             ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
             
             System.out.println("\n\n\tBienvenido "+ cuenta.getNombre() +"! Que deseas hacer?");
@@ -778,30 +966,14 @@ public class Cine {
                     }
                     break;
                 
-                case 4: 
+                case 4: //Caso añadir
                     System.out.println("\tAñadir");
                     System.out.println("Pelicula (1) | Producto (2)");
                     System.out.print("-> ");
                     int respAddPelProd = scan.nextInt();
                     switch(respAddPelProd){
                         case 1:
-                        System.out.println("\tAñadir pelicula");
-                        System.out.print("Nombre de la pelicula: ");
-                        String respAnadirPel = scan.next();
-                        System.out.print("Precio de la pelicula: ");
-                        int respAnadirPelPrecio = scan.nextInt();
-                        System.out.print("Sala a enlazar a la pelicula, recuerde que si desea añadir una sala a la pelicula que va a crear, estas deben tener la misma hora, de lo contrario no se efectuará el enlace\n");
-                        System.out.println(Sala.mostrarSalasCreadas());
-                        System.out.print("Hora de la pelicula: ");
-                        String respAnadirPelHora = scan.next();
-                        System.out.print("-> elija una sala entre las disponibles:  ");
-                        String respSalEnlazar = scan.next();
-                        /*for (Sala salaE : Sala.getsSalasCreadas()) {
-                            if(salaE.getNombre().equals(respSalEnlazar)){
-                                String respuestaAPel = cuentaCliente.añadirPeliculaTaquilla(new Pelicula(respAnadirPel, respAnadirPelPrecio),salaE);
-                                System.out.println(respuestaAPel);
-                            }
-                        }*/
+                        añadirPeliculaTaquilla();
                         break;    
                         case 2:
                         int encont = 0;
@@ -844,9 +1016,8 @@ public class Cine {
                 estado = 0;
             }    
 
-        
-            }
-            scan.close();
+        }
+        scan.close();
         } catch (Exception e) {
             System.out.println("Error: "+ e);
         }

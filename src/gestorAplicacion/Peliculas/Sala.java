@@ -7,6 +7,7 @@ import java.util.Map;
 
 import gestorAplicacion.Tarjetas.Diamante;
 import gestorAplicacion.Tarjetas.Tarjeta;
+import gestorAplicacion.Usuarios.Cliente;
 
 import java.io.Serializable;
 
@@ -154,16 +155,26 @@ public class Sala implements Serializable{
     }
 
     //Metodos de clase
-    public static ArrayList<Sala> getSalasCreadas(){
-        return Sala.salasCreadas;
+    public ArrayList<Sala> getSalasCreadas(){
+        return salasCreadas;
     }
 
-    public static String mostrarSalasCreadas(){
+    public String mostrarSalasCreadas(){
         String texto = "Salas creadas: ";
         for (Sala string : salasCreadas) {
             texto += string.getNombre() +" "+ string.getHora() +" | ";
         }
         return texto;
+    }
+
+    public ArrayList<Sala> salasConHEspecifica(String hora){
+        ArrayList<Sala> salasEspecificas = new ArrayList<Sala>();
+        for (Sala sala : Sala.salasCreadas) {
+            if(sala.getHora().equals(hora)){
+                salasEspecificas.add(sala);
+            }
+        }
+        return salasEspecificas;
     }
 
     //toString
@@ -178,6 +189,7 @@ public class Sala implements Serializable{
         return as;
     }
     
+    //toString Asientos disponibles, no se muestran los privados
     public String toString(){
         String asientos = "";
         for (Map.Entry<Integer, String> entry : this.asientos.entrySet()) {
@@ -186,5 +198,10 @@ public class Sala implements Serializable{
             }
         }
         return "Asientos disponibles: " + asientos;
+    }
+
+    //toString nombre de la sala
+    public String toStringSala(){
+        return "" + this.getNombre();
     }
 }
