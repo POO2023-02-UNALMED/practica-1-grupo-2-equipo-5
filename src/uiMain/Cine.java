@@ -511,6 +511,7 @@ public class Cine {
         System.out.println("\tSugerencias pelicula");
         HashMap<Pelicula,List<Integer>> peliculasVistas = cuenta.getComprasPeliculas();
         HashMap<Genero, Integer> generosVistos = new HashMap<Genero, Integer>();
+        ArrayList<Pelicula> peliculasrelacionadas = new ArrayList<Pelicula>();
 
         //Se obtiene la pelicula con más asientos comprados
         Pelicula peliculaMasV = null;
@@ -546,8 +547,20 @@ public class Cine {
             }
         }
         if(peliculaMasV != null){
+            String recomendaciones = "";
+            for (Pelicula pelicula : taquilla.PeliculasDisponibles()) { //1 interaccion
+                if(pelicula.getCategoria() == generoMasComprado){
+                    peliculasrelacionadas.add(pelicula);
+                }
+            }
+
+            for (Pelicula pelicula : peliculasrelacionadas) {
+                recomendaciones += pelicula.getNombre() + " | ";
+            }
+
             System.out.println("La pelicula más vista fue: "+peliculaMasV.getNombre());
             System.out.println("El genero más comprado es: " + generoMasComprado);
+            System.out.println("Algunas peliculas con el mismo genero son: " + recomendaciones);
         } else {
             System.out.println("Ninguna compra todavia.");
         }
@@ -556,7 +569,7 @@ public class Cine {
 
     public static void sugerirProducto(Cliente cuenta){
         System.out.println("Sugerir producto");
-        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles(); //1 interaccion
         ArrayList<Producto> productosComprados = cuenta.getComprasProductos();
         HashMap<Producto, Integer> frecuenciaProductos = new HashMap<Producto, Integer>();
         ArrayList<Producto> productosRelacionadosConMax= new ArrayList<Producto>();
@@ -634,7 +647,7 @@ public class Cine {
                 String nomSala = scan.next();
                 System.out.print("Numero de asientos: ");
                 int numASala = scan.nextInt();
-                Sala enlazarSala = new Sala(nomSala, numASala, HorPel, taquilla);
+                new Sala(nomSala, numASala, HorPel, taquilla);
                 for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
                     salas += sala.getNombre() + " |";
                 }
@@ -650,7 +663,7 @@ public class Cine {
         System.out.print("Genero de la pelicula a añadir: ");
         String generoPel = scan.next().toUpperCase();
 
-        Genero genero = Genero.fromString(generoPel);
+        Genero genero = Genero.fromString(generoPel); 
         if(genero == null){
             System.out.println("El genero no esta entre los posibles");
             return;
