@@ -92,11 +92,14 @@ public class Pelicula implements Serializable{
     //ocupa un asiento de la sala, si la sala queda sin asientos, la pelicula se retira de la taquilla
     public boolean ocuparAsiento(int num){
         if (this.sala != null) {
-            this.sala.quitarAsientoDisponible(num);
-            if(this.sala.getNumeroAsientosDisponibles() == 0){
-                taquilla.retirarPelicula(this);
+            if(this.sala.quitarAsientoDisponible(num)){
+                this.sala.reducirNumeroAsientoDisponible();
+                if(this.sala.getNumeroAsientosDisponibles() == 0){
+                    taquilla.retirarPelicula(this);
+                }
+                return true;
             }
-            return true;
+            return false;
         } else {
             return false;
         }
