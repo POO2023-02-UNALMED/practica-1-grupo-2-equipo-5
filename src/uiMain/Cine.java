@@ -87,9 +87,8 @@ public class Cine {
                         return;
                     }
                     scan1.nextLine();
-                    pel.ocuparAsiento(respCantBoletas-1);
+                    pel.ocuparAsiento(respAsientoEleg);
                     asientosAComprar.add(respAsientoEleg);
-                    System.out.println("Precio: "+pel.getPrecio());
                     cantidadAPagar += pel.getPrecio();
                 }
                 
@@ -128,7 +127,6 @@ public class Cine {
                     } else {
                         if(cantidadAPagar <= cuenta.getSaldo()){
                             String respCompPel = cuenta.pagar(cantidadAPagar);
-                            System.out.println(respCompPel);
                             if(respCompPel.equals("Pago exitoso")){
                                 for (Integer asiento : asientosAComprar) {
                                     cuenta.añadirCompraPeliculas(pel, asiento);
@@ -703,7 +701,6 @@ public class Cine {
                         case 1: //Caso comprar pelicula
                             sugerirPelicula(cuentaCliente);
                             comprarPelicula(cuentaCliente);
-                            System.out.println(cuentaCliente.getComprasPeliculas());
                             break;
                         case 2: //Caso comprar Producto
                             comprarProducto(cuentaCliente);
