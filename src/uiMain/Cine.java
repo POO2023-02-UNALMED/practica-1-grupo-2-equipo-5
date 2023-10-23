@@ -17,7 +17,7 @@ import gestorAplicacion.Usuarios.*;
 public class Cine {
     static Taquilla taquilla = new Taquilla("Taquilla 1");
     static Tienda tienda = new Tienda("Tienda Central");
-    static Sala sala1 = new Sala("Sala 1",20, "6:00 pm", taquilla);
+    static Sala sala1 = new Sala("Sala1",20, "6:00pm", taquilla);
     //static Sala sala2 = new Sala("sala 2", 25,"4:00 pm", taquilla);
     ArrayList<Usuario> lista_usuario = new ArrayList<Usuario>();
     ArrayList<Pelicula> lista_peliculas = new ArrayList<Pelicula>();
@@ -605,15 +605,48 @@ public class Cine {
     }
 
     public static void añadirPeliculaTaquilla(){
+        String posiblesGeneros = "";
+        Genero[] generos = Genero.values();
+        for (Genero genero : generos) {
+            posiblesGeneros += genero.getGenero() + " | ";
+        }
+
+        String salas = "";
+
         //Pelicula pelicula, Sala sala
         Scanner scan = new Scanner(System.in);
+        System.out.println("//Nota: No colocar espacios al momento de ingresar los datos.//");
         System.out.print("Nombre de la pelicula a añadir: ");
         String nomPel = scan.next();
         System.out.print("Precio de la pelicula a añadir: ");
         double precioPel = scan.nextDouble();
         System.out.print("Hora de la pelicula a añadir: ");
         String HorPel = scan.next();
+        for (Sala sala : sala1.salasConHEspecifica(HorPel)) { // salasConHEspecifica 1 interaccion
+            salas += sala.getNombre() + " |";
+        }
+        if(salas.equals("")){
+            System.out.println("No hay salas con esta hora asignada.");
+            System.out.println("Desea crear una sala? (1:Si, 2:No)");
+            int respCrearSal = scan.nextInt();
+            if(respCrearSal == 1){
+                System.out.print("Nombre sala: ");
+                String nomSala = scan.next();
+                System.out.print("Numero de asientos: ");
+                int numASala = scan.nextInt();
+                Sala enlazarSala = new Sala(nomSala, numASala, HorPel, taquilla);
+                for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
+                    salas += sala.getNombre() + " |";
+                }
+            } else {
+                System.out.println("Se canceló añadir pelicula.");
+                return;
+            }
+        }
+
+
         System.out.println("Posibles generos: ");
+        System.out.println(posiblesGeneros);
         System.out.print("Genero de la pelicula a añadir: ");
         String generoPel = scan.next().toUpperCase();
 
@@ -624,7 +657,7 @@ public class Cine {
         } 
 
         Pelicula newPelicula = new Pelicula(nomPel, precioPel, HorPel , genero, taquilla);
-        for (Pelicula pel : taquilla.PeliculasDisponibles()) {
+        for (Pelicula pel : taquilla.PeliculasDisponibles()) { //2 interaccion
             if(pel.getNombre().equals(nomPel)){
                 System.out.println("La pelicula ya esta en taquilla");
                 System.out.print("Desea actualizar los datos? (1:Si, 2:No)\n-> ");
@@ -637,9 +670,12 @@ public class Cine {
             }     
         }
 
-        String salas = "";
-        for (Sala sala : sala1.salasConHEspecifica(HorPel)) {
-            salas += sala.getNombre() + " |";
+        
+
+        scan.nextLine();
+        if(salas.equals("")){
+            System.out.println("No hay salas disponibles con esta hora");
+            return;
         }
 
         System.out.println("Salas disponibles con "+HorPel+":\n" + salas);
@@ -664,15 +700,15 @@ public class Cine {
         //recordar no asignar dos peliculas con la misma hora a la misma sala que tenga la misma hora
         //si a una misma pelicula se le enlazan dos salas, ésta queda con la última sala asignada
         
-        Pelicula pelicula1 = new Pelicula("Terminator", 2000, "6:00 pm",Genero.ACCION, taquilla);
+        Pelicula pelicula1 = new Pelicula("Terminator", 2000, "6:00pm",Genero.ACCION, taquilla);
         Pelicula pelicula2 = new Pelicula("Barbie", 2000, Genero.COMEDIA, taquilla);
-        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20 pm",Genero.CIENCIA_FICCION, taquilla);
-        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20 pm", Genero.COMEDIA, taquilla);
+        Pelicula pelicula3 = new Pelicula("Inception", 3000, "2:20pm",Genero.CIENCIA_FICCION, taquilla);
+        Pelicula pelicula4 = new Pelicula("lol", 20, "1:20pm", Genero.COMEDIA, taquilla);
         
-        Sala s2 = new Sala("Sala2",20, "3:40 pm", taquilla);
+        Sala s2 = new Sala("Sala2",20, "3:40pm", taquilla);
         pelicula1.enlazarSala(sala1);
         pelicula2.enlazarSala(s2);
-        pelicula2.setHora("3:40 pm");
+        pelicula2.setHora("3:40pm");
         pelicula2.enlazarSala(s2);
         //pelicula2.enlazarSala(sala2);
         Producto prod1 = new Producto("Palomitas",2000, tienda);
