@@ -626,7 +626,6 @@ public class Cine {
 
         String salas = "";
 
-        //Pelicula pelicula, Sala sala
         Scanner scan = new Scanner(System.in);
         System.out.println("//Nota: No colocar espacios al momento de ingresar los datos.//");
         System.out.print("Nombre de la pelicula a añadir: ");
@@ -703,6 +702,66 @@ public class Cine {
             }
         }
         System.out.println("Nombre ingresado incorrectamente");
+        return;
+    }
+
+    public static void añadirProductoTienda(){
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
+        ArrayList<Producto> productosUnicos = tienda.ProductosUnicos();
+
+        String productosU = "";
+        for (Producto producto : productosUnicos) {
+            productosU += producto.getNombre() + " | ";
+        }
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("//Nota: No colocar espacios al momento de ingresar los datos.//");
+        System.out.println("Desea añadir un producto unico (1) o un combo (2)?");
+        int prodUnOComb = scan.nextInt();
+        System.out.print("Nombre: ");
+        String nomProd = scan.next();
+        System.out.print("Precio: ");
+        double precProd = scan.nextDouble();
+
+        for (Producto producto : productosDisponibles) {
+            if(producto.getNombre().equals(nomProd)){
+                System.out.println("Este producto ya esta disponible, desea actualizar los datos? (1:Si, 2:No)");
+                int respActDAProd = scan.nextInt();
+                if(respActDAProd == 1){
+                    producto.setPrecio(precProd);
+                    System.out.println("Actualizado");
+                    return;
+                } else {
+                    System.out.println("Se canceló añadir producto.");
+                    return;
+                }
+            }
+        }
+
+        if(prodUnOComb == 1){
+            System.out.println("Añadido.");
+            new Producto(nomProd, precProd, tienda);
+        } else {
+            Combo nCombo = new Combo(nomProd, precProd, tienda);
+            if(productosU == ""){
+                System.out.println("No hay productos unicos para añadir");
+                return;
+            }
+            System.out.println("Productos a añadir: " + productosU);
+            System.out.print("Cuantos productos añadira?\n->");
+            int respCPAd = scan.nextInt();
+            for (int i = 0; i < respCPAd; i++) {
+                System.out.println("Qué producto desea añadir (escriba el nombre)?");
+                String respProdAd = scan.next();
+                for (Producto producto : productosUnicos) {
+                    if(producto.getNombre().equals(respProdAd)){
+                        nCombo.añadirProductos(producto);
+                        break;
+                    }
+                }
+            }
+            System.out.println("Añadido");  
+        } 
         return;
     }
 

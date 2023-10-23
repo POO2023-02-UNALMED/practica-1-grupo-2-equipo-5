@@ -9,7 +9,7 @@ public class Combo extends Producto implements Serializable{
     private ArrayList<Producto> productosCombo = new ArrayList<Producto>();
 
     //Constructor
-    public Combo(String nombre, int precio, Tienda tienda){
+    public Combo(String nombre, double precio, Tienda tienda){
         super(nombre,precio, tienda);
     }
 
