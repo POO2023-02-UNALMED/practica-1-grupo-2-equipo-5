@@ -636,8 +636,8 @@ public class Cine {
                     System.out.print("Dijite su edad: ");
                     int edad = scan.nextInt();
                     
-                    for (Usuario usuario : lista_usuario) {
-                        if(usuario.getNombre().equals(nom) && usuario.getPassword().equals(pass)){
+                    for (Usuario usuarioB : lista_usuario) {
+                        if(usuarioB.getNombre().equals(nom) && usuarioB.getPassword().equals(pass)){
                             System.out.println("Ya se ha creado esta cuenta");
                             estado = 0;
                             encont4 = 1;
