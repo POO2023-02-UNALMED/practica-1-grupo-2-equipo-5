@@ -1,7 +1,6 @@
 package baseDatos;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
@@ -13,184 +12,66 @@ import gestorAplicacion.Peliculas.*;
 import gestorAplicacion.Tienda.*;
 import gestorAplicacion.Usuarios.*;
 
-
 public class Serializar {
-    static File archivo = new File("");
-    
-    public static void serializarPelicula(ArrayList<Pelicula> lista) {
+
+    private static final String BASE_PATH = "src" + File.separator + "baseDatos" + File.separator + "temp" + File.separator;
+
+    // Método genérico para la serialización
+    private static <T> boolean serializeObject(ArrayList<T> lista, String filename) {
         try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Peliculas.txt"));
+            String rutaArchivo = BASE_PATH + filename;
+            FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(lista);
-
             o.close();
             f.close();
 
-        }catch(FileNotFoundException e){
-            System.out.println("No se encuentra el archivo"+e.getMessage());
+            return true;
+        } catch (FileNotFoundException e) {
+            System.out.println("No se encuentra el archivo: " + e.getMessage());
+            return false;
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+            return false;
         }
-        catch(IOException e) {
-            System.out.println("No se encuentra en archivo");
-        }
-
     }
-    
+
+    public static void serializarPelicula(ArrayList<Pelicula> lista) {
+        serializeObject(lista, "Peliculas.txt");
+    }
+
     public static void serializarSala(ArrayList<Sala> lista) {
-        try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Salas.txt"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-        }catch(FileNotFoundException e){
-            System.out.println("No se encuentra el archivo"+e.getMessage());
-        }
-        catch(IOException e) {
-            System.out.println("No se encuentra en archivo");
-        }
-
+        serializeObject(lista, "Salas.txt");
     }
 
     public static void serializarTaquilla(ArrayList<Taquilla> lista) {
-        try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "\\src\\baseDatos\\temp\\Taquilla.txt"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-        }catch(FileNotFoundException e){
-            System.out.println("No se encuentra el archivo"+e.getMessage());
-        }
-        catch(IOException e) {
-            System.out.println("No se encuentra en archivo");
-        }
-
+        serializeObject(lista, "Taquilla.txt");
     }
-    public static void serializarTienda(ArrayList<Tienda> lista){
-        try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Tienda.txt"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
 
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-        }catch(FileNotFoundException e){
-            System.out.println("No se encuentra el archivo"+e.getMessage());
-        }
-        catch(IOException e) {
-            System.out.println("No se encuentra en archivo");
-        }
+    public static void serializarTienda(ArrayList<Tienda> lista) {
+        serializeObject(lista, "Tienda.txt");
     }
-    public static void serializarProductos(ArrayList<Producto> lista){
-        try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Producto.txt"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
 
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-        }catch(FileNotFoundException e){
-            System.out.println("No se encuentra el archivo"+e.getMessage());
-        }
-        catch(IOException e) {
-            System.out.println("No se encuentra en archivo");
-        }
+    public static void serializarProductos(ArrayList<Producto> lista) {
+        serializeObject(lista, "Producto.txt");
     }
-    public static void serializarCombos(ArrayList<Combo> lista){
-        try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+
-                    "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Combo.txt"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
 
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-        }catch(FileNotFoundException e){
-            System.out.println("No se encuentra el archivo"+e.getMessage());
-        }
-        catch(IOException e) {
-            System.out.println("No se encuentra en archivo");
-        }
+    public static void serializarCombos(ArrayList<Combo> lista) {
+        serializeObject(lista, "Combo.txt");
     }
 
     public static boolean serializarCliente(ArrayList<Cliente> lista) {
-        try {
-            String rutaArchivo = "C:\\Users\\Yiduar Rangel\\Desktop\\enainn\\practica-1-grupo-2-equipo-5\\src\\baseDatos\\temp\\Cliente.txt";
-            FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-            return true;
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encuentra el archivo: " + e.getMessage());
-            return false;
-        } catch (IOException e) {
-            System.out.println("Error al escribir en el archivo: " + e.getMessage());
-            return false;
-        }
+        return serializeObject(lista, "Cliente.txt");
     }
-    
+
     public static boolean serializarUsuario(ArrayList<Usuario> lista) {
-        try {
-            String rutaArchivo = "src/baseDatos/temp/Usuario.txt";
-            FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
-            return true;
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encuentra el archivo: " + e.getMessage());
-            return false;
-        } catch (IOException e) {
-            System.out.println("Error al escribir en el archivo: " + e.getMessage());
-            return false;
-        }
+        return serializeObject(lista, "Usuario.txt");
     }
-    
+
     public static void serializarCine(ArrayList<Cine> lista) {
-        try {
-            String rutaArchivo = "src/baseDatos/temp/Cine.txt";
-            FileOutputStream f = new FileOutputStream(new File(rutaArchivo));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            o.writeObject(lista);
-
-            o.close();
-            f.close();
-
+        if (serializeObject(lista, "Cine.txt")) {
             System.out.println("La serialización se ha completado correctamente.");
-
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encuentra el archivo: " + e.getMessage());
-        } catch (IOException e) {
-            System.out.println("Error al escribir en el archivo: " + e.getMessage());
         }
     }
 }
-
