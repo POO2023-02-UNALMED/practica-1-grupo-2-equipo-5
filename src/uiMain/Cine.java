@@ -948,6 +948,7 @@ public class Cine {
                     } 
                     if(encont4 == 0){
                         cuenta = new Cliente(nom,pass, edad);
+                        lista_usuario.add(cuenta);
                         boolean respReg = Serializar.serializarUsuario(lista_usuario);
                         if(respReg){
                             System.out.println("Cuenta creada con exito.");
