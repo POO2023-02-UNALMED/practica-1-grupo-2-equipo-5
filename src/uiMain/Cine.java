@@ -993,7 +993,6 @@ public class Cine {
             System.out.println("3) Ver (detalles, peliculas, productos)");
             System.out.println("4) Añadir");
             System.out.println("5) Depositar");
-            scan.nextLine();
             System.out.print("-> ");
             int respCli = scan.nextInt(); //Ingresa un int
             switch(respCli){
