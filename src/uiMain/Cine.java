@@ -748,8 +748,8 @@ public class Cine {
     }
 
     public static void añadirProductoTienda(){
-        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
-        ArrayList<Producto> productosUnicos = tienda.ProductosUnicos();
+        ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles(); //1 interaccion
+        ArrayList<Producto> productosUnicos = tienda.ProductosUnicos(); //2 interaccion
 
         String productosU = "";
         for (Producto producto : productosUnicos) {
@@ -974,9 +974,6 @@ public class Cine {
         while(estado == 1){
             try {
             
-            //Variables a utilizar
-            ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles();
-            
             System.out.println("\n\n\tBienvenido "+ cuenta.getNombre() +"! Que deseas hacer?");
             Cliente cuentaCliente = ((Cliente) cuenta);
             System.out.println("0) Salir");
@@ -1087,14 +1084,14 @@ public class Cine {
                     int respAddPelProd = scan.nextInt();
                     switch(respAddPelProd){
                         case 1:
-                        añadirPeliculaTaquilla();
-                        break;    
+                            añadirPeliculaTaquilla();
+                            break;    
                         case 2:
-                        añadirProductoTienda();
-                                
-                        break;
+                            añadirProductoTienda();
+                            break;
                         default:
-                        System.out.println("Opcion no valida");
+                            System.out.println("Opcion no valida");
+                            break;
                     }
                     break;
                 case 5: // Caso depositar

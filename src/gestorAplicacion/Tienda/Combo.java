@@ -47,7 +47,7 @@ public class Combo extends Producto implements Serializable{
             }
 
             for (Map.Entry<String, Integer> entry : tab.entrySet()) {
-                    productos += entry.getValue() + " " + entry.getKey() + " | ";
+                productos += entry.getValue() + " " + entry.getKey() + " | ";
             }
 
             if(productos.isEmpty()){
