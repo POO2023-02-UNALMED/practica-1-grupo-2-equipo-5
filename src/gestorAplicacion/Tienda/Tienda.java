@@ -72,7 +72,7 @@ public class Tienda implements Serializable {
                     }
                     nom += ")";
                 }
-                productos += nom + " | ";
+                productos += nom + " - " + prod.precio + " | ";
             }     
         }
         if (productos == "") {

@@ -153,8 +153,6 @@ public class Cliente extends Usuario implements Vip, Serializable{
         return frase;
     }
 
-    //método para retornar el total de puntos que un cliente tiene en todas sus tarjetas
-    // debe implentarse a la hora de cuadrar el log in
     public int totalPuntos(){
         int totalPuntos = 0;
         for (Tarjeta tarj : this.tarjetas){
@@ -162,20 +160,6 @@ public class Cliente extends Usuario implements Vip, Serializable{
         }
         return totalPuntos;
     }
-    /*public String añadirProductoTienda(Producto producto){
-        for (Producto prod: Tienda.ProductosDisponibles()) {
-            if (prod.getNombre() == producto.getNombre()){
-                if (prod.getPrecio() == producto.getPrecio()){
-                    return "El producto ya esta en la Tienda";
-                } else {
-                    prod.setPrecio(producto.getPrecio());
-                    return "Se ha actualizado el precio";
-                }         
-            }
-        }
-        Tienda.añadirProductoTienda(producto);
-        return "Añadido";
-    }*/
 
     //Metodos para mostrar en pantalla en frontend
     public String mostrarAsientosCompras(Pelicula pel){

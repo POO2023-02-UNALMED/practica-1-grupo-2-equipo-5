@@ -67,7 +67,7 @@ public class Cine {
                 }
                 peliculaEncontrada = true; //Se cambia el valor para indicar que si se encontro
                 int respUsarTarjCPel = 2;
-                int totalPuntosEnTarjetas = cuenta.totalPuntos();
+                int totalPuntosEnTarjetas = cuenta.totalPuntos(); //Se obtiene la cantidad de puntos en todass las tarjetas
                 if(totalPuntosEnTarjetas != 0){
                     System.out.print("Desea usar puntos de alguna Tarjeta? (1:Si, 2:No)\n-> ");
                     respUsarTarjCPel = scan1.nextInt();
@@ -89,7 +89,7 @@ public class Cine {
                         return;
                     }
                     scan1.nextLine();
-                    pel.ocuparAsiento(respAsientoEleg);
+                    pel.ocuparAsiento(respAsientoEleg); //Se pasa el asiento para ocuparlo
                     asientosAComprar.add(respAsientoEleg);
                     cantidadAPagar += pel.getPrecio();
                 }
@@ -98,19 +98,20 @@ public class Cine {
                     if(respUsarTarjCPel == 1){
                         System.out.print(cuenta.verTarjetas() +"\n-> ");
                         int respIndexTarjUsar = scan1.nextInt(); 
-                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1);
+                        Tarjeta tarjeta = cuenta.obtenerTarjetaEspecifica(respIndexTarjUsar-1); 
+                        //Se obtiene la tarjeta de las disponibles
                         double total = cantidadAPagar - tarjeta.getPuntos();
                         if(cuenta.getSaldo() >= cantidadAPagar-tarjeta.getPuntos()){
                             System.out.println("Puntos antes: " + tarjeta.getPuntos());
-                            if (total < 0){
+                            if (total < 0){ //Caso de que los puntos son mayores a la cantidad a pagar 
                                 tarjeta.comprar(pel, tarjeta.getPuntos()-cantidadAPagar);
                                 System.out.println(cuenta.pagar(0));
                                 tarjeta.setPuntos((cantidadAPagar-tarjeta.getPuntos())*-1);
-                            } else if (total == 0){
+                            } else if (total == 0){ //Caso en que puntos y cantidad son iguales
                                 tarjeta.comprar(pel, tarjeta.getPuntos());
                                 tarjeta.setPuntos(0);
                                 System.out.println(cuenta.pagar(0));
-                            } else {
+                            } else { //Caso en que los puntos son menores a la cantidad a pagar
                                 String respCompPel = cuenta.pagar(total);
                                 System.out.println(respCompPel);
                                 if(respCompPel.equals("Pago exitoso")){
@@ -287,6 +288,11 @@ public class Cine {
     }
 
     public static void comprarTarjeta(Cliente cuenta){
+        /*funcionalidad implementada para que el cliente compre una tarjeta del cine, tomando en cuenta las posibles elecciones, entre ellas,
+        siendo oro, platino y diamante, mostrando el precio de cada una, y preguntar para cada caso si se llevara la tarjeta a su recidencia. 
+        Además, en caso de ser una tarjeta diamante, se le preguntará al cliente si desea comprar la membresia vip, que le permitira acceder
+        a asientos especiales.
+          */
         Scanner scan = new Scanner(System.in);
         Oro oro = new Oro();
         Platino platino = new Platino();
@@ -503,11 +509,6 @@ public class Cine {
     }
 
     public static void cancelarCompraProducto(Cliente cuenta){
-        /*funcionalidad implementada para que el cliente pueda cancelar la compra de un producto, tomando en cuenta la restricción adecuada,
-        analizar si el cliente efectivamente compró el producto que desea cancelar, si lo cumple,
-        se hace efectiva la devolución del dinero.
-        */
-
         ArrayList<Producto> comprasPr = cuenta.getComprasProductos();
         Scanner scan =  new Scanner(System.in);
                 
@@ -660,6 +661,10 @@ public class Cine {
     }
 
     public static void añadirPeliculaTaquilla(){
+        /*funcionalidad implementada para que se pueda añadir una pelicula a la taquilla, preguntando su nombre, precio y hora. En caso de que eno haya 
+        una sala con esta hora asignada, se le dará la posibilidad de crear una sala con esta hora para poder enlazarla y asi añadirla. En caso de no 
+        desear añadir una sala más, se cancelará el proceso de añadir.
+        */
         String posiblesGeneros = "";
         Genero[] generos = Genero.values();
         for (Genero genero : generos) {
@@ -748,6 +753,11 @@ public class Cine {
     }
 
     public static void añadirProductoTienda(){
+        /*funcionalidad implementada para que se pueda añadir producto a la tienda, preguntando si se añadira un producto o un combo
+        Se preguntará por el nombre y el precio. En caso de que se desee añadir solo un producto, se creará con los anteriores datos,
+        en caso de que sea un combo, se creará y se le pedira cuantos productos unicos desea añadir al combo, luego se le pedira el 
+        nombre de estos, para asi agregarlos en el combo creado.
+        */
         ArrayList<Producto> productosDisponibles = tienda.ProductosDisponibles(); //1 interaccion
         ArrayList<Producto> productosUnicos = tienda.ProductosUnicos(); //2 interaccion
 
